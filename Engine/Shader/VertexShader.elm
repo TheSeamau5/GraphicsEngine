@@ -2,8 +2,10 @@ module Engine.Shader.VertexShader where
 
 vertexShader : String
 vertexShader = """
+
 void main (){
-  gl_Position = vec4(position, 1.0);
+  vec4 outputPosition = modelViewProjectionMatrix * vec4(position, 1.0);
+  gl_Position = outputPosition;
 }
 
 """

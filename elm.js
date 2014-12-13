@@ -2262,7 +2262,7 @@ Elm.Engine.Shader.VertexShader.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Engine.Shader.VertexShader";
-   var vertexShader = "\nvoid main (){\n  gl_Position = vec4(position, 1.0);\n}\n\n";
+   var vertexShader = "\n\nvoid main (){\n  vec4 outputPosition = modelViewProjectionMatrix * vec4(position, 1.0);\n  gl_Position = outputPosition;\n}\n\n";
    _elm.Engine.Shader.VertexShader.values = {_op: _op
                                             ,vertexShader: vertexShader};
    return _elm.Engine.Shader.VertexShader.values;
@@ -3127,9 +3127,35 @@ Elm.Main.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Main",
-   $Engine = Elm.Engine.make(_elm);
-   var main = $Engine.render($Engine.scene);
+   $Engine = Elm.Engine.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var myPyramid = _U.replace([["position"
+                               ,A3($Math$Vector3.vec3,2,0,0)]
+                              ,["scale"
+                               ,A3($Math$Vector3.vec3,
+                               0.5,
+                               1,
+                               0.5)]],
+   $Engine.pyramid);
+   var myCube = _U.replace([["position"
+                            ,A3($Math$Vector3.vec3,0,0,0)]
+                           ,["rotation"
+                            ,A3($Math$Vector3.vec3,45,0,45)]
+                           ,["scale"
+                            ,A3($Math$Vector3.vec3,
+                            1.5,
+                            1.5,
+                            1.5)]],
+   $Engine.cube);
+   var myScene = _U.replace([["objects"
+                             ,_L.fromArray([myCube
+                                           ,myPyramid])]],
+   $Engine.scene);
+   var main = $Engine.render(myScene);
    _elm.Main.values = {_op: _op
+                      ,myCube: myCube
+                      ,myPyramid: myPyramid
+                      ,myScene: myScene
                       ,main: main};
    return _elm.Main.values;
 };
