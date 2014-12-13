@@ -1,5 +1,7 @@
 module Engine.Shader.Library where
 
+import Engine.Shader.Utils (newLine)
+
 mat2Transpose : String
 mat2Transpose = """
 mat2 transpose(mat2 matrix){
