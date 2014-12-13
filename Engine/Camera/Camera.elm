@@ -1,6 +1,6 @@
 module Engine.Camera.Camera where
 
-import Math.Vector3 (vec3, Vec3, getX, getY, getZ, add)
+import Math.Vector3 (vec3)
 
 import Engine.Object.Object (Object)
 import Engine.Object.DefaultObject (object)

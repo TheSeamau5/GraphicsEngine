@@ -1,9 +1,9 @@
 module Engine.Scene.Scene where
 
-import Engine.Camera.Camera (..)
-import Engine.Object.Object (..)
-import Engine.Light.Light (..)
-import Engine.Object.DefaultObject (..)
+import Engine.Camera.Camera (Camera, camera)
+import Engine.Object.Object (Object)
+import Engine.Light.Light (Light, light)
+import Engine.Object.DefaultObject (object)
 
 -- TODO: Find a strategy to deal with multiple lights
 
