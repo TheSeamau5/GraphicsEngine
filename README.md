@@ -193,6 +193,7 @@ The library offers currently 4 basic meshes to construct your objects:
  * `pyramidMesh`
  * `rectangleMesh`
  * `triangleMesh`
+ 
 -----------------------------------
 ##Material##
 A `Material` is an object that defines how an object reacts to light and draws itself.
@@ -253,7 +254,7 @@ void main (){
 
 Currently, the default fragment shader, `fragmentShader` just simply returns a red color.
 
-*Fragment Shader : *
+*Fragment Shader:*
 ```glsl
 void main(){
   gl_FragColor = vec4(1.0,0.0,0.0,1.0);
