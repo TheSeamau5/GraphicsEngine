@@ -34,7 +34,7 @@ The simplest code to render a scene is the following:
 ```elm
 main = render scene
 ```
---------------------------------
+
 ## Scene ##
 `scene` is an object of type `Scene`
 ```elm
