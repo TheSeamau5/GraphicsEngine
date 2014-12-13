@@ -146,7 +146,7 @@ An object contains a material, a mesh, a position, a rotation, and a scale.
 
 **The following is speculative and may or may not describe a future version of the library. Please skip to the next topic if you are just interested in using this library.**
 
-*It is unclear whether or not, going forward, an object will have a material and a mesh property. The competing proposal is to have Object be an empty type (or potential have a guid) and then split object into several types: *
+*It is unclear whether or not, going forward, an object will have a material and a mesh property. The competing proposal is to have Object be an empty type (or potential have a guid) and then split object into several types:*
 
 ```elm
 type alias Object a = { a |
