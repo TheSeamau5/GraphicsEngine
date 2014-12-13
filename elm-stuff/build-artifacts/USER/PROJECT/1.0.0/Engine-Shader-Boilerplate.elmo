@@ -17,13 +17,87 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
    $Basics = Elm.Basics.make(_elm),
    $Engine$Shader$Utils = Elm.Engine.Shader.Utils.make(_elm),
    $List = Elm.List.make(_elm);
+   var mat4Inverse = "\nmat4 inverse(mat4 matrix){\n  return (1.0 / determinant(matrix)) * (\n    (1.0 / 6.0) * (pow(trace(matrix), 3.0) - 3.0 * trace(matrix) * trace(matrix * matrix) * identity4) -\n    0.5 * (pow(trace(matrix), 2.0) - trace(matrix * matrix)) +\n    matrix * matrix * trace(matrix) - matrix * matrix * matrix\n  );\n}\n";
+   var mat3Inverse = "\nmat3 inverse(mat3 matrix){\n  return (1.0 / determinant(matrix)) * (\n    0.5 * (pow(trace(matrix), 2.0) - trace(matrix * matrix)) * identity3 -\n    matrix * trace(matrix) +\n    matrix * matrix\n  );\n}\n";
+   var mat2Inverse = "\nmat2 inverse(mat2 matrix){\n  return (1.0 / determinant(matrix)) * mat2(\n    matrix[1][1], -matrix[0][1],\n    -matrix[1][0], matrix[0][0]\n  );\n}\n";
+   var inverseFunction = A2($Basics._op["++"],
+   mat2Inverse,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   mat3Inverse,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   mat4Inverse))));
+   var mat4Identity = "\nconst mat4 identity4 = mat4(\n  1.0, 0.0, 0.0, 0.0,\n  0.0, 1.0, 0.0, 0.0,\n  0.0, 0.0, 1.0, 0.0,\n  0.0, 0.0, 0.0, 1.0\n);\n";
+   var mat3Identity = "\nconst mat3 identity3 = mat3(\n  1.0, 0.0, 0.0,\n  0.0, 1.0, 0.0,\n  0.0, 0.0, 1.0\n);\n";
+   var mat2Identity = "\nconst mat2 identity2 = mat2(\n  1.0, 0.0,\n  0.0, 1.0\n);\n";
+   var identityMatrix = A2($Basics._op["++"],
+   mat2Identity,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   mat3Identity,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   mat4Identity))));
+   var libraryVariables = identityMatrix;
+   var mat4Trace = "\nfloat trace(mat4 matrix){\n  return matrix[0][0] + matrix[1][1] + matrix[2][2] + matrix[3][3];\n}\n";
+   var mat3Trace = "\nfloat trace(mat3 matrix){\n  return matrix[0][0] + matrix[1][1] + matrix[2][2];\n}\n";
+   var mat2Trace = "\nfloat trace(mat2 matrix){\n  return matrix[0][0] + matrix[1][1];\n}\n";
+   var traceFunction = A2($Basics._op["++"],
+   mat2Trace,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   mat3Trace,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   mat4Trace))));
+   var mat4Determinant = "\nfloat determinant(mat4 matrix){\n  return (\n    matrix[0][0] * determinant(mat3(\n      matrix[1][1], matrix[1][2], matrix[1][3],\n      matrix[2][1], matrix[2][2], matrix[2][3],\n      matrix[3][1], matrix[3][2], matrix[3][3]\n    )) -\n    matrix[0][1] * determinant(mat3(\n      matrix[1][0], matrix[1][2], matrix[1][3],\n      matrix[2][0], matrix[2][2], matrix[2][3],\n      matrix[3][0], matrix[3][2], matrix[3][3]\n    )) +\n    matrix[0][2] * determinant(mat3(\n      matrix[1][0], matrix[1][1], matrix[1][3],\n      matrix[2][0], matrix[2][1], matrix[2][3],\n      matrix[3][0], matrix[3][1], matrix[3][3]\n    )) -\n    matrix[0][3] * determinant(mat3(\n      matrix[1][0], matrix[1][1], matrix[1][2],\n      matrix[2][0], matrix[2][1], matrix[2][2],\n      matrix[3][0], matrix[3][1], matrix[3][2]\n    ))\n  );\n}\n";
+   var mat3Determinant = "\nfloat determinant(mat3 matrix){\n  return (\n    matrix[0][0] * determinant(mat2(matrix[1][1], matrix[1][2], matrix[2][1], matrix[2][2])) -\n    matrix[0][1] * determinant(mat2(matrix[1][0], matrix[1][2], matrix[2][0], matrix[2][2])) +\n    matrix[0][2] * determinant(mat2(matrix[1][0], matrix[1][1], matrix[2][0], matrix[2][1]))\n  );\n}\n";
+   var mat2Determinant = "\nfloat determinant(mat2 matrix){\n  return matrix[0][0] * matrix[1][1] - matrix[1][0] * matrix[0][1];\n}\n";
+   var determinantFunction = A2($Basics._op["++"],
+   mat2Determinant,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   mat3Determinant,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   mat4Determinant))));
+   var mat4Transpose = "\nmat4 transpose(mat4 matrix){\n  return mat4(\n    matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0],\n    matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1],\n    matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2],\n    matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3]\n  );\n}\n";
+   var mat3Transpose = "\nmat3 transpose(mat3 matrix){\n  return mat3(\n    matrix[0][0], matrix[1][0], matrix[2][0],\n    matrix[0][1], matrix[1][1], matrix[2][1],\n    matrix[0][2], matrix[1][2], matrix[2][2]\n  );\n}\n";
+   var mat2Transpose = "\nmat2 transpose(mat2 matrix){\n  return mat2(\n    matrix[0][0], matrix[1][0],\n    matrix[0][1], matrix[1][1]\n  );\n}\n";
+   var transposeFunction = A2($Basics._op["++"],
+   mat2Transpose,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   mat3Transpose,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   mat4Transpose))));
+   var libraryFunctions = A2($Basics._op["++"],
+   transposeFunction,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   determinantFunction,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   traceFunction,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   inverseFunction))))));
    var normalMatrix = A3($Engine$Shader$Utils.declareInitializedVariable,
    "mat4",
    "normalMatrix",
    "transpose(inverse(modelViewMatrix))");
    var modelViewProjectionMatrix = A3($Engine$Shader$Utils.declareInitializedVariable,
    "mat4",
-   "projectionMatrix",
+   "modelViewProjectionMatrix",
    "projectionMatrix * modelViewMatrix");
    var modelViewMatrix = A3($Engine$Shader$Utils.declareInitializedVariable,
    "mat4",
@@ -191,7 +265,19 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
    $Engine$Shader$Utils.newLine,
    A2($Basics._op["++"],
    $Engine$Shader$Utils.newLine,
-   usefulVariables))))))))))))))))));
+   A2($Basics._op["++"],
+   libraryVariables,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   libraryFunctions,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   usefulVariables))))))))))))))))))))))));
    var vertexShaderBoilerplate = A2($Basics._op["++"],
    $Engine$Shader$Utils.setFloatPrecision,
    A2($Basics._op["++"],
@@ -223,6 +309,28 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
                                            ,modelViewMatrix: modelViewMatrix
                                            ,modelViewProjectionMatrix: modelViewProjectionMatrix
                                            ,normalMatrix: normalMatrix
+                                           ,mat2Transpose: mat2Transpose
+                                           ,mat3Transpose: mat3Transpose
+                                           ,mat4Transpose: mat4Transpose
+                                           ,mat2Determinant: mat2Determinant
+                                           ,mat3Determinant: mat3Determinant
+                                           ,mat4Determinant: mat4Determinant
+                                           ,mat2Trace: mat2Trace
+                                           ,mat3Trace: mat3Trace
+                                           ,mat4Trace: mat4Trace
+                                           ,mat2Identity: mat2Identity
+                                           ,mat3Identity: mat3Identity
+                                           ,mat4Identity: mat4Identity
+                                           ,mat2Inverse: mat2Inverse
+                                           ,mat3Inverse: mat3Inverse
+                                           ,mat4Inverse: mat4Inverse
+                                           ,transposeFunction: transposeFunction
+                                           ,determinantFunction: determinantFunction
+                                           ,traceFunction: traceFunction
+                                           ,inverseFunction: inverseFunction
+                                           ,identityMatrix: identityMatrix
+                                           ,libraryVariables: libraryVariables
+                                           ,libraryFunctions: libraryFunctions
                                            ,usefulVariables: usefulVariables
                                            ,commonShaderBoilerplate: commonShaderBoilerplate
                                            ,vertexShaderBoilerplate: vertexShaderBoilerplate
