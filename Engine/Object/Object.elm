@@ -1,8 +1,8 @@
 module Engine.Object.Object where
 
-import Engine.Mesh.Mesh (..)
-import Engine.Material.Material (..)
-import Math.Vector3 (..)
+import Engine.Mesh.Mesh (Mesh)
+import Engine.Material.Material (Material)
+import Math.Vector3 (Vec3)
 
 type alias Object a = { a |
   mesh : Mesh,

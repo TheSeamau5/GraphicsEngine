@@ -34,7 +34,23 @@ Elm.Engine.Shader.Shader.make = function (_elm) {
       $Engine$Shader$Utils.newLine,
       shaderString)));
    };
+   var showFragmentShader = function (shaderString) {
+      return A2($Basics._op["++"],
+      $Engine$Shader$Boilerplate.fragmentShaderBoilerplate,
+      A2($Basics._op["++"],
+      $Engine$Shader$Utils.newLine,
+      shaderString));
+   };
+   var showVertexShader = function (shaderString) {
+      return A2($Basics._op["++"],
+      $Engine$Shader$Boilerplate.vertexShaderBoilerplate,
+      A2($Basics._op["++"],
+      $Engine$Shader$Utils.newLine,
+      shaderString));
+   };
    _elm.Engine.Shader.Shader.values = {_op: _op
+                                      ,showVertexShader: showVertexShader
+                                      ,showFragmentShader: showFragmentShader
                                       ,constructVertexShader: constructVertexShader
                                       ,constructFragmentShader: constructFragmentShader};
    return _elm.Engine.Shader.Shader.values;

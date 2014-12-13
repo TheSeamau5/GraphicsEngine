@@ -8,6 +8,12 @@ import Engine.Shader.Utils (newLine)
 import Engine.Shader.Attribute (Attribute)
 import Engine.Shader.Uniform (Uniform)
 
+showVertexShader shaderString =
+  vertexShaderBoilerplate ++ newLine ++ shaderString
+
+showFragmentShader shaderString =
+  fragmentShaderBoilerplate ++ newLine ++ shaderString
+
 constructVertexShader : String -> Shader Attribute Uniform varying
 constructVertexShader shaderString =
   unsafeShader <| vertexShaderBoilerplate ++ newLine ++ shaderString

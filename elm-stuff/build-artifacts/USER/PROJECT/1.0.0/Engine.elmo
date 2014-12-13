@@ -20,9 +20,11 @@ Elm.Engine.make = function (_elm) {
    $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
    $Engine$Object$DefaultObject = Elm.Engine.Object.DefaultObject.make(_elm),
    $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Render$Render = Elm.Engine.Render.Render.make(_elm),
    $Engine$Scene$Scene = Elm.Engine.Scene.Scene.make(_elm),
    $Engine$Shader$Attribute = Elm.Engine.Shader.Attribute.make(_elm),
    $Engine$Shader$Uniform = Elm.Engine.Shader.Uniform.make(_elm);
+   var render = $Engine$Render$Render.render;
    var object = $Engine$Object$DefaultObject.object;
    var pyramidMesh = $Engine$Mesh$Pyramid.pyramidMesh;
    var pyramid = $Engine$Mesh$Pyramid.pyramid;
@@ -35,7 +37,9 @@ Elm.Engine.make = function (_elm) {
    var material = $Engine$Material$Material.material;
    var light = $Engine$Light$Light.light;
    var camera = $Engine$Camera$Camera.camera;
+   var scene = $Engine$Scene$Scene.scene;
    _elm.Engine.values = {_op: _op
+                        ,scene: scene
                         ,camera: camera
                         ,light: light
                         ,material: material
@@ -47,6 +51,7 @@ Elm.Engine.make = function (_elm) {
                         ,cubeMesh: cubeMesh
                         ,pyramid: pyramid
                         ,pyramidMesh: pyramidMesh
-                        ,object: object};
+                        ,object: object
+                        ,render: render};
    return _elm.Engine.values;
 };

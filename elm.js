@@ -697,9 +697,11 @@ Elm.Engine.make = function (_elm) {
    $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
    $Engine$Object$DefaultObject = Elm.Engine.Object.DefaultObject.make(_elm),
    $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Render$Render = Elm.Engine.Render.Render.make(_elm),
    $Engine$Scene$Scene = Elm.Engine.Scene.Scene.make(_elm),
    $Engine$Shader$Attribute = Elm.Engine.Shader.Attribute.make(_elm),
    $Engine$Shader$Uniform = Elm.Engine.Shader.Uniform.make(_elm);
+   var render = $Engine$Render$Render.render;
    var object = $Engine$Object$DefaultObject.object;
    var pyramidMesh = $Engine$Mesh$Pyramid.pyramidMesh;
    var pyramid = $Engine$Mesh$Pyramid.pyramid;
@@ -712,7 +714,9 @@ Elm.Engine.make = function (_elm) {
    var material = $Engine$Material$Material.material;
    var light = $Engine$Light$Light.light;
    var camera = $Engine$Camera$Camera.camera;
+   var scene = $Engine$Scene$Scene.scene;
    _elm.Engine.values = {_op: _op
+                        ,scene: scene
                         ,camera: camera
                         ,light: light
                         ,material: material
@@ -724,7 +728,8 @@ Elm.Engine.make = function (_elm) {
                         ,cubeMesh: cubeMesh
                         ,pyramid: pyramid
                         ,pyramidMesh: pyramidMesh
-                        ,object: object};
+                        ,object: object
+                        ,render: render};
    return _elm.Engine.values;
 };
 Elm.Engine = Elm.Engine || {};
@@ -1304,50 +1309,21 @@ Elm.Engine.Mesh.Triangle.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Engine.Mesh.Triangle",
-   $Basics = Elm.Basics.make(_elm),
    $Engine$Material$Material = Elm.Engine.Material.Material.make(_elm),
    $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
    $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
    $Engine$Shader$Attribute = Elm.Engine.Shader.Attribute.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm),
    $WebGL = Elm.WebGL.make(_elm);
-   var triangleNormal = F3(function (p,
-   q,
-   r) {
-      return $Math$Vector3.normalize(A2($Math$Vector3.cross,
-      A2($Math$Vector3.sub,q,p),
-      A2($Math$Vector3.sub,r,p)));
-   });
-   var constructTriangleMesh = F3(function (p,
-   q,
-   r) {
-      return function () {
-         var normal = A3(triangleNormal,
-         p,
-         q,
-         r);
-         var attribute1 = A2($Engine$Shader$Attribute.Attribute,
-         p,
-         normal);
-         var attribute2 = A2($Engine$Shader$Attribute.Attribute,
-         q,
-         normal);
-         var attribute3 = A2($Engine$Shader$Attribute.Attribute,
-         r,
-         normal);
-         return {ctor: "_Tuple3"
-                ,_0: attribute1
-                ,_1: attribute2
-                ,_2: attribute3};
-      }();
-   });
    var triangleMesh = F3(function (p,
    q,
    r) {
-      return _L.fromArray([A3(constructTriangleMesh,
-      p,
-      q,
-      r)]);
+      return _L.fromArray([A2($WebGL.map,
+      $Engine$Shader$Attribute.Attribute,
+      {ctor: "_Tuple3"
+      ,_0: p
+      ,_1: q
+      ,_2: r})]);
    });
    var triangle = {_: {}
                   ,material: $Engine$Material$Material.material
@@ -1374,8 +1350,6 @@ Elm.Engine.Mesh.Triangle.make = function (_elm) {
                   1,
                   1)};
    _elm.Engine.Mesh.Triangle.values = {_op: _op
-                                      ,triangleNormal: triangleNormal
-                                      ,constructTriangleMesh: constructTriangleMesh
                                       ,triangleMesh: triangleMesh
                                       ,triangle: triangle};
    return _elm.Engine.Mesh.Triangle.values;
@@ -1396,7 +1370,8 @@ Elm.Engine.Object.DefaultObject.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Engine.Object.DefaultObject",
-   $Engine$Mesh$Cube = Elm.Engine.Mesh.Cube.make(_elm);
+   $Engine$Mesh$Cube = Elm.Engine.Mesh.Cube.make(_elm),
+   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm);
    var object = $Engine$Mesh$Cube.cube;
    _elm.Engine.Object.DefaultObject.values = {_op: _op
                                              ,object: object};
@@ -1440,6 +1415,52 @@ Elm.Engine.Object.Object.make = function (_elm) {
    _elm.Engine.Object.Object.values = {_op: _op
                                       ,Object: Object};
    return _elm.Engine.Object.Object.values;
+};
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Render = Elm.Engine.Render || {};
+Elm.Engine.Render.Render = Elm.Engine.Render.Render || {};
+Elm.Engine.Render.Render.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Render = _elm.Engine.Render || {};
+   _elm.Engine.Render.Render = _elm.Engine.Render.Render || {};
+   if (_elm.Engine.Render.Render.values)
+   return _elm.Engine.Render.Render.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Render.Render",
+   $Basics = Elm.Basics.make(_elm),
+   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Scene$Scene = Elm.Engine.Scene.Scene.make(_elm),
+   $Engine$Shader$Shader = Elm.Engine.Shader.Shader.make(_elm),
+   $Engine$Shader$Uniform = Elm.Engine.Shader.Uniform.make(_elm),
+   $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $List = Elm.List.make(_elm),
+   $WebGL = Elm.WebGL.make(_elm);
+   var renderObject = F2(function (scene,
+   object) {
+      return A4($WebGL.entity,
+      $Engine$Shader$Shader.constructVertexShader(object.material.vertexShader),
+      $Engine$Shader$Shader.constructFragmentShader(object.material.fragmentShader),
+      object.mesh,
+      A2($Engine$Shader$Uniform.constructUniforms,
+      scene,
+      object));
+   });
+   var render = function (scene) {
+      return $WebGL.webgl({ctor: "_Tuple2"
+                          ,_0: $Basics.floor(scene.viewport.dimensions.width)
+                          ,_1: $Basics.floor(scene.viewport.dimensions.height)})(A2($List.map,
+      renderObject(scene),
+      scene.objects));
+   };
+   _elm.Engine.Render.Render.values = {_op: _op
+                                      ,renderObject: renderObject
+                                      ,render: render};
+   return _elm.Engine.Render.Render.values;
 };
 Elm.Engine = Elm.Engine || {};
 Elm.Engine.Scene = Elm.Engine.Scene || {};
@@ -1501,12 +1522,9 @@ Elm.Engine.Shader.Attribute.make = function (_elm) {
    _P = _N.Ports.make(_elm),
    $moduleName = "Engine.Shader.Attribute",
    $Math$Vector3 = Elm.Math.Vector3.make(_elm);
-   var Attribute = F2(function (a,
-   b) {
-      return {_: {}
-             ,normal: b
-             ,position: a};
-   });
+   var Attribute = function (a) {
+      return {_: {},position: a};
+   };
    _elm.Engine.Shader.Attribute.values = {_op: _op
                                          ,Attribute: Attribute};
    return _elm.Engine.Shader.Attribute.values;
@@ -1612,7 +1630,7 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
                  ,_0: "float"
                  ,_1: "intensity"}]));
    var setupMaterial = function () {
-      var makeMaterialColor = $Engine$Shader$Utils.callFunctionExpression("MaterialColor");
+      var makeMaterialColor = $Engine$Shader$Utils.callFunctionExpression("MaterialProperty");
       var materialValue = $Engine$Shader$Utils.callFunctionExpression("Material")(A2($List.map,
       makeMaterialColor,
       _L.fromArray([_L.fromArray(["materialEmissiveColor"
@@ -1663,6 +1681,12 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
    A2($Basics._op["++"],
    $Engine$Shader$Utils.newLine,
    A2($Basics._op["++"],
+   lightStructTypeDefinition,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
    uniformDeclarations,
    A2($Basics._op["++"],
    $Engine$Shader$Utils.newLine,
@@ -1674,14 +1698,20 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
    $Engine$Shader$Utils.newLine,
    A2($Basics._op["++"],
    $Engine$Shader$Utils.newLine,
-   setupMaterial))))))))))));
+   setupMaterial)))))))))))))));
    var vertexShaderBoilerplate = A2($Basics._op["++"],
+   $Engine$Shader$Utils.setFloatPrecision,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
    attributeDeclarations,
    A2($Basics._op["++"],
    $Engine$Shader$Utils.newLine,
    A2($Basics._op["++"],
    $Engine$Shader$Utils.newLine,
-   commonShaderBoilerplate)));
+   commonShaderBoilerplate))))));
    var fragmentShaderBoilerplate = A2($Basics._op["++"],
    $Engine$Shader$Utils.setFloatPrecision,
    A2($Basics._op["++"],
@@ -1722,6 +1752,63 @@ Elm.Engine.Shader.FragmentShader.make = function (_elm) {
    _elm.Engine.Shader.FragmentShader.values = {_op: _op
                                               ,fragmentShader: fragmentShader};
    return _elm.Engine.Shader.FragmentShader.values;
+};
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Shader = Elm.Engine.Shader || {};
+Elm.Engine.Shader.Shader = Elm.Engine.Shader.Shader || {};
+Elm.Engine.Shader.Shader.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Shader = _elm.Engine.Shader || {};
+   _elm.Engine.Shader.Shader = _elm.Engine.Shader.Shader || {};
+   if (_elm.Engine.Shader.Shader.values)
+   return _elm.Engine.Shader.Shader.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Shader.Shader",
+   $Basics = Elm.Basics.make(_elm),
+   $Engine$Shader$Attribute = Elm.Engine.Shader.Attribute.make(_elm),
+   $Engine$Shader$Boilerplate = Elm.Engine.Shader.Boilerplate.make(_elm),
+   $Engine$Shader$Uniform = Elm.Engine.Shader.Uniform.make(_elm),
+   $Engine$Shader$Utils = Elm.Engine.Shader.Utils.make(_elm),
+   $WebGL = Elm.WebGL.make(_elm);
+   var constructFragmentShader = function (shaderString) {
+      return $WebGL.unsafeShader(A2($Basics._op["++"],
+      $Engine$Shader$Boilerplate.fragmentShaderBoilerplate,
+      A2($Basics._op["++"],
+      $Engine$Shader$Utils.newLine,
+      shaderString)));
+   };
+   var constructVertexShader = function (shaderString) {
+      return $WebGL.unsafeShader(A2($Basics._op["++"],
+      $Engine$Shader$Boilerplate.vertexShaderBoilerplate,
+      A2($Basics._op["++"],
+      $Engine$Shader$Utils.newLine,
+      shaderString)));
+   };
+   var showFragmentShader = function (shaderString) {
+      return A2($Basics._op["++"],
+      $Engine$Shader$Boilerplate.fragmentShaderBoilerplate,
+      A2($Basics._op["++"],
+      $Engine$Shader$Utils.newLine,
+      shaderString));
+   };
+   var showVertexShader = function (shaderString) {
+      return A2($Basics._op["++"],
+      $Engine$Shader$Boilerplate.vertexShaderBoilerplate,
+      A2($Basics._op["++"],
+      $Engine$Shader$Utils.newLine,
+      shaderString));
+   };
+   _elm.Engine.Shader.Shader.values = {_op: _op
+                                      ,showVertexShader: showVertexShader
+                                      ,showFragmentShader: showFragmentShader
+                                      ,constructVertexShader: constructVertexShader
+                                      ,constructFragmentShader: constructFragmentShader};
+   return _elm.Engine.Shader.Shader.values;
 };
 Elm.Engine = Elm.Engine || {};
 Elm.Engine.Shader = Elm.Engine.Shader || {};
@@ -2882,9 +2969,8 @@ Elm.Main.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Main",
-   $Engine$Shader$Boilerplate = Elm.Engine.Shader.Boilerplate.make(_elm),
-   $Text = Elm.Text.make(_elm);
-   var main = $Text.plainText($Engine$Shader$Boilerplate.fragmentShaderBoilerplate);
+   $Engine = Elm.Engine.make(_elm);
+   var main = $Engine.render($Engine.scene);
    _elm.Main.values = {_op: _op
                       ,main: main};
    return _elm.Main.values;

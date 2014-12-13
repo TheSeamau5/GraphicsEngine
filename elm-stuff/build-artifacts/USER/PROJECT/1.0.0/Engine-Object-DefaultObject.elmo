@@ -14,7 +14,8 @@ Elm.Engine.Object.DefaultObject.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Engine.Object.DefaultObject",
-   $Engine$Mesh$Cube = Elm.Engine.Mesh.Cube.make(_elm);
+   $Engine$Mesh$Cube = Elm.Engine.Mesh.Cube.make(_elm),
+   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm);
    var object = $Engine$Mesh$Cube.cube;
    _elm.Engine.Object.DefaultObject.values = {_op: _op
                                              ,object: object};

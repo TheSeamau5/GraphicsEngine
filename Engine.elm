@@ -17,6 +17,7 @@ import Engine.Render.Render         as Render
 
 -- Re-export Engine.Scene.Scene
 type alias Scene = Scene.Scene
+scene = Scene.scene
 
 -- Re-export Engine.Camera.Camera
 type alias Camera = Camera.Camera

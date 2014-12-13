@@ -28,7 +28,7 @@ materialStructTypeDefinition = declareStructType "Material"
 
 setupMaterial : String
 setupMaterial =
-  let makeMaterialColor = callFunctionExpression "MaterialColor"
+  let makeMaterialColor = callFunctionExpression "MaterialProperty"
       materialValue = callFunctionExpression "Material" <| map makeMaterialColor
         [ ["materialEmissiveColor", "materialEmissiveStrength"],
           ["materialAmbientColor" , "materialAmbientStrength" ],
@@ -85,6 +85,7 @@ commonShaderBoilerplate : String
 commonShaderBoilerplate =
   materialPropertyStructTypeDefinition ++ newLine ++ newLine ++
   materialStructTypeDefinition         ++ newLine ++ newLine ++
+  lightStructTypeDefinition            ++ newLine ++ newLine ++
   uniformDeclarations                  ++ newLine ++ newLine ++
   setupLight                           ++ newLine ++ newLine ++
   setupMaterial
@@ -92,7 +93,9 @@ commonShaderBoilerplate =
 
 vertexShaderBoilerplate : String
 vertexShaderBoilerplate =
-  attributeDeclarations ++ newLine ++ newLine ++ commonShaderBoilerplate
+  setFloatPrecision     ++ newLine ++ newLine ++
+  attributeDeclarations ++ newLine ++ newLine ++
+  commonShaderBoilerplate
 
 fragmentShaderBoilerplate : String
 fragmentShaderBoilerplate =

@@ -99,7 +99,7 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
                  ,_0: "float"
                  ,_1: "intensity"}]));
    var setupMaterial = function () {
-      var makeMaterialColor = $Engine$Shader$Utils.callFunctionExpression("MaterialColor");
+      var makeMaterialColor = $Engine$Shader$Utils.callFunctionExpression("MaterialProperty");
       var materialValue = $Engine$Shader$Utils.callFunctionExpression("Material")(A2($List.map,
       makeMaterialColor,
       _L.fromArray([_L.fromArray(["materialEmissiveColor"
@@ -150,6 +150,12 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
    A2($Basics._op["++"],
    $Engine$Shader$Utils.newLine,
    A2($Basics._op["++"],
+   lightStructTypeDefinition,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
    uniformDeclarations,
    A2($Basics._op["++"],
    $Engine$Shader$Utils.newLine,
@@ -161,14 +167,20 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
    $Engine$Shader$Utils.newLine,
    A2($Basics._op["++"],
    $Engine$Shader$Utils.newLine,
-   setupMaterial))))))))))));
+   setupMaterial)))))))))))))));
    var vertexShaderBoilerplate = A2($Basics._op["++"],
+   $Engine$Shader$Utils.setFloatPrecision,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
    attributeDeclarations,
    A2($Basics._op["++"],
    $Engine$Shader$Utils.newLine,
    A2($Basics._op["++"],
    $Engine$Shader$Utils.newLine,
-   commonShaderBoilerplate)));
+   commonShaderBoilerplate))))));
    var fragmentShaderBoilerplate = A2($Basics._op["++"],
    $Engine$Shader$Utils.setFloatPrecision,
    A2($Basics._op["++"],
