@@ -347,7 +347,7 @@ The functions are :
 Additionally, a set of helpful variables are provided (mostly as a convenience):
 
 * `Light light;` *The light in the scene*
-* `Material material` *The object's material*
+* `Material material;` *The object's material*
 * `mat4 modelViewProjectionMatrix;`
 * `mat4 modelViewMatrix;`
 * `mat4 normalMatrix;`
