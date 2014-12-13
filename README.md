@@ -170,7 +170,7 @@ type alias Renderable a = Transform { a |
 }
 ```
 
-*This would then cause the weird design problem of: should lights and cameras be just `Transform` or `Renderable`. Should there be a built-in behavior or should this behavior be defined by the user of the library?*
+*This would then cause the weird design problem: should lights and cameras be just `Transform` or `Renderable`. Should there be a built-in behavior or should this behavior be defined by the user of the library?*
 
 ---------------------------------
 ##Mesh##
