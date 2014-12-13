@@ -353,6 +353,54 @@ Additionally, a set of helpful variables are provided (mostly as a convenience):
 * `mat4 normalMatrix;`
 
 -----------------------
+##How the render function works:##
+
+You might have noticed from above that the simplest example is just
+
+```elm
+import Engine(render,scene)
+
+main = render scene
+```
+
+This code is so simple that it may make the `render` function seem almost magical. But this function is actually very simple and not magical at all.
+
+`render` is defined as follows:
+
+```elm
+render : Scene -> Element
+render scene =
+  webgl (floor scene.viewport.dimensions.width,
+         floor scene.viewport.dimensions.height) <|
+    map (renderObject scene) scene.objects
+```
+
+Basically, render just calls `webgl` from [the elm-webgl library](https://github.com/johnpmayer/elm-webgl), sets up the size of the canvas from the viewport dimensions of the scene (*this is exposed so you can easily implement fullscreen or make arbitrarily sized scenes*).
+
+The `render` function then constructs the list of Entities that `webgl` wants by calling `renderObject` on all the objects in the scene.
+
+*Note: it is still unclear whether `render` should call `renderObject` on just the objects in the scene or it should also call `renderObject` on the camera and light too.*
+
+`renderObject` is not directly exposed by the `Engine` module as it is not intended to be used by the users of the Library.
+
+`renderObject` is defined as follows:
+
+```elm
+renderObject : Scene -> Object a -> Entity
+renderObject scene object =
+  entity (constructVertexShader   object.material.vertexShader)
+         (constructFragmentShader object.material.fragmentShader)
+         object.mesh
+         (constructUniforms scene object)
+```
+
+As, you can see, `renderObject` does nothing fancy. All it does is construct the vertex shader from the object's vertex shader, construct the fragment shader from the object's fragment shader, construct the necessary uniforms and then pass the vertex shader, fragment shader, the object's mesh, and the uniforms to `entity`.
+
+Please refer to [the elm-webgl library](https://github.com/johnpmayer/elm-webgl) for more details on how the `entity` and `webgl` functions work.
+
+So, basically, the real magic behind the `render` function is in the data. You just set up the scene as if you were writing a .json file and you pass that data onto `render`. That's it!
+
+-----------------------
 
 ##Note on Dependencies##
 
