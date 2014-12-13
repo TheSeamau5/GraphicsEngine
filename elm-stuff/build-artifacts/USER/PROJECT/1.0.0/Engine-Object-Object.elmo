@@ -1,0 +1,39 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Object = Elm.Engine.Object || {};
+Elm.Engine.Object.Object = Elm.Engine.Object.Object || {};
+Elm.Engine.Object.Object.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Object = _elm.Engine.Object || {};
+   _elm.Engine.Object.Object = _elm.Engine.Object.Object || {};
+   if (_elm.Engine.Object.Object.values)
+   return _elm.Engine.Object.Object.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Object.Object",
+   $Engine$Material$Material = Elm.Engine.Material.Material.make(_elm),
+   $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var Object = F6(function (a,
+   b,
+   c,
+   d,
+   e,
+   f) {
+      return _U.insert("scale",
+      e,
+      _U.insert("rotation",
+      d,
+      _U.insert("position",
+      c,
+      _U.insert("material",
+      b,
+      _U.insert("mesh",a,f)))));
+   });
+   _elm.Engine.Object.Object.values = {_op: _op
+                                      ,Object: Object};
+   return _elm.Engine.Object.Object.values;
+};

@@ -1,0 +1,65 @@
+Elm.Math = Elm.Math || {};
+Elm.Math.Matrix4 = Elm.Math.Matrix4 || {};
+Elm.Math.Matrix4.make = function (_elm) {
+   "use strict";
+   _elm.Math = _elm.Math || {};
+   _elm.Math.Matrix4 = _elm.Math.Matrix4 || {};
+   if (_elm.Math.Matrix4.values)
+   return _elm.Math.Matrix4.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Math.Matrix4",
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm),
+   $Native$MJS = Elm.Native.MJS.make(_elm);
+   var makeBasis = $Native$MJS.m4x4makeBasis;
+   var transpose = $Native$MJS.m4x4transpose;
+   var makeLookAt = $Native$MJS.m4x4makeLookAt;
+   var translate = $Native$MJS.m4x4translate;
+   var translate3 = $Native$MJS.m4x4translate3;
+   var makeTranslate = $Native$MJS.m4x4makeTranslate;
+   var makeTranslate3 = $Native$MJS.m4x4makeTranslate3;
+   var scale = $Native$MJS.m4x4scale;
+   var scale3 = $Native$MJS.m4x4scale3;
+   var makeScale = $Native$MJS.m4x4makeScale;
+   var makeScale3 = $Native$MJS.m4x4makeScale3;
+   var rotate = $Native$MJS.m4x4rotate;
+   var makeRotate = $Native$MJS.m4x4makeRotate;
+   var mulAffine = $Native$MJS.m4x4mulAffine;
+   var mul = $Native$MJS.m4x4mul;
+   var makeOrtho2D = $Native$MJS.m4x4makeOrtho2D;
+   var makeOrtho = $Native$MJS.m4x4makeOrtho;
+   var makePerspective = $Native$MJS.m4x4makePerspective;
+   var makeFrustrum = $Native$MJS.m4x4makeFrustrum;
+   var inverseOrthonormal = $Native$MJS.m4x4inverseOrthonormal;
+   var identity = $Native$MJS.m4x4identity;
+   var transform = $Native$MJS.v3mul4x4;
+   var Mat4 = {ctor: "Mat4"};
+   _elm.Math.Matrix4.values = {_op: _op
+                              ,Mat4: Mat4
+                              ,transform: transform
+                              ,identity: identity
+                              ,inverseOrthonormal: inverseOrthonormal
+                              ,makeFrustrum: makeFrustrum
+                              ,makePerspective: makePerspective
+                              ,makeOrtho: makeOrtho
+                              ,makeOrtho2D: makeOrtho2D
+                              ,mul: mul
+                              ,mulAffine: mulAffine
+                              ,makeRotate: makeRotate
+                              ,rotate: rotate
+                              ,makeScale3: makeScale3
+                              ,makeScale: makeScale
+                              ,scale3: scale3
+                              ,scale: scale
+                              ,makeTranslate3: makeTranslate3
+                              ,makeTranslate: makeTranslate
+                              ,translate3: translate3
+                              ,translate: translate
+                              ,makeLookAt: makeLookAt
+                              ,transpose: transpose
+                              ,makeBasis: makeBasis};
+   return _elm.Math.Matrix4.values;
+};

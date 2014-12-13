@@ -1,0 +1,34 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Camera = Elm.Engine.Camera || {};
+Elm.Engine.Camera.Camera = Elm.Engine.Camera.Camera || {};
+Elm.Engine.Camera.Camera.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Camera = _elm.Engine.Camera || {};
+   _elm.Engine.Camera.Camera = _elm.Engine.Camera.Camera || {};
+   if (_elm.Engine.Camera.Camera.values)
+   return _elm.Engine.Camera.Camera.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Camera.Camera",
+   $Engine$Object$DefaultObject = Elm.Engine.Object.DefaultObject.make(_elm),
+   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var camera = A6($Engine$Object$Object.Object,
+   $Engine$Object$DefaultObject.object.mesh,
+   $Engine$Object$DefaultObject.object.material,
+   A3($Math$Vector3.vec3,0,0,-10),
+   $Engine$Object$DefaultObject.object.rotation,
+   $Engine$Object$DefaultObject.object.scale,
+   {_: {}
+   ,aspectRatio: 1
+   ,farClipping: 80000
+   ,fieldOfView: 45
+   ,nearClipping: 1});
+   _elm.Engine.Camera.Camera.values = {_op: _op
+                                      ,camera: camera};
+   return _elm.Engine.Camera.Camera.values;
+};

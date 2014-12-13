@@ -1,0 +1,67 @@
+Elm.WebGL = Elm.WebGL || {};
+Elm.WebGL.make = function (_elm) {
+   "use strict";
+   _elm.WebGL = _elm.WebGL || {};
+   if (_elm.WebGL.values)
+   return _elm.WebGL.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "WebGL",
+   $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $Http = Elm.Http.make(_elm),
+   $Native$WebGL = Elm.Native.WebGL.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var webgl = $Native$WebGL.webgl;
+   var entity = $Native$WebGL.entity;
+   var Entity = {ctor: "Entity"};
+   var loadTexture = $Native$WebGL.loadTex;
+   var Texture = {ctor: "Texture"};
+   var unsafeShader = $Native$WebGL.unsafeCoerceGLSL;
+   var Shader = {ctor: "Shader"};
+   var map2 = F3(function (f,
+   _v0,
+   _v1) {
+      return function () {
+         switch (_v1.ctor)
+         {case "_Tuple3":
+            return function () {
+                 switch (_v0.ctor)
+                 {case "_Tuple3":
+                    return {ctor: "_Tuple3"
+                           ,_0: A2(f,_v0._0,_v1._0)
+                           ,_1: A2(f,_v0._1,_v1._1)
+                           ,_2: A2(f,_v0._2,_v1._2)};}
+                 _U.badCase($moduleName,
+                 "on line 56, column 6 to 28");
+              }();}
+         _U.badCase($moduleName,
+         "on line 56, column 6 to 28");
+      }();
+   });
+   var map = F2(function (f,_v10) {
+      return function () {
+         switch (_v10.ctor)
+         {case "_Tuple3":
+            return {ctor: "_Tuple3"
+                   ,_0: f(_v10._0)
+                   ,_1: f(_v10._1)
+                   ,_2: f(_v10._2)};}
+         _U.badCase($moduleName,
+         "on line 48, column 6 to 19");
+      }();
+   });
+   _elm.WebGL.values = {_op: _op
+                       ,map: map
+                       ,map2: map2
+                       ,Shader: Shader
+                       ,unsafeShader: unsafeShader
+                       ,Texture: Texture
+                       ,loadTexture: loadTexture
+                       ,Entity: Entity
+                       ,entity: entity
+                       ,webgl: webgl};
+   return _elm.WebGL.values;
+};

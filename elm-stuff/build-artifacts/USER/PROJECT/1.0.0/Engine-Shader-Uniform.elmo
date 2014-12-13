@@ -1,0 +1,91 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Shader = Elm.Engine.Shader || {};
+Elm.Engine.Shader.Uniform = Elm.Engine.Shader.Uniform || {};
+Elm.Engine.Shader.Uniform.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Shader = _elm.Engine.Shader || {};
+   _elm.Engine.Shader.Uniform = _elm.Engine.Shader.Uniform || {};
+   if (_elm.Engine.Shader.Uniform.values)
+   return _elm.Engine.Shader.Uniform.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Shader.Uniform",
+   $Engine$Math$Utils = Elm.Engine.Math.Utils.make(_elm),
+   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Scene$Scene = Elm.Engine.Scene.Scene.make(_elm),
+   $Math$Matrix4 = Elm.Math.Matrix4.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var constructUniforms = F2(function (scene,
+   object) {
+      return {_: {}
+             ,lightColor: scene.light.color
+             ,lightIntensity: scene.light.intensity
+             ,lightPosition: scene.light.position
+             ,lightRotation: scene.light.rotation
+             ,materialAmbientColor: object.material.ambient.color
+             ,materialAmbientStrength: object.material.ambient.strength
+             ,materialDiffuseColor: object.material.diffuse.color
+             ,materialDiffuseStrength: object.material.diffuse.strength
+             ,materialEmissiveColor: object.material.emissive.color
+             ,materialEmissiveStrength: object.material.emissive.strength
+             ,materialSpecularColor: object.material.specular.color
+             ,materialSpecularStrength: object.material.specular.strength
+             ,modelMatrix: $Engine$Math$Utils.modelMatrix(object)
+             ,projectionMatrix: $Engine$Math$Utils.projectionMatrix(scene.camera)
+             ,viewMatrix: $Engine$Math$Utils.viewMatrix(scene.camera)};
+   });
+   var Uniform = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return function (k) {
+                                    return function (l) {
+                                       return function (m) {
+                                          return function (n) {
+                                             return function (o) {
+                                                return {_: {}
+                                                       ,lightColor: f
+                                                       ,lightIntensity: g
+                                                       ,lightPosition: d
+                                                       ,lightRotation: e
+                                                       ,materialAmbientColor: j
+                                                       ,materialAmbientStrength: k
+                                                       ,materialDiffuseColor: l
+                                                       ,materialDiffuseStrength: m
+                                                       ,materialEmissiveColor: h
+                                                       ,materialEmissiveStrength: i
+                                                       ,materialSpecularColor: n
+                                                       ,materialSpecularStrength: o
+                                                       ,modelMatrix: a
+                                                       ,projectionMatrix: c
+                                                       ,viewMatrix: b};
+                                             };
+                                          };
+                                       };
+                                    };
+                                 };
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   _elm.Engine.Shader.Uniform.values = {_op: _op
+                                       ,Uniform: Uniform
+                                       ,constructUniforms: constructUniforms};
+   return _elm.Engine.Shader.Uniform.values;
+};

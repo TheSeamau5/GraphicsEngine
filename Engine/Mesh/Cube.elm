@@ -1,0 +1,31 @@
+module Engine.Mesh.Cube where
+
+import Math.Vector3 (Vec3, add, vec3)
+
+import Engine.Mesh.Mesh (Mesh)
+import Engine.Mesh.Rectangle (rectangle, rectangleMesh)
+
+import Engine.Object.Object (Object)
+
+
+cubeMesh : Vec3 -> Float -> Mesh
+cubeMesh center size =
+  let hs = size / 2
+      ftl = center `add` vec3 -hs hs -hs
+      ftr = center `add` vec3 hs hs -hs
+      fbr = center `add` vec3 hs -hs -hs
+      fbl = center `add` vec3 -hs -hs -hs
+      btl = center `add` vec3 -hs hs hs
+      btr = center `add` vec3 hs hs hs
+      bbr = center `add` vec3 hs -hs hs
+      bbl = center `add` vec3 -hs -hs hs
+  in (rectangleMesh ftl ftr btr btl) ++
+     (rectangleMesh ftl fbl fbr ftr) ++
+     (rectangleMesh fbl fbr bbr bbl) ++
+     (rectangleMesh btr bbr bbl btl) ++
+     (rectangleMesh ftl fbl bbl btl) ++
+     (rectangleMesh ftr fbr bbr btr)
+
+cube : Object {}
+cube = {
+  rectangle | mesh <- cubeMesh (vec3 0 0 0) 1 }

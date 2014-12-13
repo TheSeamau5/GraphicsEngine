@@ -1,0 +1,68 @@
+Elm.Math = Elm.Math || {};
+Elm.Math.Vector4 = Elm.Math.Vector4 || {};
+Elm.Math.Vector4.make = function (_elm) {
+   "use strict";
+   _elm.Math = _elm.Math || {};
+   _elm.Math.Vector4 = _elm.Math.Vector4 || {};
+   if (_elm.Math.Vector4.values)
+   return _elm.Math.Vector4.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Math.Vector4",
+   $Native$Math$Vector4 = Elm.Native.Math.Vector4.make(_elm);
+   var dot = $Native$Math$Vector4.dot;
+   var scale = $Native$Math$Vector4.scale;
+   var normalize = $Native$Math$Vector4.normalize;
+   var distanceSquared = $Native$Math$Vector4.distanceSquared;
+   var distance = $Native$Math$Vector4.distance;
+   var lengthSquared = $Native$Math$Vector4.lengthSquared;
+   var length = $Native$Math$Vector4.length;
+   var direction = $Native$Math$Vector4.direction;
+   var negate = $Native$Math$Vector4.neg;
+   var sub = $Native$Math$Vector4.sub;
+   var add = $Native$Math$Vector4.add;
+   var fromRecord = $Native$Math$Vector4.fromRecord;
+   var fromTuple = $Native$Math$Vector4.fromTuple;
+   var toRecord = $Native$Math$Vector4.toRecord;
+   var toTuple = $Native$Math$Vector4.toTuple;
+   var setW = $Native$Math$Vector4.setW;
+   var setZ = $Native$Math$Vector4.setZ;
+   var setY = $Native$Math$Vector4.setY;
+   var setX = $Native$Math$Vector4.setX;
+   var getW = $Native$Math$Vector4.getW;
+   var getZ = $Native$Math$Vector4.getZ;
+   var getY = $Native$Math$Vector4.getY;
+   var getX = $Native$Math$Vector4.getX;
+   var vec4 = $Native$Math$Vector4.vec4;
+   var Vec4 = {ctor: "Vec4"};
+   _elm.Math.Vector4.values = {_op: _op
+                              ,Vec4: Vec4
+                              ,vec4: vec4
+                              ,getX: getX
+                              ,getY: getY
+                              ,getZ: getZ
+                              ,getW: getW
+                              ,setX: setX
+                              ,setY: setY
+                              ,setZ: setZ
+                              ,setW: setW
+                              ,toTuple: toTuple
+                              ,toRecord: toRecord
+                              ,fromTuple: fromTuple
+                              ,fromRecord: fromRecord
+                              ,add: add
+                              ,sub: sub
+                              ,negate: negate
+                              ,direction: direction
+                              ,length: length
+                              ,lengthSquared: lengthSquared
+                              ,distance: distance
+                              ,distanceSquared: distanceSquared
+                              ,normalize: normalize
+                              ,scale: scale
+                              ,dot: dot};
+   return _elm.Math.Vector4.values;
+};

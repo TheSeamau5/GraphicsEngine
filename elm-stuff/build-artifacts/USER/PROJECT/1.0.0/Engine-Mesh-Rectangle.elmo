@@ -1,0 +1,59 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Mesh = Elm.Engine.Mesh || {};
+Elm.Engine.Mesh.Rectangle = Elm.Engine.Mesh.Rectangle || {};
+Elm.Engine.Mesh.Rectangle.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Mesh = _elm.Engine.Mesh || {};
+   _elm.Engine.Mesh.Rectangle = _elm.Engine.Mesh.Rectangle || {};
+   if (_elm.Engine.Mesh.Rectangle.values)
+   return _elm.Engine.Mesh.Rectangle.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Mesh.Rectangle",
+   $Basics = Elm.Basics.make(_elm),
+   $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
+   $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
+   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var rectangleMesh = F4(function (p,
+   q,
+   r,
+   s) {
+      return A2($Basics._op["++"],
+      A3($Engine$Mesh$Triangle.triangleMesh,
+      p,
+      q,
+      r),
+      A3($Engine$Mesh$Triangle.triangleMesh,
+      r,
+      s,
+      p));
+   });
+   var rectangle = _U.replace([["mesh"
+                               ,A4(rectangleMesh,
+                               A3($Math$Vector3.vec3,
+                               -0.5,
+                               -0.5,
+                               0),
+                               A3($Math$Vector3.vec3,
+                               0.5,
+                               -0.5,
+                               0),
+                               A3($Math$Vector3.vec3,
+                               0.5,
+                               0.5,
+                               0),
+                               A3($Math$Vector3.vec3,
+                               -0.5,
+                               0.5,
+                               0))]],
+   $Engine$Mesh$Triangle.triangle);
+   _elm.Engine.Mesh.Rectangle.values = {_op: _op
+                                       ,rectangleMesh: rectangleMesh
+                                       ,rectangle: rectangle};
+   return _elm.Engine.Mesh.Rectangle.values;
+};

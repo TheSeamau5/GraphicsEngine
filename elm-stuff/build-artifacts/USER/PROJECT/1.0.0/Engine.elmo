@@ -1,0 +1,52 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   if (_elm.Engine.values)
+   return _elm.Engine.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine",
+   $Engine$Camera$Camera = Elm.Engine.Camera.Camera.make(_elm),
+   $Engine$Light$Light = Elm.Engine.Light.Light.make(_elm),
+   $Engine$Material$Material = Elm.Engine.Material.Material.make(_elm),
+   $Engine$Mesh$Cube = Elm.Engine.Mesh.Cube.make(_elm),
+   $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
+   $Engine$Mesh$Pyramid = Elm.Engine.Mesh.Pyramid.make(_elm),
+   $Engine$Mesh$Rectangle = Elm.Engine.Mesh.Rectangle.make(_elm),
+   $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
+   $Engine$Object$DefaultObject = Elm.Engine.Object.DefaultObject.make(_elm),
+   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Scene$Scene = Elm.Engine.Scene.Scene.make(_elm),
+   $Engine$Shader$Attribute = Elm.Engine.Shader.Attribute.make(_elm),
+   $Engine$Shader$Uniform = Elm.Engine.Shader.Uniform.make(_elm);
+   var object = $Engine$Object$DefaultObject.object;
+   var pyramidMesh = $Engine$Mesh$Pyramid.pyramidMesh;
+   var pyramid = $Engine$Mesh$Pyramid.pyramid;
+   var cubeMesh = $Engine$Mesh$Cube.cubeMesh;
+   var cube = $Engine$Mesh$Cube.cube;
+   var rectangleMesh = $Engine$Mesh$Rectangle.rectangleMesh;
+   var rectangle = $Engine$Mesh$Rectangle.rectangle;
+   var triangleMesh = $Engine$Mesh$Triangle.triangleMesh;
+   var triangle = $Engine$Mesh$Triangle.triangle;
+   var material = $Engine$Material$Material.material;
+   var light = $Engine$Light$Light.light;
+   var camera = $Engine$Camera$Camera.camera;
+   _elm.Engine.values = {_op: _op
+                        ,camera: camera
+                        ,light: light
+                        ,material: material
+                        ,triangle: triangle
+                        ,triangleMesh: triangleMesh
+                        ,rectangle: rectangle
+                        ,rectangleMesh: rectangleMesh
+                        ,cube: cube
+                        ,cubeMesh: cubeMesh
+                        ,pyramid: pyramid
+                        ,pyramidMesh: pyramidMesh
+                        ,object: object};
+   return _elm.Engine.values;
+};

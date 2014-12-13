@@ -1,0 +1,24 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Shader = Elm.Engine.Shader || {};
+Elm.Engine.Shader.Attribute = Elm.Engine.Shader.Attribute || {};
+Elm.Engine.Shader.Attribute.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Shader = _elm.Engine.Shader || {};
+   _elm.Engine.Shader.Attribute = _elm.Engine.Shader.Attribute || {};
+   if (_elm.Engine.Shader.Attribute.values)
+   return _elm.Engine.Shader.Attribute.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Shader.Attribute",
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var Attribute = function (a) {
+      return {_: {},position: a};
+   };
+   _elm.Engine.Shader.Attribute.values = {_op: _op
+                                         ,Attribute: Attribute};
+   return _elm.Engine.Shader.Attribute.values;
+};
