@@ -142,7 +142,7 @@ An object contains a material, a mesh, a position, a rotation, and a scale.
 
 ---
 
-**Note on the future of Object: **
+**Note on the future of Object:**
 
 **The following is speculative and may or may not describe a future version of the library. Ignore if you are just interested in using the library.**
 
