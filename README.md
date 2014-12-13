@@ -5,6 +5,9 @@ Example:
 
 
 ```elm
+import Engine (render, cube, pyramid, scene)
+import Math.Vector3 (vec3)
+
 myCube = {
   cube | position <- vec3 0 0 0,
          rotation <- vec3 45 0 45,
@@ -32,6 +35,8 @@ As you can see, we just created a cube and a pyramid. We modified the properties
 The simplest code to render a scene is the following:
 
 ```elm
+import Engine (render, scene)
+
 main = render scene
 ```
 
@@ -193,7 +198,7 @@ The library offers currently 4 basic meshes to construct your objects:
  * `pyramidMesh`
  * `rectangleMesh`
  * `triangleMesh`
- 
+
 -----------------------------------
 ##Material##
 A `Material` is an object that defines how an object reacts to light and draws itself.
@@ -346,3 +351,17 @@ Additionally, a set of helpful variables are provided (mostly as a convenience):
 * `mat4 modelViewProjectionMatrix;`
 * `mat4 modelViewMatrix;`
 * `mat4 normalMatrix;`
+
+-----------------------
+
+##Note on Dependencies##
+
+Graphics Engine depends heavily on two libraries:
+ * [elm-webgl](https://github.com/johnpmayer/elm-webgl)
+ * [elm-linear-algebra](https://github.com/johnpmayer/elm-linear-algebra)
+
+The dependency on [elm-webgl](https://github.com/johnpmayer/elm-webgl) is such that Graphics Engine does not actually require you to import [elm-webgl](https://github.com/johnpmayer/elm-webgl) in order to use Graphics Engine to its fullest.
+
+On the other hand, importing [elm-linear-algebra](https://github.com/johnpmayer/elm-linear-algebra) is a must to do almost anything interesting because all the vectors and matrices are stored as `Vec3` and `Mat4` types.
+
+Therefore, it is highly recommended to also download [elm-linear-algebra](https://github.com/johnpmayer/elm-linear-algebra) when using Graphics Library.
