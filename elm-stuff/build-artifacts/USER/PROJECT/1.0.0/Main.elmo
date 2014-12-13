@@ -10,8 +10,11 @@ Elm.Main.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Main",
-   $Engine = Elm.Engine.make(_elm);
-   var main = $Engine.render($Engine.scene);
+   $Basics = Elm.Basics.make(_elm),
+   $Engine = Elm.Engine.make(_elm),
+   $Engine$Shader$Shader = Elm.Engine.Shader.Shader.make(_elm),
+   $Text = Elm.Text.make(_elm);
+   var main = $Text.plainText($Engine$Shader$Shader.showVertexShader($Engine.cube.material.vertexShader));
    _elm.Main.values = {_op: _op
                       ,main: main};
    return _elm.Main.values;

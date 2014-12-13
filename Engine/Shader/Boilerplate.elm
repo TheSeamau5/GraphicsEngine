@@ -78,8 +78,26 @@ uniformDeclarations =
 
 attributeDeclarations : String
 attributeDeclarations = groupStatements <| map (uncurry declareAttribute)
-  [ ("vec3", "position"),
-    ("vec3", "normal")  ]
+  [ ("vec3", "position")]
+
+
+modelViewMatrix =
+  declareInitializedVariable "mat4" "modelViewMatrix"
+    "viewMatrix * modelMatrix"
+
+modelViewProjectionMatrix =
+  declareInitializedVariable "mat4" "modelViewProjectionMatrix"
+    "projectionMatrix * modelViewMatrix"
+
+normalMatrix =
+  declareInitializedVariable "mat4" "normalMatrix"
+    "transpose(inverse(modelViewMatrix))"
+
+usefulVariables =
+  modelViewMatrix           ++ newLine ++
+  modelViewProjectionMatrix ++ newLine ++
+  normalMatrix
+
 
 commonShaderBoilerplate : String
 commonShaderBoilerplate =
@@ -88,7 +106,8 @@ commonShaderBoilerplate =
   lightStructTypeDefinition            ++ newLine ++ newLine ++
   uniformDeclarations                  ++ newLine ++ newLine ++
   setupLight                           ++ newLine ++ newLine ++
-  setupMaterial
+  setupMaterial                        ++ newLine ++ newLine ++
+  usefulVariables
 
 
 vertexShaderBoilerplate : String

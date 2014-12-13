@@ -1548,14 +1548,32 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
    $Basics = Elm.Basics.make(_elm),
    $Engine$Shader$Utils = Elm.Engine.Shader.Utils.make(_elm),
    $List = Elm.List.make(_elm);
+   var normalMatrix = A3($Engine$Shader$Utils.declareInitializedVariable,
+   "mat4",
+   "normalMatrix",
+   "transpose(inverse(modelViewMatrix))");
+   var modelViewProjectionMatrix = A3($Engine$Shader$Utils.declareInitializedVariable,
+   "mat4",
+   "projectionMatrix",
+   "projectionMatrix * modelViewMatrix");
+   var modelViewMatrix = A3($Engine$Shader$Utils.declareInitializedVariable,
+   "mat4",
+   "modelViewMatrix",
+   "viewMatrix * modelMatrix");
+   var usefulVariables = A2($Basics._op["++"],
+   modelViewMatrix,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   modelViewProjectionMatrix,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   normalMatrix))));
    var attributeDeclarations = $Engine$Shader$Utils.groupStatements(A2($List.map,
    $Basics.uncurry($Engine$Shader$Utils.declareAttribute),
    _L.fromArray([{ctor: "_Tuple2"
                  ,_0: "vec3"
-                 ,_1: "position"}
-                ,{ctor: "_Tuple2"
-                 ,_0: "vec3"
-                 ,_1: "normal"}])));
+                 ,_1: "position"}])));
    var uniformDeclarations = $Engine$Shader$Utils.groupStatements(A2($List.map,
    $Basics.uncurry($Engine$Shader$Utils.declareUniform),
    _L.fromArray([{ctor: "_Tuple2"
@@ -1698,7 +1716,13 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
    $Engine$Shader$Utils.newLine,
    A2($Basics._op["++"],
    $Engine$Shader$Utils.newLine,
-   setupMaterial)))))))))))))));
+   A2($Basics._op["++"],
+   setupMaterial,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   A2($Basics._op["++"],
+   $Engine$Shader$Utils.newLine,
+   usefulVariables))))))))))))))))));
    var vertexShaderBoilerplate = A2($Basics._op["++"],
    $Engine$Shader$Utils.setFloatPrecision,
    A2($Basics._op["++"],
@@ -1727,6 +1751,10 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
                                            ,setupLight: setupLight
                                            ,uniformDeclarations: uniformDeclarations
                                            ,attributeDeclarations: attributeDeclarations
+                                           ,modelViewMatrix: modelViewMatrix
+                                           ,modelViewProjectionMatrix: modelViewProjectionMatrix
+                                           ,normalMatrix: normalMatrix
+                                           ,usefulVariables: usefulVariables
                                            ,commonShaderBoilerplate: commonShaderBoilerplate
                                            ,vertexShaderBoilerplate: vertexShaderBoilerplate
                                            ,fragmentShaderBoilerplate: fragmentShaderBoilerplate};
@@ -2969,8 +2997,11 @@ Elm.Main.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Main",
-   $Engine = Elm.Engine.make(_elm);
-   var main = $Engine.render($Engine.scene);
+   $Basics = Elm.Basics.make(_elm),
+   $Engine = Elm.Engine.make(_elm),
+   $Engine$Shader$Shader = Elm.Engine.Shader.Shader.make(_elm),
+   $Text = Elm.Text.make(_elm);
+   var main = $Text.plainText($Engine$Shader$Shader.showVertexShader($Engine.cube.material.vertexShader));
    _elm.Main.values = {_op: _op
                       ,main: main};
    return _elm.Main.values;
