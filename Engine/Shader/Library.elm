@@ -4,9 +4,6 @@ module Engine.Shader.Library where
 that constitute a GLSL library to add common operations missing from
 WebGL's version of GLSL.
 
-# Definition
-@docs Engine.Shader.Library
-
 # Matrix Functions
 @docs transposeFunction, determinantFunction, traceFunction, inverseFunction
 
