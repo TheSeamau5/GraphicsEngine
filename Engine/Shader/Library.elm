@@ -452,7 +452,7 @@ traceFunction =
   mat4Trace
 
 {-| GLSL Function to calculate the inverse of a 2, 3, or 4-Dimensional matrix.
-    Note: This function does not test for invertability. So, buyer beware.
+Note: This function does not test for invertability. So, buyer beware.
 
 The inverse of a matrix is basically like an undo matrix. A matrix
 multiplied by its inverse yields the identity matrix and thus undoing
