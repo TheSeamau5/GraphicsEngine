@@ -5,7 +5,7 @@ import Math.Vector3 (Vec3, add, vec3)
 import Engine.Mesh.Mesh (Mesh)
 import Engine.Mesh.Rectangle (rectangle, rectangleMesh)
 
-import Engine.Object.Object (Object)
+import Engine.Render.Renderable (Renderable)
 
 
 cubeMesh : Vec3 -> Float -> Mesh
@@ -26,6 +26,6 @@ cubeMesh center size =
      (rectangleMesh ftl fbl bbl btl) ++
      (rectangleMesh ftr fbr bbr btr)
 
-cube : Object {}
+cube : Renderable
 cube = {
   rectangle | mesh <- cubeMesh (vec3 0 0 0) 1 }

@@ -18,7 +18,7 @@ Elm.Engine.Mesh.Pyramid.make = function (_elm) {
    $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
    $Engine$Mesh$Rectangle = Elm.Engine.Mesh.Rectangle.make(_elm),
    $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm);
    var pyramidMesh = F3(function (center,
    height,

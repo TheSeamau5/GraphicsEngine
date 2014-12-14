@@ -1,0 +1,23 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Render = Elm.Engine.Render || {};
+Elm.Engine.Render.DefaultRenderable = Elm.Engine.Render.DefaultRenderable || {};
+Elm.Engine.Render.DefaultRenderable.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Render = _elm.Engine.Render || {};
+   _elm.Engine.Render.DefaultRenderable = _elm.Engine.Render.DefaultRenderable || {};
+   if (_elm.Engine.Render.DefaultRenderable.values)
+   return _elm.Engine.Render.DefaultRenderable.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Render.DefaultRenderable",
+   $Engine$Mesh$Cube = Elm.Engine.Mesh.Cube.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm);
+   var renderable = $Engine$Mesh$Cube.cube;
+   _elm.Engine.Render.DefaultRenderable.values = {_op: _op
+                                                 ,renderable: renderable};
+   return _elm.Engine.Render.DefaultRenderable.values;
+};

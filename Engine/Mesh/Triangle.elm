@@ -7,15 +7,16 @@ import Engine.Mesh.Mesh (Mesh)
 import Engine.Shader.Attribute (Attribute)
 import Engine.Material.Material (material)
 
-import Engine.Object.Object (Object)
+import Engine.Render.Renderable (Renderable)
 
 triangleMesh : Vec3 -> Vec3 -> Vec3 -> Mesh
 triangleMesh p q r = [map Attribute (p,q,r)]
 
-triangle : Object {}
+triangle : Renderable
 triangle = {
+  guid     = 0,
+  material = material,
+  mesh     = triangleMesh (vec3 -0.5 -0.5 0) (vec3 0.5 -0.5 0) (vec3 0 0.5 0),
   position = vec3 0 0 0,
   rotation = vec3 0 0 0,
-  scale    = vec3 1 1 1,
-  material = material,
-  mesh     = triangleMesh (vec3 -0.5 -0.5 0) (vec3 0.5 -0.5 0) (vec3 0 0.5 0) }
+  scale    = vec3 1 1 1}

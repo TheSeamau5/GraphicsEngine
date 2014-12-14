@@ -695,14 +695,20 @@ Elm.Engine.make = function (_elm) {
    $Engine$Mesh$Pyramid = Elm.Engine.Mesh.Pyramid.make(_elm),
    $Engine$Mesh$Rectangle = Elm.Engine.Mesh.Rectangle.make(_elm),
    $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
-   $Engine$Object$DefaultObject = Elm.Engine.Object.DefaultObject.make(_elm),
    $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Render$DefaultRenderable = Elm.Engine.Render.DefaultRenderable.make(_elm),
    $Engine$Render$Render = Elm.Engine.Render.Render.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
    $Engine$Scene$Scene = Elm.Engine.Scene.Scene.make(_elm),
    $Engine$Shader$Attribute = Elm.Engine.Shader.Attribute.make(_elm),
-   $Engine$Shader$Uniform = Elm.Engine.Shader.Uniform.make(_elm);
+   $Engine$Shader$Uniform = Elm.Engine.Shader.Uniform.make(_elm),
+   $Engine$Transform$Transform = Elm.Engine.Transform.Transform.make(_elm),
+   $Engine$Viewport$Viewport = Elm.Engine.Viewport.Viewport.make(_elm);
+   var viewport = $Engine$Viewport$Viewport.viewport;
+   var transform = $Engine$Transform$Transform.transform;
+   var renderable = $Engine$Render$DefaultRenderable.renderable;
    var render = $Engine$Render$Render.render;
-   var object = $Engine$Object$DefaultObject.object;
+   var object = $Engine$Object$Object.object;
    var pyramidMesh = $Engine$Mesh$Pyramid.pyramidMesh;
    var pyramid = $Engine$Mesh$Pyramid.pyramid;
    var cubeMesh = $Engine$Mesh$Cube.cubeMesh;
@@ -729,7 +735,10 @@ Elm.Engine.make = function (_elm) {
                         ,pyramid: pyramid
                         ,pyramidMesh: pyramidMesh
                         ,object: object
-                        ,render: render};
+                        ,render: render
+                        ,renderable: renderable
+                        ,transform: transform
+                        ,viewport: viewport};
    return _elm.Engine.values;
 };
 Elm.Engine = Elm.Engine || {};
@@ -748,15 +757,12 @@ Elm.Engine.Camera.Camera.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Engine.Camera.Camera",
-   $Engine$Object$DefaultObject = Elm.Engine.Object.DefaultObject.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Transform$Transform = Elm.Engine.Transform.Transform.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm);
-   var camera = A6($Engine$Object$Object.Object,
-   $Engine$Object$DefaultObject.object.mesh,
-   $Engine$Object$DefaultObject.object.material,
+   var camera = A4($Engine$Transform$Transform.Transform,
    A3($Math$Vector3.vec3,0,0,-10),
-   $Engine$Object$DefaultObject.object.rotation,
-   $Engine$Object$DefaultObject.object.scale,
+   $Engine$Transform$Transform.transform.rotation,
+   $Engine$Transform$Transform.transform.scale,
    {_: {}
    ,aspectRatio: 1
    ,farClipping: 80000
@@ -782,15 +788,12 @@ Elm.Engine.Light.Light.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Engine.Light.Light",
-   $Engine$Object$DefaultObject = Elm.Engine.Object.DefaultObject.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Transform$Transform = Elm.Engine.Transform.Transform.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm);
-   var light = A6($Engine$Object$Object.Object,
-   $Engine$Object$DefaultObject.object.mesh,
-   $Engine$Object$DefaultObject.object.material,
+   var light = A4($Engine$Transform$Transform.Transform,
    A3($Math$Vector3.vec3,1,1,3),
-   $Engine$Object$DefaultObject.object.rotation,
-   $Engine$Object$DefaultObject.object.scale,
+   $Engine$Transform$Transform.transform.rotation,
+   $Engine$Transform$Transform.transform.scale,
    {_: {}
    ,color: A3($Math$Vector3.vec3,
    1,
@@ -880,7 +883,7 @@ Elm.Engine.Math.Utils.make = function (_elm) {
    $moduleName = "Engine.Math.Utils",
    $Basics = Elm.Basics.make(_elm),
    $Engine$Camera$Camera = Elm.Engine.Camera.Camera.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Transform$Transform = Elm.Engine.Transform.Transform.make(_elm),
    $Math$Matrix4 = Elm.Math.Matrix4.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm);
    var projectionMatrix = function (camera) {
@@ -890,15 +893,15 @@ Elm.Engine.Math.Utils.make = function (_elm) {
       camera.nearClipping,
       camera.farClipping);
    };
-   var getForwardVector = function (camera) {
+   var getForwardVector = function (transform) {
       return function () {
-         var roll = $Math$Vector3.getZ(camera.rotation);
+         var roll = $Math$Vector3.getZ(transform.rotation);
          var sz = $Basics.sin(roll);
          var cz = $Basics.cos(roll);
-         var pitch = $Math$Vector3.getY(camera.rotation);
+         var pitch = $Math$Vector3.getY(transform.rotation);
          var sy = $Basics.sin(pitch);
          var cy = $Basics.cos(pitch);
-         var yaw = $Math$Vector3.getX(camera.rotation);
+         var yaw = $Math$Vector3.getX(transform.rotation);
          var sx = $Basics.sin(yaw);
          var vx = sy * cz + cy * sx * sz;
          var vy = sy * sz - cy * sx * cz;
@@ -910,20 +913,20 @@ Elm.Engine.Math.Utils.make = function (_elm) {
          vz);
       }();
    };
-   var getTargetPosition = function (camera) {
+   var getTargetPosition = function (transform) {
       return A2($Math$Vector3.add,
-      camera.position,
-      getForwardVector(camera));
+      transform.position,
+      getForwardVector(transform));
    };
-   var getUpVector = function (camera) {
+   var getUpVector = function (transform) {
       return function () {
-         var roll = $Math$Vector3.getZ(camera.rotation);
+         var roll = $Math$Vector3.getZ(transform.rotation);
          var sz = $Basics.sin(roll);
          var cz = $Basics.cos(roll);
-         var pitch = $Math$Vector3.getY(camera.rotation);
+         var pitch = $Math$Vector3.getY(transform.rotation);
          var sy = $Basics.sin(pitch);
          var cy = $Basics.cos(pitch);
-         var yaw = $Math$Vector3.getX(camera.rotation);
+         var yaw = $Math$Vector3.getX(transform.rotation);
          var sx = $Basics.sin(yaw);
          var vz = sx;
          var cx = $Basics.cos(yaw);
@@ -935,21 +938,21 @@ Elm.Engine.Math.Utils.make = function (_elm) {
          vz);
       }();
    };
-   var viewMatrix = function (camera) {
+   var viewMatrix = function (transform) {
       return A3($Math$Matrix4.makeLookAt,
-      camera.position,
-      getTargetPosition(camera),
-      getUpVector(camera));
+      transform.position,
+      getTargetPosition(transform),
+      getUpVector(transform));
    };
-   var getSideVector = function (camera) {
+   var getSideVector = function (transform) {
       return function () {
-         var roll = $Math$Vector3.getZ(camera.rotation);
+         var roll = $Math$Vector3.getZ(transform.rotation);
          var sz = $Basics.sin(roll);
          var cz = $Basics.cos(roll);
-         var pitch = $Math$Vector3.getY(camera.rotation);
+         var pitch = $Math$Vector3.getY(transform.rotation);
          var sy = $Basics.sin(pitch);
          var cy = $Basics.cos(pitch);
-         var yaw = $Math$Vector3.getX(camera.rotation);
+         var yaw = $Math$Vector3.getX(transform.rotation);
          var sx = $Basics.sin(yaw);
          var vx = cy * cz - sy * sx * sz;
          var vy = cy * sz + sy * sx * cz;
@@ -968,11 +971,11 @@ Elm.Engine.Math.Utils.make = function (_elm) {
       $Basics.sqrt($Math$Vector3.lengthSquared(vector)),
       $Math$Vector3.normalize(vector));
    };
-   var modelMatrix = function (object) {
+   var modelMatrix = function (transform) {
       return function () {
-         var scaleMatrix = $Math$Matrix4.makeScale(object.scale);
-         var rotationMatrix = safeMakeRotate(object.rotation);
-         var translationMatrix = $Math$Matrix4.makeTranslate(object.position);
+         var scaleMatrix = $Math$Matrix4.makeScale(transform.scale);
+         var rotationMatrix = safeMakeRotate(transform.rotation);
+         var translationMatrix = $Math$Matrix4.makeTranslate(transform.position);
          return A2($Math$Matrix4.mul,
          translationMatrix,
          A2($Math$Matrix4.mul,
@@ -1016,7 +1019,7 @@ Elm.Engine.Mesh.Cube.make = function (_elm) {
    $Basics = Elm.Basics.make(_elm),
    $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
    $Engine$Mesh$Rectangle = Elm.Engine.Mesh.Rectangle.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm);
    var cubeMesh = F2(function (center,
    size) {
@@ -1158,7 +1161,7 @@ Elm.Engine.Mesh.Pyramid.make = function (_elm) {
    $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
    $Engine$Mesh$Rectangle = Elm.Engine.Mesh.Rectangle.make(_elm),
    $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm);
    var pyramidMesh = F3(function (center,
    height,
@@ -1253,7 +1256,7 @@ Elm.Engine.Mesh.Rectangle.make = function (_elm) {
    $Basics = Elm.Basics.make(_elm),
    $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
    $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm);
    var rectangleMesh = F4(function (p,
    q,
@@ -1311,7 +1314,7 @@ Elm.Engine.Mesh.Triangle.make = function (_elm) {
    $moduleName = "Engine.Mesh.Triangle",
    $Engine$Material$Material = Elm.Engine.Material.Material.make(_elm),
    $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
    $Engine$Shader$Attribute = Elm.Engine.Shader.Attribute.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm),
    $WebGL = Elm.WebGL.make(_elm);
@@ -1326,6 +1329,7 @@ Elm.Engine.Mesh.Triangle.make = function (_elm) {
       ,_2: r})]);
    });
    var triangle = {_: {}
+                  ,guid: 0
                   ,material: $Engine$Material$Material.material
                   ,mesh: A3(triangleMesh,
                   A3($Math$Vector3.vec3,
@@ -1356,29 +1360,6 @@ Elm.Engine.Mesh.Triangle.make = function (_elm) {
 };
 Elm.Engine = Elm.Engine || {};
 Elm.Engine.Object = Elm.Engine.Object || {};
-Elm.Engine.Object.DefaultObject = Elm.Engine.Object.DefaultObject || {};
-Elm.Engine.Object.DefaultObject.make = function (_elm) {
-   "use strict";
-   _elm.Engine = _elm.Engine || {};
-   _elm.Engine.Object = _elm.Engine.Object || {};
-   _elm.Engine.Object.DefaultObject = _elm.Engine.Object.DefaultObject || {};
-   if (_elm.Engine.Object.DefaultObject.values)
-   return _elm.Engine.Object.DefaultObject.values;
-   var _op = {},
-   _N = Elm.Native,
-   _U = _N.Utils.make(_elm),
-   _L = _N.List.make(_elm),
-   _P = _N.Ports.make(_elm),
-   $moduleName = "Engine.Object.DefaultObject",
-   $Engine$Mesh$Cube = Elm.Engine.Mesh.Cube.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm);
-   var object = $Engine$Mesh$Cube.cube;
-   _elm.Engine.Object.DefaultObject.values = {_op: _op
-                                             ,object: object};
-   return _elm.Engine.Object.DefaultObject.values;
-};
-Elm.Engine = Elm.Engine || {};
-Elm.Engine.Object = Elm.Engine.Object || {};
 Elm.Engine.Object.Object = Elm.Engine.Object.Object || {};
 Elm.Engine.Object.Object.make = function (_elm) {
    "use strict";
@@ -1392,29 +1373,38 @@ Elm.Engine.Object.Object.make = function (_elm) {
    _U = _N.Utils.make(_elm),
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
-   $moduleName = "Engine.Object.Object",
-   $Engine$Material$Material = Elm.Engine.Material.Material.make(_elm),
-   $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
-   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
-   var Object = F6(function (a,
-   b,
-   c,
-   d,
-   e,
-   f) {
-      return _U.insert("scale",
-      e,
-      _U.insert("rotation",
-      d,
-      _U.insert("position",
-      c,
-      _U.insert("material",
-      b,
-      _U.insert("mesh",a,f)))));
+   $moduleName = "Engine.Object.Object";
+   var object = {_: {},guid: 0};
+   var Object = F2(function (a,b) {
+      return _U.insert("guid",a,b);
    });
    _elm.Engine.Object.Object.values = {_op: _op
-                                      ,Object: Object};
+                                      ,Object: Object
+                                      ,object: object};
    return _elm.Engine.Object.Object.values;
+};
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Render = Elm.Engine.Render || {};
+Elm.Engine.Render.DefaultRenderable = Elm.Engine.Render.DefaultRenderable || {};
+Elm.Engine.Render.DefaultRenderable.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Render = _elm.Engine.Render || {};
+   _elm.Engine.Render.DefaultRenderable = _elm.Engine.Render.DefaultRenderable || {};
+   if (_elm.Engine.Render.DefaultRenderable.values)
+   return _elm.Engine.Render.DefaultRenderable.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Render.DefaultRenderable",
+   $Engine$Mesh$Cube = Elm.Engine.Mesh.Cube.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm);
+   var renderable = $Engine$Mesh$Cube.cube;
+   _elm.Engine.Render.DefaultRenderable.values = {_op: _op
+                                                 ,renderable: renderable};
+   return _elm.Engine.Render.DefaultRenderable.values;
 };
 Elm.Engine = Elm.Engine || {};
 Elm.Engine.Render = Elm.Engine.Render || {};
@@ -1433,7 +1423,7 @@ Elm.Engine.Render.Render.make = function (_elm) {
    _P = _N.Ports.make(_elm),
    $moduleName = "Engine.Render.Render",
    $Basics = Elm.Basics.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
    $Engine$Scene$Scene = Elm.Engine.Scene.Scene.make(_elm),
    $Engine$Shader$Shader = Elm.Engine.Shader.Shader.make(_elm),
    $Engine$Shader$Uniform = Elm.Engine.Shader.Uniform.make(_elm),
@@ -1463,6 +1453,29 @@ Elm.Engine.Render.Render.make = function (_elm) {
    return _elm.Engine.Render.Render.values;
 };
 Elm.Engine = Elm.Engine || {};
+Elm.Engine.Render = Elm.Engine.Render || {};
+Elm.Engine.Render.Renderable = Elm.Engine.Render.Renderable || {};
+Elm.Engine.Render.Renderable.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Render = _elm.Engine.Render || {};
+   _elm.Engine.Render.Renderable = _elm.Engine.Render.Renderable || {};
+   if (_elm.Engine.Render.Renderable.values)
+   return _elm.Engine.Render.Renderable.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Render.Renderable",
+   $Engine$Material$Material = Elm.Engine.Material.Material.make(_elm),
+   $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
+   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Transform$Transform = Elm.Engine.Transform.Transform.make(_elm);
+   _elm.Engine.Render.Renderable.values = {_op: _op};
+   return _elm.Engine.Render.Renderable.values;
+};
+Elm.Engine = Elm.Engine || {};
 Elm.Engine.Scene = Elm.Engine.Scene || {};
 Elm.Engine.Scene.Scene = Elm.Engine.Scene.Scene || {};
 Elm.Engine.Scene.Scene.make = function (_elm) {
@@ -1480,16 +1493,14 @@ Elm.Engine.Scene.Scene.make = function (_elm) {
    $moduleName = "Engine.Scene.Scene",
    $Engine$Camera$Camera = Elm.Engine.Camera.Camera.make(_elm),
    $Engine$Light$Light = Elm.Engine.Light.Light.make(_elm),
-   $Engine$Object$DefaultObject = Elm.Engine.Object.DefaultObject.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm);
+   $Engine$Render$DefaultRenderable = Elm.Engine.Render.DefaultRenderable.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
+   $Engine$Viewport$Viewport = Elm.Engine.Viewport.Viewport.make(_elm);
    var scene = {_: {}
                ,camera: $Engine$Camera$Camera.camera
                ,light: $Engine$Light$Light.light
-               ,objects: _L.fromArray([$Engine$Object$DefaultObject.object])
-               ,viewport: {_: {}
-                          ,dimensions: {_: {}
-                                       ,height: 400
-                                       ,width: 400}}};
+               ,objects: _L.fromArray([$Engine$Render$DefaultRenderable.renderable])
+               ,viewport: $Engine$Viewport$Viewport.viewport};
    var Scene = F4(function (a,
    b,
    c,
@@ -1985,7 +1996,7 @@ Elm.Engine.Shader.Uniform.make = function (_elm) {
    _P = _N.Ports.make(_elm),
    $moduleName = "Engine.Shader.Uniform",
    $Engine$Math$Utils = Elm.Engine.Math.Utils.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
    $Engine$Scene$Scene = Elm.Engine.Scene.Scene.make(_elm),
    $Math$Matrix4 = Elm.Math.Matrix4.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm);
@@ -2266,6 +2277,79 @@ Elm.Engine.Shader.VertexShader.make = function (_elm) {
    _elm.Engine.Shader.VertexShader.values = {_op: _op
                                             ,vertexShader: vertexShader};
    return _elm.Engine.Shader.VertexShader.values;
+};
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Transform = Elm.Engine.Transform || {};
+Elm.Engine.Transform.Transform = Elm.Engine.Transform.Transform || {};
+Elm.Engine.Transform.Transform.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Transform = _elm.Engine.Transform || {};
+   _elm.Engine.Transform.Transform = _elm.Engine.Transform.Transform || {};
+   if (_elm.Engine.Transform.Transform.values)
+   return _elm.Engine.Transform.Transform.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Transform.Transform",
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var transform = {_: {}
+                   ,position: A3($Math$Vector3.vec3,
+                   0,
+                   0,
+                   0)
+                   ,rotation: A3($Math$Vector3.vec3,
+                   0,
+                   0,
+                   0)
+                   ,scale: A3($Math$Vector3.vec3,
+                   1,
+                   1,
+                   1)};
+   var Transform = F4(function (a,
+   b,
+   c,
+   d) {
+      return _U.insert("scale",
+      c,
+      _U.insert("rotation",
+      b,
+      _U.insert("position",a,d)));
+   });
+   _elm.Engine.Transform.Transform.values = {_op: _op
+                                            ,Transform: Transform
+                                            ,transform: transform};
+   return _elm.Engine.Transform.Transform.values;
+};
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Viewport = Elm.Engine.Viewport || {};
+Elm.Engine.Viewport.Viewport = Elm.Engine.Viewport.Viewport || {};
+Elm.Engine.Viewport.Viewport.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Viewport = _elm.Engine.Viewport || {};
+   _elm.Engine.Viewport.Viewport = _elm.Engine.Viewport.Viewport || {};
+   if (_elm.Engine.Viewport.Viewport.values)
+   return _elm.Engine.Viewport.Viewport.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Viewport.Viewport";
+   var viewport = {_: {}
+                  ,dimensions: {_: {}
+                               ,height: 400
+                               ,width: 400}};
+   var Viewport = function (a) {
+      return {_: {},dimensions: a};
+   };
+   _elm.Engine.Viewport.Viewport.values = {_op: _op
+                                          ,Viewport: Viewport
+                                          ,viewport: viewport};
+   return _elm.Engine.Viewport.Viewport.values;
 };
 Elm.Graphics = Elm.Graphics || {};
 Elm.Graphics.Element = Elm.Graphics.Element || {};
@@ -3127,11 +3211,8 @@ Elm.Main.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Main",
-   $Basics = Elm.Basics.make(_elm),
-   $Engine = Elm.Engine.make(_elm),
-   $Engine$Shader$Shader = Elm.Engine.Shader.Shader.make(_elm),
-   $Text = Elm.Text.make(_elm);
-   var main = $Text.plainText($Engine$Shader$Shader.showVertexShader($Engine.cube.material.vertexShader));
+   $Engine = Elm.Engine.make(_elm);
+   var main = $Engine.render($Engine.scene);
    _elm.Main.values = {_op: _op
                       ,main: main};
    return _elm.Main.values;

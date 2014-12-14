@@ -16,7 +16,7 @@ Elm.Engine.Math.Utils.make = function (_elm) {
    $moduleName = "Engine.Math.Utils",
    $Basics = Elm.Basics.make(_elm),
    $Engine$Camera$Camera = Elm.Engine.Camera.Camera.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Transform$Transform = Elm.Engine.Transform.Transform.make(_elm),
    $Math$Matrix4 = Elm.Math.Matrix4.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm);
    var projectionMatrix = function (camera) {
@@ -26,15 +26,15 @@ Elm.Engine.Math.Utils.make = function (_elm) {
       camera.nearClipping,
       camera.farClipping);
    };
-   var getForwardVector = function (camera) {
+   var getForwardVector = function (transform) {
       return function () {
-         var roll = $Math$Vector3.getZ(camera.rotation);
+         var roll = $Math$Vector3.getZ(transform.rotation);
          var sz = $Basics.sin(roll);
          var cz = $Basics.cos(roll);
-         var pitch = $Math$Vector3.getY(camera.rotation);
+         var pitch = $Math$Vector3.getY(transform.rotation);
          var sy = $Basics.sin(pitch);
          var cy = $Basics.cos(pitch);
-         var yaw = $Math$Vector3.getX(camera.rotation);
+         var yaw = $Math$Vector3.getX(transform.rotation);
          var sx = $Basics.sin(yaw);
          var vx = sy * cz + cy * sx * sz;
          var vy = sy * sz - cy * sx * cz;
@@ -46,20 +46,20 @@ Elm.Engine.Math.Utils.make = function (_elm) {
          vz);
       }();
    };
-   var getTargetPosition = function (camera) {
+   var getTargetPosition = function (transform) {
       return A2($Math$Vector3.add,
-      camera.position,
-      getForwardVector(camera));
+      transform.position,
+      getForwardVector(transform));
    };
-   var getUpVector = function (camera) {
+   var getUpVector = function (transform) {
       return function () {
-         var roll = $Math$Vector3.getZ(camera.rotation);
+         var roll = $Math$Vector3.getZ(transform.rotation);
          var sz = $Basics.sin(roll);
          var cz = $Basics.cos(roll);
-         var pitch = $Math$Vector3.getY(camera.rotation);
+         var pitch = $Math$Vector3.getY(transform.rotation);
          var sy = $Basics.sin(pitch);
          var cy = $Basics.cos(pitch);
-         var yaw = $Math$Vector3.getX(camera.rotation);
+         var yaw = $Math$Vector3.getX(transform.rotation);
          var sx = $Basics.sin(yaw);
          var vz = sx;
          var cx = $Basics.cos(yaw);
@@ -71,21 +71,21 @@ Elm.Engine.Math.Utils.make = function (_elm) {
          vz);
       }();
    };
-   var viewMatrix = function (camera) {
+   var viewMatrix = function (transform) {
       return A3($Math$Matrix4.makeLookAt,
-      camera.position,
-      getTargetPosition(camera),
-      getUpVector(camera));
+      transform.position,
+      getTargetPosition(transform),
+      getUpVector(transform));
    };
-   var getSideVector = function (camera) {
+   var getSideVector = function (transform) {
       return function () {
-         var roll = $Math$Vector3.getZ(camera.rotation);
+         var roll = $Math$Vector3.getZ(transform.rotation);
          var sz = $Basics.sin(roll);
          var cz = $Basics.cos(roll);
-         var pitch = $Math$Vector3.getY(camera.rotation);
+         var pitch = $Math$Vector3.getY(transform.rotation);
          var sy = $Basics.sin(pitch);
          var cy = $Basics.cos(pitch);
-         var yaw = $Math$Vector3.getX(camera.rotation);
+         var yaw = $Math$Vector3.getX(transform.rotation);
          var sx = $Basics.sin(yaw);
          var vx = cy * cz - sy * sx * sz;
          var vy = cy * sz + sy * sx * cz;
@@ -104,11 +104,11 @@ Elm.Engine.Math.Utils.make = function (_elm) {
       $Basics.sqrt($Math$Vector3.lengthSquared(vector)),
       $Math$Vector3.normalize(vector));
    };
-   var modelMatrix = function (object) {
+   var modelMatrix = function (transform) {
       return function () {
-         var scaleMatrix = $Math$Matrix4.makeScale(object.scale);
-         var rotationMatrix = safeMakeRotate(object.rotation);
-         var translationMatrix = $Math$Matrix4.makeTranslate(object.position);
+         var scaleMatrix = $Math$Matrix4.makeScale(transform.scale);
+         var rotationMatrix = safeMakeRotate(transform.rotation);
+         var translationMatrix = $Math$Matrix4.makeTranslate(transform.position);
          return A2($Math$Matrix4.mul,
          translationMatrix,
          A2($Math$Matrix4.mul,

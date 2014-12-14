@@ -2,11 +2,10 @@ module Engine.Camera.Camera where
 
 import Math.Vector3 (vec3)
 
-import Engine.Object.Object (Object)
-import Engine.Object.DefaultObject (object)
+import Engine.Transform.Transform (Transform, transform)
 
 
-type alias Camera = Object {
+type alias Camera = Transform {
   aspectRatio   : Float,
   fieldOfView   : Float,
   nearClipping  : Float,
@@ -15,12 +14,10 @@ type alias Camera = Object {
 
 camera : Camera
 camera =
-  Object object.mesh
-         object.material
-         (vec3 0 0 -10)
-         object.rotation
-         object.scale
-         { aspectRatio  = 1,
-           fieldOfView  = 45,
-           nearClipping = 1,
-           farClipping  = 80000 }
+  Transform (vec3 0 0 -10)
+            transform.rotation
+            transform.scale
+            { aspectRatio  = 1,
+              fieldOfView  = 45,
+              nearClipping = 1,
+              farClipping  = 80000 }

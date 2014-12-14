@@ -18,14 +18,20 @@ Elm.Engine.make = function (_elm) {
    $Engine$Mesh$Pyramid = Elm.Engine.Mesh.Pyramid.make(_elm),
    $Engine$Mesh$Rectangle = Elm.Engine.Mesh.Rectangle.make(_elm),
    $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
-   $Engine$Object$DefaultObject = Elm.Engine.Object.DefaultObject.make(_elm),
    $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Render$DefaultRenderable = Elm.Engine.Render.DefaultRenderable.make(_elm),
    $Engine$Render$Render = Elm.Engine.Render.Render.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
    $Engine$Scene$Scene = Elm.Engine.Scene.Scene.make(_elm),
    $Engine$Shader$Attribute = Elm.Engine.Shader.Attribute.make(_elm),
-   $Engine$Shader$Uniform = Elm.Engine.Shader.Uniform.make(_elm);
+   $Engine$Shader$Uniform = Elm.Engine.Shader.Uniform.make(_elm),
+   $Engine$Transform$Transform = Elm.Engine.Transform.Transform.make(_elm),
+   $Engine$Viewport$Viewport = Elm.Engine.Viewport.Viewport.make(_elm);
+   var viewport = $Engine$Viewport$Viewport.viewport;
+   var transform = $Engine$Transform$Transform.transform;
+   var renderable = $Engine$Render$DefaultRenderable.renderable;
    var render = $Engine$Render$Render.render;
-   var object = $Engine$Object$DefaultObject.object;
+   var object = $Engine$Object$Object.object;
    var pyramidMesh = $Engine$Mesh$Pyramid.pyramidMesh;
    var pyramid = $Engine$Mesh$Pyramid.pyramid;
    var cubeMesh = $Engine$Mesh$Cube.cubeMesh;
@@ -52,6 +58,9 @@ Elm.Engine.make = function (_elm) {
                         ,pyramid: pyramid
                         ,pyramidMesh: pyramidMesh
                         ,object: object
-                        ,render: render};
+                        ,render: render
+                        ,renderable: renderable
+                        ,transform: transform
+                        ,viewport: viewport};
    return _elm.Engine.values;
 };

@@ -45,18 +45,13 @@ main = render scene
 ```elm
 type alias Scene = {
   camera   : Camera,
-  objects  : List (Object {}),
+  objects  : List Renderable,
   light    : Light,
-  viewport : {
-    dimensions : {
-      width  : Float,
-      height : Float
-    }
-  }
+  viewport : Viewport
 }
 ```
 
-A Scene contains a Camera, a list of objects, a light, and a viewport.
+A Scene contains a Camera, a list of renderable objects, a light, and a viewport.
 
 *Note : In future releases, support will be added for multiple lights. Currently, only one light per scene is possible.*
 
@@ -68,17 +63,14 @@ scene = {
   camera = camera,
   objects = [cube],
   light = light,
-  viewport = {
-    dimensions = {
-      width = 400,
-      height = 400 } } }
+  viewport = viewport }
 ```
 ---------------------------------
 ##Camera##
 The default camera is `camera` which is an object of type `Camera`
 
 ```elm
-type alias Camera = Object {
+type alias Camera = Transform {
   aspectRatio  : Float,
   fieldOfView  : Float,
   nearClipping : Float,
@@ -86,7 +78,7 @@ type alias Camera = Object {
 }
 ```
 
-A `Camera` is an `Object` with an aspect ratio, a field of view, a near clipping plane, and a far clipping plane. In essence, a `Camera` describes a [viewing frustrum](http://en.wikipedia.org/wiki/Viewing_frustum).
+A `Camera` is a `Transform` with an aspect ratio, a field of view, a near clipping plane, and a far clipping plane. In essence, a `Camera` describes a [viewing frustrum](http://en.wikipedia.org/wiki/Viewing_frustum).
 
 The default camera is defined as follows:
 ```elm
@@ -103,17 +95,17 @@ camera = {
 
 ------------------------------------
 ##Light##
-The default light is `light` which is an object of type `Light`
+The default light is `light` which is a transform of type `Light`
 
 ```elm
-type alias Light = Object {
+type alias Light = Transform {
   color       : Vec3,
   intensity   : Float,
   visibility  : Bool
 }
 ```
 
-A `Light` is an `Object` with a color, an intensity, and a visibility (i.e. a flag to turn the light on or off).
+A `Light` is a `Transform` with a color, an intensity, and a visibility (i.e. a flag to turn the light on or off). A `Light` is a transform because it is a light source and must have a physical location in world coordinates in order to affect the world appropriately.
 
 
 The default light is defined as follows :
@@ -135,44 +127,40 @@ The type `Object` is the basis for several types in the library.
 
 ```elm
 type alias Object a = { a |
-  material : Material,
-  mesh     : Mesh,
-  position : Vec3,
-  rotation : Vec3,
-  scale    : Vec3
-}
-```
-
-An object contains a material, a mesh, a position, a rotation, and a scale.
-
----
-
-**Note on the future of Object:**
-
-**The following is speculative and may or may not describe a future version of the library. Please skip to the next topic if you are just interested in using this library.**
-
-*It is unclear whether or not, going forward, an object will have a material and a mesh property. The competing proposal is to have Object be an empty type (or potentially have a guid) and then split `Object` into several types:*
-
-```elm
-type alias Object a = { a |
   guid : Int
 }
+```
 
-type alias Transform a = Object { a |
+Currently, the guid property is not used but this support is to come. This would allow for faster indexing and updating of scene objects.
+
+---------------------------------
+##Transform##
+The type `Transform` is used to store position, rotation, and scale.
+
+```elm
+type alias Transform = {
   position : Vec3,
   rotation : Vec3,
   scale    : Vec3
 }
-
-type alias Renderable a = Transform { a |
-  material : Material,
-  mesh     : Mesh
-}
 ```
 
-*This would then cause the weird design problem: should lights and cameras be just `Transform` or `Renderable`. Should there be a built-in behavior or should this behavior be defined by the user of the library?*
-
 ---------------------------------
+##Renderable##
+
+The type `Renderable` is used to specify that an object may be rendered onto a screen.
+
+```elm
+type alias Renderable = Object (Transform {
+  mesh     : Mesh
+  material : Material
+})
+```
+
+In order for an object to be rendered it must have a physical location in world space (the Transform part), it must have a shape (the mesh property), and it must define how it reacts to light (the material property)
+
+--------------------------------
+
 ##Mesh##
 A `Mesh` is simply a `List(Triangle Attribute)`
 
@@ -386,7 +374,7 @@ The `render` function then constructs the list of Entities that `webgl` wants by
 `renderObject` is defined as follows:
 
 ```elm
-renderObject : Scene -> Object a -> Entity
+renderObject : Scene -> Renderable -> Entity
 renderObject scene object =
   entity (constructVertexShader   object.material.vertexShader)
          (constructFragmentShader object.material.fragmentShader)

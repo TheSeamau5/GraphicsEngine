@@ -17,7 +17,7 @@ Elm.Engine.Mesh.Rectangle.make = function (_elm) {
    $Basics = Elm.Basics.make(_elm),
    $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
    $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm);
    var rectangleMesh = F4(function (p,
    q,

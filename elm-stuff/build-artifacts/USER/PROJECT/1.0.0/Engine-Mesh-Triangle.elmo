@@ -16,7 +16,7 @@ Elm.Engine.Mesh.Triangle.make = function (_elm) {
    $moduleName = "Engine.Mesh.Triangle",
    $Engine$Material$Material = Elm.Engine.Material.Material.make(_elm),
    $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
    $Engine$Shader$Attribute = Elm.Engine.Shader.Attribute.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm),
    $WebGL = Elm.WebGL.make(_elm);
@@ -31,6 +31,7 @@ Elm.Engine.Mesh.Triangle.make = function (_elm) {
       ,_2: r})]);
    });
    var triangle = {_: {}
+                  ,guid: 0
                   ,material: $Engine$Material$Material.material
                   ,mesh: A3(triangleMesh,
                   A3($Math$Vector3.vec3,

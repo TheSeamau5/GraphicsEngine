@@ -3,8 +3,9 @@ module Engine.Math.Utils where
 import Math.Vector3 as Vector3
 import Math.Matrix4 as Matrix4
 
+import Engine.Transform.Transform (Transform)
+import Engine.Render.Renderable (Renderable)
 import Engine.Camera.Camera (Camera)
-import Engine.Object.Object (Object)
 
 -- Generic Math functions
 
@@ -25,11 +26,11 @@ matrixIdentity = Matrix4.identity
 
 -- Camera Helpers
 
-getSideVector : Camera -> Vector3.Vec3
-getSideVector camera =
-  let yaw   = Vector3.getX camera.rotation
-      pitch = Vector3.getY camera.rotation
-      roll  = Vector3.getZ camera.rotation
+getSideVector : Transform a -> Vector3.Vec3
+getSideVector transform =
+  let yaw   = Vector3.getX transform.rotation
+      pitch = Vector3.getY transform.rotation
+      roll  = Vector3.getZ transform.rotation
       sx = sin yaw
       cx = cos yaw
       sy = sin pitch
@@ -41,11 +42,11 @@ getSideVector camera =
       vz = -sy * cx
   in Vector3.vec3 vx vy vz
 
-getUpVector : Camera -> Vector3.Vec3
-getUpVector camera =
-  let yaw   = Vector3.getX camera.rotation
-      pitch = Vector3.getY camera.rotation
-      roll  = Vector3.getZ camera.rotation
+getUpVector : Transform a -> Vector3.Vec3
+getUpVector transform =
+  let yaw   = Vector3.getX transform.rotation
+      pitch = Vector3.getY transform.rotation
+      roll  = Vector3.getZ transform.rotation
       sx = sin yaw
       cx = cos yaw
       sy = sin pitch
@@ -57,11 +58,11 @@ getUpVector camera =
       vz = sx
   in Vector3.vec3 vx vy vz
 
-getForwardVector : Camera -> Vector3.Vec3
-getForwardVector camera =
-  let yaw   = Vector3.getX camera.rotation
-      pitch = Vector3.getY camera.rotation
-      roll  = Vector3.getZ camera.rotation
+getForwardVector : Transform a -> Vector3.Vec3
+getForwardVector transform =
+  let yaw   = Vector3.getX transform.rotation
+      pitch = Vector3.getY transform.rotation
+      roll  = Vector3.getZ transform.rotation
       sx = sin yaw
       cx = cos yaw
       sy = sin pitch
@@ -73,24 +74,26 @@ getForwardVector camera =
       vz = cy * cx
   in Vector3.vec3 vx vy vz
 
-getTargetPosition : Camera -> Vector3.Vec3
-getTargetPosition camera =
-  camera.position `Vector3.add` (getForwardVector camera)
+getTargetPosition : Transform a -> Vector3.Vec3
+getTargetPosition transform =
+  transform.position `Vector3.add` (getForwardVector transform)
 
 
 
 -- Model View Projection Matrices
 
-modelMatrix : Object a -> Matrix4.Mat4
-modelMatrix object =
-  let translationMatrix = Matrix4.makeTranslate object.position
-      rotationMatrix    = safeMakeRotate object.rotation
-      scaleMatrix       = Matrix4.makeScale object.scale
+modelMatrix : Transform a -> Matrix4.Mat4
+modelMatrix transform =
+  let translationMatrix = Matrix4.makeTranslate transform.position
+      rotationMatrix    = safeMakeRotate transform.rotation
+      scaleMatrix       = Matrix4.makeScale transform.scale
   in translationMatrix `Matrix4.mul` (rotationMatrix `Matrix4.mul` scaleMatrix)
 
-viewMatrix : Camera -> Matrix4.Mat4
-viewMatrix camera =
-  Matrix4.makeLookAt camera.position (getTargetPosition camera) (getUpVector camera)
+viewMatrix : Transform a -> Matrix4.Mat4
+viewMatrix transform =
+  Matrix4.makeLookAt transform.position
+                     (getTargetPosition transform)
+                     (getUpVector transform)
 
 projectionMatrix : Camera -> Matrix4.Mat4
 projectionMatrix camera =

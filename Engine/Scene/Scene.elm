@@ -1,9 +1,10 @@
 module Engine.Scene.Scene where
 
 import Engine.Camera.Camera (Camera, camera)
-import Engine.Object.Object (Object)
+import Engine.Render.Renderable (Renderable)
 import Engine.Light.Light (Light, light)
-import Engine.Object.DefaultObject (object)
+import Engine.Render.DefaultRenderable (renderable)
+import Engine.Viewport.Viewport (Viewport, viewport)
 
 -- TODO: Find a strategy to deal with multiple lights
 
@@ -14,21 +15,14 @@ import Engine.Object.DefaultObject (object)
 
 type alias Scene = {
   camera    : Camera,
-  objects   : List (Object {}),
+  objects   : List Renderable,
   light     : Light,
-  viewport  : {
-    dimensions  : {
-      width   : Float,
-      height  : Float
-    }
-  }
+  viewport  : Viewport
 }
 
+scene : Scene
 scene = {
-  camera = camera,
-  objects = [object],
-  light = light,
-  viewport = {
-    dimensions = {
-      width  = 400,
-      height = 400 } } }
+  camera   = camera,
+  objects  = [renderable],
+  light    = light,
+  viewport = viewport }

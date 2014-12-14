@@ -6,7 +6,7 @@ import Engine.Mesh.Mesh (Mesh)
 import Engine.Mesh.Rectangle (rectangleMesh)
 import Engine.Mesh.Triangle  (triangle, triangleMesh)
 
-import Engine.Object.Object (Object)
+import Engine.Render.Renderable (Renderable)
 
 pyramidMesh : Vec3 -> Float -> Float -> Mesh
 pyramidMesh center height width =
@@ -23,6 +23,6 @@ pyramidMesh center height width =
      (triangleMesh bbr bbl top) ++
      (triangleMesh bbl bfl top)
 
-pyramid : Object {}
+pyramid : Renderable
 pyramid = {
   triangle | mesh <- pyramidMesh (vec3 0 0 0) 1 1 }

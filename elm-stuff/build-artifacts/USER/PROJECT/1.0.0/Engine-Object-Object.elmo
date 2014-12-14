@@ -13,27 +13,13 @@ Elm.Engine.Object.Object.make = function (_elm) {
    _U = _N.Utils.make(_elm),
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
-   $moduleName = "Engine.Object.Object",
-   $Engine$Material$Material = Elm.Engine.Material.Material.make(_elm),
-   $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
-   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
-   var Object = F6(function (a,
-   b,
-   c,
-   d,
-   e,
-   f) {
-      return _U.insert("scale",
-      e,
-      _U.insert("rotation",
-      d,
-      _U.insert("position",
-      c,
-      _U.insert("material",
-      b,
-      _U.insert("mesh",a,f)))));
+   $moduleName = "Engine.Object.Object";
+   var object = {_: {},guid: 0};
+   var Object = F2(function (a,b) {
+      return _U.insert("guid",a,b);
    });
    _elm.Engine.Object.Object.values = {_op: _op
-                                      ,Object: Object};
+                                      ,Object: Object
+                                      ,object: object};
    return _elm.Engine.Object.Object.values;
 };

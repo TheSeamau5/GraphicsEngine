@@ -3,7 +3,7 @@ module Engine.Shader.Uniform where
 import Math.Vector3 (Vec3)
 import Math.Matrix4 (Mat4)
 
-import Engine.Object.Object (Object)
+import Engine.Render.Renderable (Renderable)
 import Engine.Scene.Scene (Scene)
 import Engine.Math.Utils (modelMatrix, viewMatrix, projectionMatrix)
 
@@ -28,7 +28,7 @@ type alias Uniform = {
   materialSpecularStrength  : Float
 }
 
-constructUniforms : Scene -> Object a -> Uniform
+constructUniforms : Scene -> Renderable -> Uniform
 constructUniforms scene object = {
   modelMatrix       = modelMatrix object,
   viewMatrix        = viewMatrix scene.camera,
