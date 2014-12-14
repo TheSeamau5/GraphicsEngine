@@ -367,8 +367,6 @@ Basically, render just calls `webgl` from [the elm-webgl library](https://github
 
 The `render` function then constructs the list of Entities that `webgl` wants by calling `renderObject` on all the objects in the scene.
 
-*Note: it is still unclear whether `render` should call `renderObject` on just the objects in the scene or it should also call `renderObject` on the camera and light too.*
-
 `renderObject` is not directly exposed by the `Engine` module as it is not intended to be used by the users of the Library.
 
 `renderObject` is defined as follows:
