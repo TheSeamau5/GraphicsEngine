@@ -24,6 +24,11 @@ import Math.Vector3 (Vec3)
 --      -- Normals can be calculated by the vertex shader
 --      -- from the model and view matrices
 
+{-| Attribute type. This type, from its fields, captures all of the
+attributes that are passed to the vertex shader.
+
+Currenly only contains a position field.
+-}
 type alias Attribute = {
   position : Vec3
 }
