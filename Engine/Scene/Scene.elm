@@ -15,6 +15,12 @@ may be all you need in most cases, it may be valuable to allow for multiple
 cameras. Currently, the only way to have multiple cameras is to have
 multiple scenes. It is still an open question on which approach is better.
 
+
+# Definition
+@docs Scene
+
+# Default Scene
+@docs scene
 -}
 
 import Engine.Camera.Camera (Camera, camera)
