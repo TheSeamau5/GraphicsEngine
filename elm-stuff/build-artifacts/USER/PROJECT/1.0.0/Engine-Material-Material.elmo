@@ -39,8 +39,8 @@ Elm.Engine.Material.Material.make = function (_elm) {
    });
    var material = {_: {}
                   ,ambient: A2(MaterialProperty,
-                  A3($Math$Vector3.vec3,0,0,0),
-                  0)
+                  A3($Math$Vector3.vec3,1,1,1),
+                  0.2)
                   ,diffuse: A2(MaterialProperty,
                   A3($Math$Vector3.vec3,0,0,0),
                   0)
