@@ -1,13 +1,27 @@
 module Engine.Mesh.Cube where
 
-import Math.Vector3 (Vec3, add, vec3)
+{-| This module contains the definition of a cube mesh and of a cube
+renderable object.
 
+# Cube Mesh
+@docs cubeMesh
+
+# Cube (Renderable)
+@docs cube
+
+-}
+
+import Math.Vector3 (Vec3, add, vec3)
 import Engine.Mesh.Mesh (Mesh)
 import Engine.Mesh.Rectangle (rectangle, rectangleMesh)
-
 import Engine.Render.Renderable (Renderable)
 
 
+{-| Function that takes a center point/vector and a size and returns a
+cube mesh.
+
+    cube center size
+-}
 cubeMesh : Vec3 -> Float -> Mesh
 cubeMesh center size =
   let hs = size / 2
@@ -26,6 +40,9 @@ cubeMesh center size =
      (rectangleMesh ftl fbl bbl btl) ++
      (rectangleMesh ftr fbr bbr btr)
 
+{-| Default cube renderable object
+
+-}
 cube : Renderable
 cube = {
   rectangle | mesh <- cubeMesh (vec3 0 0 0) 1 }
