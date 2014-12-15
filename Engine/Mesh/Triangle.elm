@@ -22,14 +22,12 @@ import Engine.Render.Renderable (Renderable)
 
 
 {-| Function to construct a triangle mesh from three points.
-
 -}
 triangleMesh : Vec3 -> Vec3 -> Vec3 -> Mesh
 triangleMesh p q r = [map Attribute (p,q,r)]
 
 
 {-| Default triangle renderable object
-
 -}
 triangle : Renderable
 triangle = {

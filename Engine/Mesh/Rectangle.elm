@@ -8,7 +8,6 @@ renderable object.
 
 # Rectangle (Renderable)
 @docs rectangle
-
 -}
 
 import Math.Vector3 (Vec3, vec3)
@@ -23,7 +22,6 @@ it does not explicitly check if all 4 points are co-planar.
 
 Furthermore, the function does not enforce a rectangle's property that
 opposite sides be of equal length and that adjacent sides be perpendicular.
-
 -}
 rectangleMesh : Vec3 -> Vec3 -> Vec3 -> Vec3 -> Mesh
 rectangleMesh p q r s =
@@ -31,7 +29,6 @@ rectangleMesh p q r s =
 
 
 {-| Default rectangle renderable object
-
 -}
 rectangle : Renderable
 rectangle = {
