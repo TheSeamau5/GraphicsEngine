@@ -36,7 +36,7 @@ whiteSpace = " "
 
 {-| The tab string : "\t"
 -}
-tab : Stringoc
+tab : String
 tab = "\t"
 
 {-| The equal sign string : "="
