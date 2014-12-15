@@ -60,7 +60,7 @@ clipping plane at 80000.
 
 Example : Constructing a standard widescreen cinema camera
 
-    widescreenCamera = { camera | aspectRatio <- 2.39 } 
+    widescreenCamera = { camera | aspectRatio <- 2.39 } 
 
 -}
 camera : Camera
