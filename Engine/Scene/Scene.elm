@@ -52,7 +52,6 @@ type alias Scene = {
 }
 
 {-| Default scene object. Draws a red cube in the middle of the default context.
-
 -}
 scene : Scene
 scene = {
