@@ -28,7 +28,7 @@ Elm.Engine.Shader.Utils.make = function (_elm) {
    var semiColon = ";";
    var comma = ",";
    var equalSign = "=";
-   var tab = "  ";
+   var tab = "\t";
    var whiteSpace = " ";
    var declareVariable = F2(function (variableType,
    variableName) {
@@ -134,7 +134,7 @@ Elm.Engine.Shader.Utils.make = function (_elm) {
                     _v0._0,
                     _v0._1);}
                _U.badCase($moduleName,
-               "on line 86, column 9 to 50");
+               "on line 102, column 9 to 50");
             }();
          };
          var structBody = A2($Basics._op["++"],
