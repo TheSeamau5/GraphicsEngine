@@ -84,14 +84,15 @@ The default camera is defined as follows:
 ```elm
 camera : Camera
 camera = {
-  object | position     <- vec3 0 0 -10,
-           aspectRatio  =  1,
-           fieldOfView  =  45,
-           nearClipping =  1,
-           farClipping  =  80000
-}
+  position = vec3 0 0 -10,
+  rotation = vec3 0 0 0,
+  scale    = vec3 1 1 1,
+  aspectRatio  = 1,
+  fieldOfView  = 45,
+  nearClipping = 1,
+  farClipping  = 80000 }
+
 ```
-*Note: The above is not legal Elm code. It is just used for clarity. Please see [the source file for Camera](https://github.com/TheSeamau5/GraphicsEngine/blob/master/Engine/Camera/Camera.elm) for more details.*
 
 ------------------------------------
 ##Light##
@@ -112,28 +113,16 @@ The default light is defined as follows :
 ```elm
 light : Light
 light = {
-  object | position   <- vec3 1 1 3,
-           color      =  vec3 1 1 1,
-           intensity  =  1,
-           visibility =  True
-}
+  position  = vec3 1 1 3,
+  rotation   = vec3 0 0 0,
+  scale      = vec3 1 1 1,
+  intensity  = 1,
+  color      = vec3 1 1 1,
+  visibility = True }
+
 ```
-*Note: The above is not legal Elm code. It is just used for clarity. Please see [the source file for Light](https://github.com/TheSeamau5/GraphicsEngine/blob/master/Engine/Light/Light.elm) for more details.*
 
 ----------------------------
-##Object##
-
-The type `Object` is the basis for several types in the library.
-
-```elm
-type alias Object a = { a |
-  guid : Int
-}
-```
-
-Currently, the guid property is not used but this support is to come. This would allow for faster indexing and updating of scene objects.
-
----------------------------------
 ##Transform##
 The type `Transform` is used to store position, rotation, and scale.
 
@@ -151,10 +140,10 @@ type alias Transform = {
 The type `Renderable` is used to specify that an object may be rendered onto a screen.
 
 ```elm
-type alias Renderable = Object (Transform {
+type alias Renderable = Transform {
   mesh     : Mesh
   material : Material
-})
+}
 ```
 
 In order for an object to be rendered it must have a physical location in world space (the Transform part), it must have a shape (the mesh property), and it must define how it reacts to light (the material property)
@@ -377,7 +366,7 @@ renderObject scene object =
   entity (constructVertexShader   object.material.vertexShader)
          (constructFragmentShader object.material.fragmentShader)
          object.mesh
-         (constructUniforms scene object)
+         (constructUniform scene object)
 ```
 
 As, you can see, `renderObject` does nothing fancy. All it does is construct the vertex shader from the object's vertex shader, construct the fragment shader from the object's fragment shader, construct the necessary uniforms and then pass the vertex shader, fragment shader, the object's mesh, and the uniforms to `entity`.
