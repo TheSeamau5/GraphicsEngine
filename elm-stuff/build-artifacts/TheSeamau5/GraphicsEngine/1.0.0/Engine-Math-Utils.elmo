@@ -1,0 +1,135 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Math = Elm.Engine.Math || {};
+Elm.Engine.Math.Utils = Elm.Engine.Math.Utils || {};
+Elm.Engine.Math.Utils.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Math = _elm.Engine.Math || {};
+   _elm.Engine.Math.Utils = _elm.Engine.Math.Utils || {};
+   if (_elm.Engine.Math.Utils.values)
+   return _elm.Engine.Math.Utils.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Math.Utils",
+   $Basics = Elm.Basics.make(_elm),
+   $Engine$Camera$Camera = Elm.Engine.Camera.Camera.make(_elm),
+   $Engine$Transform$Transform = Elm.Engine.Transform.Transform.make(_elm),
+   $Math$Matrix4 = Elm.Math.Matrix4.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var projectionMatrix = function (camera) {
+      return A4($Math$Matrix4.makePerspective,
+      camera.fieldOfView,
+      camera.aspectRatio,
+      camera.nearClipping,
+      camera.farClipping);
+   };
+   var getForwardVector = function (transform) {
+      return function () {
+         var roll = $Math$Vector3.getZ(transform.rotation);
+         var sz = $Basics.sin(roll);
+         var cz = $Basics.cos(roll);
+         var pitch = $Math$Vector3.getY(transform.rotation);
+         var sy = $Basics.sin(pitch);
+         var cy = $Basics.cos(pitch);
+         var yaw = $Math$Vector3.getX(transform.rotation);
+         var sx = $Basics.sin(yaw);
+         var vx = sy * cz + cy * sx * sz;
+         var vy = sy * sz - cy * sx * cz;
+         var cx = $Basics.cos(yaw);
+         var vz = cy * cx;
+         return A3($Math$Vector3.vec3,
+         vx,
+         vy,
+         vz);
+      }();
+   };
+   var getTargetPosition = function (transform) {
+      return A2($Math$Vector3.add,
+      transform.position,
+      getForwardVector(transform));
+   };
+   var getUpVector = function (transform) {
+      return function () {
+         var roll = $Math$Vector3.getZ(transform.rotation);
+         var sz = $Basics.sin(roll);
+         var cz = $Basics.cos(roll);
+         var pitch = $Math$Vector3.getY(transform.rotation);
+         var sy = $Basics.sin(pitch);
+         var cy = $Basics.cos(pitch);
+         var yaw = $Math$Vector3.getX(transform.rotation);
+         var sx = $Basics.sin(yaw);
+         var vz = sx;
+         var cx = $Basics.cos(yaw);
+         var vx = (0 - cx) * sz;
+         var vy = cx * cz;
+         return A3($Math$Vector3.vec3,
+         vx,
+         vy,
+         vz);
+      }();
+   };
+   var viewMatrix = function (transform) {
+      return A3($Math$Matrix4.makeLookAt,
+      transform.position,
+      getTargetPosition(transform),
+      getUpVector(transform));
+   };
+   var getSideVector = function (transform) {
+      return function () {
+         var roll = $Math$Vector3.getZ(transform.rotation);
+         var sz = $Basics.sin(roll);
+         var cz = $Basics.cos(roll);
+         var pitch = $Math$Vector3.getY(transform.rotation);
+         var sy = $Basics.sin(pitch);
+         var cy = $Basics.cos(pitch);
+         var yaw = $Math$Vector3.getX(transform.rotation);
+         var sx = $Basics.sin(yaw);
+         var vx = cy * cz - sy * sx * sz;
+         var vy = cy * sz + sy * sx * cz;
+         var cx = $Basics.cos(yaw);
+         var vz = (0 - sy) * cx;
+         return A3($Math$Vector3.vec3,
+         vx,
+         vy,
+         vz);
+      }();
+   };
+   var matrixIdentity = $Math$Matrix4.identity;
+   var safeMakeRotate = function (vector) {
+      return _U.eq($Math$Vector3.lengthSquared(vector),
+      0) ? $Math$Matrix4.identity : A2($Math$Matrix4.makeRotate,
+      $Basics.sqrt($Math$Vector3.lengthSquared(vector)),
+      $Math$Vector3.normalize(vector));
+   };
+   var modelMatrix = function (transform) {
+      return function () {
+         var scaleMatrix = $Math$Matrix4.makeScale(transform.scale);
+         var rotationMatrix = safeMakeRotate(transform.rotation);
+         var translationMatrix = $Math$Matrix4.makeTranslate(transform.position);
+         return A2($Math$Matrix4.mul,
+         translationMatrix,
+         A2($Math$Matrix4.mul,
+         rotationMatrix,
+         scaleMatrix));
+      }();
+   };
+   var safeNormalize = function (vector) {
+      return _U.eq($Math$Vector3.lengthSquared(vector),
+      0) ? vector : $Math$Vector3.normalize(vector);
+   };
+   _elm.Engine.Math.Utils.values = {_op: _op
+                                   ,safeNormalize: safeNormalize
+                                   ,safeMakeRotate: safeMakeRotate
+                                   ,matrixIdentity: matrixIdentity
+                                   ,getSideVector: getSideVector
+                                   ,getUpVector: getUpVector
+                                   ,getForwardVector: getForwardVector
+                                   ,getTargetPosition: getTargetPosition
+                                   ,modelMatrix: modelMatrix
+                                   ,viewMatrix: viewMatrix
+                                   ,projectionMatrix: projectionMatrix};
+   return _elm.Engine.Math.Utils.values;
+};

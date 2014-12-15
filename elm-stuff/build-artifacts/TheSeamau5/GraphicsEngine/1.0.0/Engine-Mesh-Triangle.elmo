@@ -1,0 +1,61 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Mesh = Elm.Engine.Mesh || {};
+Elm.Engine.Mesh.Triangle = Elm.Engine.Mesh.Triangle || {};
+Elm.Engine.Mesh.Triangle.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Mesh = _elm.Engine.Mesh || {};
+   _elm.Engine.Mesh.Triangle = _elm.Engine.Mesh.Triangle || {};
+   if (_elm.Engine.Mesh.Triangle.values)
+   return _elm.Engine.Mesh.Triangle.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Mesh.Triangle",
+   $Engine$Material$Material = Elm.Engine.Material.Material.make(_elm),
+   $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
+   $Engine$Shader$Attribute = Elm.Engine.Shader.Attribute.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm),
+   $WebGL = Elm.WebGL.make(_elm);
+   var triangleMesh = F3(function (p,
+   q,
+   r) {
+      return _L.fromArray([A2($WebGL.map,
+      $Engine$Shader$Attribute.Attribute,
+      {ctor: "_Tuple3"
+      ,_0: p
+      ,_1: q
+      ,_2: r})]);
+   });
+   var triangle = {_: {}
+                  ,material: $Engine$Material$Material.material
+                  ,mesh: A3(triangleMesh,
+                  A3($Math$Vector3.vec3,
+                  -0.5,
+                  -0.5,
+                  0),
+                  A3($Math$Vector3.vec3,
+                  0.5,
+                  -0.5,
+                  0),
+                  A3($Math$Vector3.vec3,0,0.5,0))
+                  ,position: A3($Math$Vector3.vec3,
+                  0,
+                  0,
+                  0)
+                  ,rotation: A3($Math$Vector3.vec3,
+                  0,
+                  0,
+                  0)
+                  ,scale: A3($Math$Vector3.vec3,
+                  1,
+                  1,
+                  1)};
+   _elm.Engine.Mesh.Triangle.values = {_op: _op
+                                      ,triangleMesh: triangleMesh
+                                      ,triangle: triangle};
+   return _elm.Engine.Mesh.Triangle.values;
+};

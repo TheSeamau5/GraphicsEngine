@@ -1,0 +1,187 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Shader = Elm.Engine.Shader || {};
+Elm.Engine.Shader.Utils = Elm.Engine.Shader.Utils || {};
+Elm.Engine.Shader.Utils.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Shader = _elm.Engine.Shader || {};
+   _elm.Engine.Shader.Utils = _elm.Engine.Shader.Utils || {};
+   if (_elm.Engine.Shader.Utils.values)
+   return _elm.Engine.Shader.Utils.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Shader.Utils",
+   $Basics = Elm.Basics.make(_elm),
+   $List = Elm.List.make(_elm),
+   $String = Elm.String.make(_elm);
+   var groupStrings = $String.join("");
+   var setFloatPrecision = "precision mediump float;";
+   var commentEnd = "*/";
+   var commentStart = "/*";
+   var closeCurlyBrace = "}";
+   var openCurlyBrace = "{";
+   var closeParenthesis = ")";
+   var openParenthesis = "(";
+   var semiColon = ";";
+   var comma = ",";
+   var equalSign = "=";
+   var tab = "\t";
+   var whiteSpace = " ";
+   var declareVariable = F2(function (variableType,
+   variableName) {
+      return A2($Basics._op["++"],
+      variableType,
+      A2($Basics._op["++"],
+      whiteSpace,
+      A2($Basics._op["++"],
+      variableName,
+      semiColon)));
+   });
+   var declareInitializedVariable = F3(function (variableType,
+   variableName,
+   initialValue) {
+      return A2($Basics._op["++"],
+      variableType,
+      A2($Basics._op["++"],
+      whiteSpace,
+      A2($Basics._op["++"],
+      variableName,
+      A2($Basics._op["++"],
+      whiteSpace,
+      A2($Basics._op["++"],
+      equalSign,
+      A2($Basics._op["++"],
+      whiteSpace,
+      A2($Basics._op["++"],
+      initialValue,
+      semiColon)))))));
+   });
+   var declareConstVariable = F3(function (variableType,
+   variableName,
+   initialValue) {
+      return A2($Basics._op["++"],
+      "const",
+      A2($Basics._op["++"],
+      whiteSpace,
+      A3(declareInitializedVariable,
+      variableType,
+      variableName,
+      initialValue)));
+   });
+   var declareParameter = F3(function (parameterType,
+   variableType,
+   variableName) {
+      return A2($Basics._op["++"],
+      parameterType,
+      A2($Basics._op["++"],
+      whiteSpace,
+      A2($Basics._op["++"],
+      variableType,
+      A2($Basics._op["++"],
+      whiteSpace,
+      A2($Basics._op["++"],
+      variableName,
+      semiColon)))));
+   });
+   var declareAttribute = declareParameter("attribute");
+   var declareVarying = declareParameter("varying");
+   var declareUniform = declareParameter("uniform");
+   var callFunctionExpression = F2(function (functionName,
+   parameterList) {
+      return A2($Basics._op["++"],
+      functionName,
+      A2($Basics._op["++"],
+      openParenthesis,
+      A2($Basics._op["++"],
+      groupStrings(A2($List.intersperse,
+      A2($Basics._op["++"],
+      comma,
+      whiteSpace),
+      parameterList)),
+      closeParenthesis)));
+   });
+   var newLine = "\n";
+   var comment = function (commentString) {
+      return A2($Basics._op["++"],
+      commentStart,
+      A2($Basics._op["++"],
+      newLine,
+      A2($Basics._op["++"],
+      commentString,
+      A2($Basics._op["++"],
+      newLine,
+      commentEnd))));
+   };
+   var groupStatements = function ($) {
+      return $String.join("")($List.intersperse(newLine)($));
+   };
+   var groupProperties = function ($) {
+      return $String.join("")($List.intersperse(A2($Basics._op["++"],
+      newLine,
+      tab))($));
+   };
+   var declareStructType = F2(function (structTypeName,
+   structProperties) {
+      return function () {
+         var propertyToDeclaration = function (_v0) {
+            return function () {
+               switch (_v0.ctor)
+               {case "_Tuple2":
+                  return A2(declareVariable,
+                    _v0._0,
+                    _v0._1);}
+               _U.badCase($moduleName,
+               "on line 207, column 9 to 50");
+            }();
+         };
+         var structBody = A2($Basics._op["++"],
+         openCurlyBrace,
+         A2($Basics._op["++"],
+         newLine,
+         A2($Basics._op["++"],
+         tab,
+         A2($Basics._op["++"],
+         groupProperties(A2($List.map,
+         propertyToDeclaration,
+         structProperties)),
+         A2($Basics._op["++"],
+         newLine,
+         closeCurlyBrace)))));
+         return A3(declareParameter,
+         "struct",
+         structTypeName,
+         structBody);
+      }();
+   });
+   _elm.Engine.Shader.Utils.values = {_op: _op
+                                     ,newLine: newLine
+                                     ,whiteSpace: whiteSpace
+                                     ,tab: tab
+                                     ,equalSign: equalSign
+                                     ,comma: comma
+                                     ,semiColon: semiColon
+                                     ,openParenthesis: openParenthesis
+                                     ,closeParenthesis: closeParenthesis
+                                     ,openCurlyBrace: openCurlyBrace
+                                     ,closeCurlyBrace: closeCurlyBrace
+                                     ,commentStart: commentStart
+                                     ,commentEnd: commentEnd
+                                     ,setFloatPrecision: setFloatPrecision
+                                     ,comment: comment
+                                     ,groupStrings: groupStrings
+                                     ,groupStatements: groupStatements
+                                     ,groupProperties: groupProperties
+                                     ,declareVariable: declareVariable
+                                     ,declareInitializedVariable: declareInitializedVariable
+                                     ,declareConstVariable: declareConstVariable
+                                     ,declareParameter: declareParameter
+                                     ,declareAttribute: declareAttribute
+                                     ,declareVarying: declareVarying
+                                     ,declareUniform: declareUniform
+                                     ,declareStructType: declareStructType
+                                     ,callFunctionExpression: callFunctionExpression};
+   return _elm.Engine.Shader.Utils.values;
+};

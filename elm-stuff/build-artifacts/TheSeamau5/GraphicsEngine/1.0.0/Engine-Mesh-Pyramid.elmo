@@ -1,0 +1,96 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Mesh = Elm.Engine.Mesh || {};
+Elm.Engine.Mesh.Pyramid = Elm.Engine.Mesh.Pyramid || {};
+Elm.Engine.Mesh.Pyramid.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Mesh = _elm.Engine.Mesh || {};
+   _elm.Engine.Mesh.Pyramid = _elm.Engine.Mesh.Pyramid || {};
+   if (_elm.Engine.Mesh.Pyramid.values)
+   return _elm.Engine.Mesh.Pyramid.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Mesh.Pyramid",
+   $Basics = Elm.Basics.make(_elm),
+   $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
+   $Engine$Mesh$Rectangle = Elm.Engine.Mesh.Rectangle.make(_elm),
+   $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var pyramidMesh = F3(function (center,
+   height,
+   width) {
+      return function () {
+         var halfWidth = width / 2;
+         var halfHeight = height / 2;
+         var top = A2($Math$Vector3.add,
+         center,
+         A3($Math$Vector3.vec3,
+         0,
+         halfHeight,
+         0));
+         var bfl = A2($Math$Vector3.add,
+         center,
+         A3($Math$Vector3.vec3,
+         0 - halfWidth,
+         0 - halfHeight,
+         0 - halfWidth));
+         var bfr = A2($Math$Vector3.add,
+         center,
+         A3($Math$Vector3.vec3,
+         halfWidth,
+         0 - halfHeight,
+         0 - halfWidth));
+         var bbl = A2($Math$Vector3.add,
+         center,
+         A3($Math$Vector3.vec3,
+         0 - halfWidth,
+         0 - halfHeight,
+         halfWidth));
+         var bbr = A2($Math$Vector3.add,
+         center,
+         A3($Math$Vector3.vec3,
+         halfWidth,
+         0 - halfHeight,
+         halfWidth));
+         return A2($Basics._op["++"],
+         A4($Engine$Mesh$Rectangle.rectangleMesh,
+         bbr,
+         bbl,
+         bfl,
+         bfr),
+         A2($Basics._op["++"],
+         A3($Engine$Mesh$Triangle.triangleMesh,
+         bfl,
+         bfr,
+         top),
+         A2($Basics._op["++"],
+         A3($Engine$Mesh$Triangle.triangleMesh,
+         bfr,
+         bbr,
+         top),
+         A2($Basics._op["++"],
+         A3($Engine$Mesh$Triangle.triangleMesh,
+         bbr,
+         bbl,
+         top),
+         A3($Engine$Mesh$Triangle.triangleMesh,
+         bbl,
+         bfl,
+         top)))));
+      }();
+   });
+   var pyramid = _U.replace([["mesh"
+                             ,A3(pyramidMesh,
+                             A3($Math$Vector3.vec3,0,0,0),
+                             1,
+                             1)]],
+   $Engine$Mesh$Triangle.triangle);
+   _elm.Engine.Mesh.Pyramid.values = {_op: _op
+                                     ,pyramidMesh: pyramidMesh
+                                     ,pyramid: pyramid};
+   return _elm.Engine.Mesh.Pyramid.values;
+};

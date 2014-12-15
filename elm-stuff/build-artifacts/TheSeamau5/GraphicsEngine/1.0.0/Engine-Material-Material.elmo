@@ -1,0 +1,60 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Material = Elm.Engine.Material || {};
+Elm.Engine.Material.Material = Elm.Engine.Material.Material || {};
+Elm.Engine.Material.Material.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Material = _elm.Engine.Material || {};
+   _elm.Engine.Material.Material = _elm.Engine.Material.Material || {};
+   if (_elm.Engine.Material.Material.values)
+   return _elm.Engine.Material.Material.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Material.Material",
+   $Engine$Shader$FragmentShader = Elm.Engine.Shader.FragmentShader.make(_elm),
+   $Engine$Shader$VertexShader = Elm.Engine.Shader.VertexShader.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var Material = F6(function (a,
+   b,
+   c,
+   d,
+   e,
+   f) {
+      return {_: {}
+             ,ambient: b
+             ,diffuse: c
+             ,emissive: a
+             ,fragmentShader: f
+             ,specular: d
+             ,vertexShader: e};
+   });
+   var MaterialProperty = F2(function (a,
+   b) {
+      return {_: {}
+             ,color: a
+             ,strength: b};
+   });
+   var material = {_: {}
+                  ,ambient: A2(MaterialProperty,
+                  A3($Math$Vector3.vec3,1,1,1),
+                  0.2)
+                  ,diffuse: A2(MaterialProperty,
+                  A3($Math$Vector3.vec3,0,0,0),
+                  0)
+                  ,emissive: A2(MaterialProperty,
+                  A3($Math$Vector3.vec3,0,0,0),
+                  0)
+                  ,fragmentShader: $Engine$Shader$FragmentShader.fragmentShader
+                  ,specular: A2(MaterialProperty,
+                  A3($Math$Vector3.vec3,0,0,0),
+                  0)
+                  ,vertexShader: $Engine$Shader$VertexShader.vertexShader};
+   _elm.Engine.Material.Material.values = {_op: _op
+                                          ,MaterialProperty: MaterialProperty
+                                          ,Material: Material
+                                          ,material: material};
+   return _elm.Engine.Material.Material.values;
+};

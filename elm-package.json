@@ -6,7 +6,31 @@
     "source-directories": [
         "."
     ],
-    "exposed-modules": [],
+    "exposed-modules": [
+      "Engine",
+      "Engine.Camera.Camera",
+      "Engine.Light.Light",
+      "Engine.Material.Material",
+      "Engine.Math.Utils",
+      "Engine.Mesh.Mesh",
+      "Engine.Mesh.Triangle",
+      "Engine.Mesh.Rectangle",
+      "Engine.Mesh.Pyramid",
+      "Engine.Mesh.Cube",
+      "Engine.Render.Renderable",
+      "Engine.Render.DefaultRenderable",
+      "Engine.Render.Render",
+      "Engine.Scene.Scene",
+      "Engine.Shader.Attribute",
+      "Engine.Shader.Uniform",
+      "Engine.Shader.Boilerplate",
+      "Engine.Shader.Library",
+      "Engine.Shader.Utils",
+      "Engine.Shader.VertexShader",
+      "Engine.Shader.FragmentShader",
+      "Engine.Transform.Transform",
+      "Engine.Viewport.Viewport"      
+    ],
     "dependencies": {
         "elm-lang/core": "1.0.0 <= v < 2.0.0",
         "johnpmayer/elm-linear-algebra": "1.0.0 <= v < 2.0.0",

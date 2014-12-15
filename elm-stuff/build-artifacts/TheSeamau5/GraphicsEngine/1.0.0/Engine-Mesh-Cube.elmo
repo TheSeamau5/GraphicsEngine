@@ -1,0 +1,120 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Mesh = Elm.Engine.Mesh || {};
+Elm.Engine.Mesh.Cube = Elm.Engine.Mesh.Cube || {};
+Elm.Engine.Mesh.Cube.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Mesh = _elm.Engine.Mesh || {};
+   _elm.Engine.Mesh.Cube = _elm.Engine.Mesh.Cube || {};
+   if (_elm.Engine.Mesh.Cube.values)
+   return _elm.Engine.Mesh.Cube.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Mesh.Cube",
+   $Basics = Elm.Basics.make(_elm),
+   $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
+   $Engine$Mesh$Rectangle = Elm.Engine.Mesh.Rectangle.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var cubeMesh = F2(function (center,
+   size) {
+      return function () {
+         var hs = size / 2;
+         var ftl = A2($Math$Vector3.add,
+         center,
+         A3($Math$Vector3.vec3,
+         0 - hs,
+         hs,
+         0 - hs));
+         var ftr = A2($Math$Vector3.add,
+         center,
+         A3($Math$Vector3.vec3,
+         hs,
+         hs,
+         0 - hs));
+         var fbr = A2($Math$Vector3.add,
+         center,
+         A3($Math$Vector3.vec3,
+         hs,
+         0 - hs,
+         0 - hs));
+         var fbl = A2($Math$Vector3.add,
+         center,
+         A3($Math$Vector3.vec3,
+         0 - hs,
+         0 - hs,
+         0 - hs));
+         var btl = A2($Math$Vector3.add,
+         center,
+         A3($Math$Vector3.vec3,
+         0 - hs,
+         hs,
+         hs));
+         var btr = A2($Math$Vector3.add,
+         center,
+         A3($Math$Vector3.vec3,
+         hs,
+         hs,
+         hs));
+         var bbr = A2($Math$Vector3.add,
+         center,
+         A3($Math$Vector3.vec3,
+         hs,
+         0 - hs,
+         hs));
+         var bbl = A2($Math$Vector3.add,
+         center,
+         A3($Math$Vector3.vec3,
+         0 - hs,
+         0 - hs,
+         hs));
+         return A2($Basics._op["++"],
+         A4($Engine$Mesh$Rectangle.rectangleMesh,
+         ftl,
+         ftr,
+         btr,
+         btl),
+         A2($Basics._op["++"],
+         A4($Engine$Mesh$Rectangle.rectangleMesh,
+         ftl,
+         fbl,
+         fbr,
+         ftr),
+         A2($Basics._op["++"],
+         A4($Engine$Mesh$Rectangle.rectangleMesh,
+         fbl,
+         fbr,
+         bbr,
+         bbl),
+         A2($Basics._op["++"],
+         A4($Engine$Mesh$Rectangle.rectangleMesh,
+         btr,
+         bbr,
+         bbl,
+         btl),
+         A2($Basics._op["++"],
+         A4($Engine$Mesh$Rectangle.rectangleMesh,
+         ftl,
+         fbl,
+         bbl,
+         btl),
+         A4($Engine$Mesh$Rectangle.rectangleMesh,
+         ftr,
+         fbr,
+         bbr,
+         btr))))));
+      }();
+   });
+   var cube = _U.replace([["mesh"
+                          ,A2(cubeMesh,
+                          A3($Math$Vector3.vec3,0,0,0),
+                          1)]],
+   $Engine$Mesh$Rectangle.rectangle);
+   _elm.Engine.Mesh.Cube.values = {_op: _op
+                                  ,cubeMesh: cubeMesh
+                                  ,cube: cube};
+   return _elm.Engine.Mesh.Cube.values;
+};
