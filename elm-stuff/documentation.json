@@ -1168,6 +1168,110 @@
 }
 ,
 {
+  "name": "Engine.Shader.Shader",
+  "comment": "This module constains functions to construct shaders as well as\nfunctions to return shaders as strings (mostly for debugging purposes)\n\n# Construct Shaders\n@docs constructVertexShader, constructFragmentShader\n\n# Construct Shader Strings\n@docs showVertexShader, showFragmentShader",
+  "aliases": [],
+  "types": [],
+  "values": [
+    {
+      "name": "constructFragmentShader",
+      "comment": "Construct a Fragment Shader from a String.\nThe input string contains a GLSL program. This function enables to automatically\nadd a whole bunch of boilerplate code, like setting the float precision, or\ndeclaring the structs and uniforms.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "String"
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Shader"
+          },
+          "args": [
+            {
+              "tag": "record",
+              "extension": null,
+              "fields": []
+            },
+            {
+              "tag": "type",
+              "name": "Uniform"
+            },
+            {
+              "tag": "var",
+              "name": "varying"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "constructVertexShader",
+      "comment": "Construct a Vertex Shader from a String.\nThe input string contains a GLSL program. This function enables to automatically\nadd a whole bunch of boilerplate code, like setting the float precision, or\ndeclaring the uniforms and attributes.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "String"
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Shader"
+          },
+          "args": [
+            {
+              "tag": "type",
+              "name": "Attribute"
+            },
+            {
+              "tag": "type",
+              "name": "Uniform"
+            },
+            {
+              "tag": "var",
+              "name": "varying"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "showFragmentShader",
+      "comment": "Function to construct a fragment shader as a String. Useful for debugging\npurposes.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "String"
+        },
+        "out": {
+          "tag": "type",
+          "name": "String"
+        }
+      }
+    },
+    {
+      "name": "showVertexShader",
+      "comment": "Function to construct a vertex shader as a String. Useful for debugging\npurposes.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "String"
+        },
+        "out": {
+          "tag": "type",
+          "name": "String"
+        }
+      }
+    }
+  ]
+}
+,
+{
   "name": "Engine.Shader.Attribute",
   "comment": "This module contains the definition of the Attribute type.\nA vertex shader takes a set of attributes as input for each vertex.\nThe Attibute type is made to capture all of these attributes.\n\nCurrently, we only pass the position to the vertex shader as an attibute.\n\nTypically, a color and a normal is also passed as an attribute but for\nsimplicity it is highly encouraged to set the color at the material level\nand to retrieve the normal from the normal matrix (which is automatically\npassed as a uniform).\n\n# Definition\n@docs Attribute",
   "aliases": [
