@@ -134,7 +134,7 @@ Elm.Engine.Shader.Utils.make = function (_elm) {
                     _v0._0,
                     _v0._1);}
                _U.badCase($moduleName,
-               "on line 102, column 9 to 50");
+               "on line 207, column 9 to 50");
             }();
          };
          var structBody = A2($Basics._op["++"],

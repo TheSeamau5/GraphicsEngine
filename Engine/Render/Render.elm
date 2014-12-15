@@ -13,7 +13,7 @@ import Graphics.Element (Element)
 
 import Engine.Render.Renderable (Renderable)
 import Engine.Scene.Scene (Scene)
-import Engine.Shader.Uniform (constructUniforms)
+import Engine.Shader.Uniform (constructUniform)
 import Engine.Shader.Shader (constructVertexShader, constructFragmentShader)
 
 import List (map)
@@ -30,7 +30,7 @@ renderObject scene object =
   entity (constructVertexShader   object.material.vertexShader)
          (constructFragmentShader object.material.fragmentShader)
          object.mesh
-         (constructUniforms scene object)
+         (constructUniform scene object)
 
 
 {-| Function to render a scene to a WebGL canvas context. This function takes

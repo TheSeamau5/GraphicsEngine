@@ -1,15 +1,29 @@
 module Engine.Shader.Uniform where
 
+{-| This module contains the definition of the Uniform type and
+a function to construct a uniform from a scene and a renderable object
+
+# Definition
+@docs Uniform
+
+# Construct a Uniform
+@docs constructUniform
+
+-}
+
 import Math.Vector3 (Vec3)
 import Math.Matrix4 (Mat4)
-
 import Engine.Render.Renderable (Renderable)
 import Engine.Scene.Scene (Scene)
 import Engine.Math.Utils (modelMatrix, viewMatrix, projectionMatrix)
 
+
 -- TODO: Find a different strategy for dealing with Uniforms
 --       -- Note, only the first three are truly necessary
 --       -- Consider joining the model and view matrices into a modelViewMatrix
+{-| Container type to hold all of the properties that are passed to GLSL
+as uniforms.
+-}
 type alias Uniform = {
   modelMatrix      : Mat4,
   viewMatrix       : Mat4,
@@ -28,8 +42,12 @@ type alias Uniform = {
   materialSpecularStrength  : Float
 }
 
-constructUniforms : Scene -> Renderable -> Uniform
-constructUniforms scene object = {
+
+{-| Constructs a record of type Uniform from a scene and a renderable object
+to be sent to GLSL as uniforms.
+-}
+constructUniform : Scene -> Renderable -> Uniform
+constructUniform scene object = {
   modelMatrix       = modelMatrix object,
   viewMatrix        = viewMatrix scene.camera,
   projectionMatrix  = projectionMatrix scene.camera,

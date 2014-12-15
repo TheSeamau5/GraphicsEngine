@@ -1407,7 +1407,7 @@ Elm.Engine.Render.Render.make = function (_elm) {
       $Engine$Shader$Shader.constructVertexShader(object.material.vertexShader),
       $Engine$Shader$Shader.constructFragmentShader(object.material.fragmentShader),
       object.mesh,
-      A2($Engine$Shader$Uniform.constructUniforms,
+      A2($Engine$Shader$Uniform.constructUniform,
       scene,
       object));
    });
@@ -1970,7 +1970,7 @@ Elm.Engine.Shader.Uniform.make = function (_elm) {
    $Engine$Scene$Scene = Elm.Engine.Scene.Scene.make(_elm),
    $Math$Matrix4 = Elm.Math.Matrix4.make(_elm),
    $Math$Vector3 = Elm.Math.Vector3.make(_elm);
-   var constructUniforms = F2(function (scene,
+   var constructUniform = F2(function (scene,
    object) {
       return {_: {}
              ,lightColor: scene.light.color
@@ -2037,7 +2037,7 @@ Elm.Engine.Shader.Uniform.make = function (_elm) {
    };
    _elm.Engine.Shader.Uniform.values = {_op: _op
                                        ,Uniform: Uniform
-                                       ,constructUniforms: constructUniforms};
+                                       ,constructUniform: constructUniform};
    return _elm.Engine.Shader.Uniform.values;
 };
 Elm.Engine = Elm.Engine || {};
@@ -2176,7 +2176,7 @@ Elm.Engine.Shader.Utils.make = function (_elm) {
                     _v0._0,
                     _v0._1);}
                _U.badCase($moduleName,
-               "on line 102, column 9 to 50");
+               "on line 207, column 9 to 50");
             }();
          };
          var structBody = A2($Basics._op["++"],
