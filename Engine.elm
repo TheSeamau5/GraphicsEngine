@@ -1,5 +1,56 @@
 module Engine where
 
+{-| The Graphics Engine Library contains several functions and types to
+make constructing 3D Scenes more fun and easy to use.
+
+The simplest possible program to construct a scene is:
+
+    main = render scene
+
+This program renders a default Scene that simply displays a red cube.
+
+`scene` is just shorthand for the following record:
+
+    scene = {
+      camera   = camera,
+      light    = light,
+      objects  = [cube],
+      viewport = viewport
+    }
+
+As you can see, a scene contains a camera, a light, a list of objects, and
+a viewport.
+
+Lets modify the scene to display a pyramid instead
+
+    main = render { scene | objects <- [pyramid]}
+
+As you can see, all it took was changing the value of the objects property.
+
+This logic is applicable almost everywhere in the library. So, you could
+construct arbitrary scenes like.
+
+    myCube = {
+      cube | position <- vec3 1 1 0,
+             rotation <- vec3 45 45 0,
+             scale    <- vec3 0.5 0.5 0.5 }
+
+    myPyramid = {
+      pyramid | scale <- vec3 0.3 2.0 1.0 }
+
+    myCamera = {
+      camera | fieldOfView <- 125 }
+
+    myScene = {
+      scene | camera  <- myCamera,
+              objects <- [myCube, myPyramid] }
+
+    main = render myScene
+
+As you can see, the record syntax allows to change only what needs to be
+changed and removes any unnecessary boilerplate. 
+-}
+
 import Engine.Scene.Scene               as Scene
 import Engine.Camera.Camera             as Camera
 import Engine.Light.Light               as Light
