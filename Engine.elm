@@ -1,7 +1,5 @@
 module Engine where
 
---------- MODULE MAINLY USED TO RE-EXPORT A CORE SET OF MODULES ------------
-
 {-| The Graphics Engine Library contains several functions and types to
 make constructing 3D Scenes more fun and easy to use.
 
