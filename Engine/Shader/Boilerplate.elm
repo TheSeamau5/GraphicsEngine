@@ -253,6 +253,7 @@ attributeDeclarations = groupStatements <| map (uncurry declareAttribute)
     mat4 modelViewMatrix = viewMatrix * modelMatrix;
 
 -}
+modelViewMatrix : String
 modelViewMatrix =
   declareInitializedVariable "mat4" "modelViewMatrix"
     "viewMatrix * modelMatrix"
@@ -263,6 +264,7 @@ modelViewMatrix =
     mat4 modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
 
 -}
+modelViewProjectionMatrix : String
 modelViewProjectionMatrix =
   declareInitializedVariable "mat4" "modelViewProjectionMatrix"
     "projectionMatrix * modelViewMatrix"
@@ -273,6 +275,7 @@ modelViewProjectionMatrix =
     mat4 normalMatrix = transpose(inverse(modelViewMatrix));
 
 -}
+normalMatrix : String
 normalMatrix =
   declareInitializedVariable "mat4" "normalMatrix"
     "transpose(inverse(modelViewMatrix))"
@@ -288,6 +291,7 @@ Currently, the available useful variables are :
     mat4 normalMatrix;
 
 -}
+usefulVariables : String
 usefulVariables =
   modelViewMatrix           ++ newLine ++
   modelViewProjectionMatrix ++ newLine ++
