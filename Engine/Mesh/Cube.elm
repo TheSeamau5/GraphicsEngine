@@ -41,7 +41,6 @@ cubeMesh center size =
      (rectangleMesh ftr fbr bbr btr)
 
 {-| Default cube renderable object
-
 -}
 cube : Renderable
 cube = {

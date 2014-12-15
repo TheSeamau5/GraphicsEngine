@@ -23,7 +23,6 @@ Entity object which is what the webgl function from the WebGL library requires
 to draw anything onto a WebGL canvas context.
 
 Note: This function is mainly used as a helper function to render.
-
 -}
 renderObject : Scene -> Renderable -> Entity
 renderObject scene object =
@@ -37,7 +36,6 @@ renderObject scene object =
 in a Scene and returns the WebGL canvas context.
 
 Note: The function renders only the objects in the objects list of the scene.
-
 -}
 render : Scene -> Element
 render scene =

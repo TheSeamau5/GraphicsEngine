@@ -17,7 +17,6 @@ default viewport object
 or "context" on to which a scene is rendered.
 
 A Viewport has dimensions consisting of a width and a height.
-
 -}
 type alias Viewport = {
   dimensions : {
@@ -31,7 +30,6 @@ type alias Viewport = {
 {-| Default Viewport. Sets dimensions.width = 400 and dimensions.height = 400.
 (In essence, with the default viewport object your scene will appear in
 a 400 by 400 canvas or webgl context).
-
 -}
 viewport : Viewport
 viewport = {

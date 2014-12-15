@@ -7,14 +7,12 @@ circular dependencies.
 
 # Default Renderable
 @docs renderable
-
 -}
 
 import Engine.Render.Renderable (Renderable)
 import Engine.Mesh.Cube (cube)
 
 {-| Default renderable object. Alias for the default cube object.
-
 -}
 renderable : Renderable
 renderable = cube

@@ -17,7 +17,6 @@ import Math.Vector3 (Vec3, vec3)
 This is mean to be able to represent linear transformations in space. As
 such, one can model where an object is (position), what is its orientation
 (rotation), and how large is it (scale).
-
 -}
 type alias Transform a = { a |
   position : Vec3,
