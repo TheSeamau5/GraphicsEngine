@@ -1914,20 +1914,6 @@ Elm.Engine.Shader.Shader.make = function (_elm) {
    $Engine$Shader$Uniform = Elm.Engine.Shader.Uniform.make(_elm),
    $Engine$Shader$Utils = Elm.Engine.Shader.Utils.make(_elm),
    $WebGL = Elm.WebGL.make(_elm);
-   var constructFragmentShader = function (shaderString) {
-      return $WebGL.unsafeShader(A2($Basics._op["++"],
-      $Engine$Shader$Boilerplate.fragmentShaderBoilerplate,
-      A2($Basics._op["++"],
-      $Engine$Shader$Utils.newLine,
-      shaderString)));
-   };
-   var constructVertexShader = function (shaderString) {
-      return $WebGL.unsafeShader(A2($Basics._op["++"],
-      $Engine$Shader$Boilerplate.vertexShaderBoilerplate,
-      A2($Basics._op["++"],
-      $Engine$Shader$Utils.newLine,
-      shaderString)));
-   };
    var showFragmentShader = function (shaderString) {
       return A2($Basics._op["++"],
       $Engine$Shader$Boilerplate.fragmentShaderBoilerplate,
@@ -1935,12 +1921,18 @@ Elm.Engine.Shader.Shader.make = function (_elm) {
       $Engine$Shader$Utils.newLine,
       shaderString));
    };
+   var constructFragmentShader = function ($) {
+      return $WebGL.unsafeShader(showFragmentShader($));
+   };
    var showVertexShader = function (shaderString) {
       return A2($Basics._op["++"],
       $Engine$Shader$Boilerplate.vertexShaderBoilerplate,
       A2($Basics._op["++"],
       $Engine$Shader$Utils.newLine,
       shaderString));
+   };
+   var constructVertexShader = function ($) {
+      return $WebGL.unsafeShader(showVertexShader($));
    };
    _elm.Engine.Shader.Shader.values = {_op: _op
                                       ,showVertexShader: showVertexShader
