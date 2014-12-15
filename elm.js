@@ -695,7 +695,6 @@ Elm.Engine.make = function (_elm) {
    $Engine$Mesh$Pyramid = Elm.Engine.Mesh.Pyramid.make(_elm),
    $Engine$Mesh$Rectangle = Elm.Engine.Mesh.Rectangle.make(_elm),
    $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
    $Engine$Render$DefaultRenderable = Elm.Engine.Render.DefaultRenderable.make(_elm),
    $Engine$Render$Render = Elm.Engine.Render.Render.make(_elm),
    $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
@@ -708,7 +707,6 @@ Elm.Engine.make = function (_elm) {
    var transform = $Engine$Transform$Transform.transform;
    var renderable = $Engine$Render$DefaultRenderable.renderable;
    var render = $Engine$Render$Render.render;
-   var object = $Engine$Object$Object.object;
    var pyramidMesh = $Engine$Mesh$Pyramid.pyramidMesh;
    var pyramid = $Engine$Mesh$Pyramid.pyramid;
    var cubeMesh = $Engine$Mesh$Cube.cubeMesh;
@@ -734,7 +732,6 @@ Elm.Engine.make = function (_elm) {
                         ,cubeMesh: cubeMesh
                         ,pyramid: pyramid
                         ,pyramidMesh: pyramidMesh
-                        ,object: object
                         ,render: render
                         ,renderable: renderable
                         ,transform: transform
@@ -1329,7 +1326,6 @@ Elm.Engine.Mesh.Triangle.make = function (_elm) {
       ,_2: r})]);
    });
    var triangle = {_: {}
-                  ,guid: 0
                   ,material: $Engine$Material$Material.material
                   ,mesh: A3(triangleMesh,
                   A3($Math$Vector3.vec3,
@@ -1357,31 +1353,6 @@ Elm.Engine.Mesh.Triangle.make = function (_elm) {
                                       ,triangleMesh: triangleMesh
                                       ,triangle: triangle};
    return _elm.Engine.Mesh.Triangle.values;
-};
-Elm.Engine = Elm.Engine || {};
-Elm.Engine.Object = Elm.Engine.Object || {};
-Elm.Engine.Object.Object = Elm.Engine.Object.Object || {};
-Elm.Engine.Object.Object.make = function (_elm) {
-   "use strict";
-   _elm.Engine = _elm.Engine || {};
-   _elm.Engine.Object = _elm.Engine.Object || {};
-   _elm.Engine.Object.Object = _elm.Engine.Object.Object || {};
-   if (_elm.Engine.Object.Object.values)
-   return _elm.Engine.Object.Object.values;
-   var _op = {},
-   _N = Elm.Native,
-   _U = _N.Utils.make(_elm),
-   _L = _N.List.make(_elm),
-   _P = _N.Ports.make(_elm),
-   $moduleName = "Engine.Object.Object";
-   var object = {_: {},guid: 0};
-   var Object = F2(function (a,b) {
-      return _U.insert("guid",a,b);
-   });
-   _elm.Engine.Object.Object.values = {_op: _op
-                                      ,Object: Object
-                                      ,object: object};
-   return _elm.Engine.Object.Object.values;
 };
 Elm.Engine = Elm.Engine || {};
 Elm.Engine.Render = Elm.Engine.Render || {};
@@ -1470,7 +1441,6 @@ Elm.Engine.Render.Renderable.make = function (_elm) {
    $moduleName = "Engine.Render.Renderable",
    $Engine$Material$Material = Elm.Engine.Material.Material.make(_elm),
    $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
    $Engine$Transform$Transform = Elm.Engine.Transform.Transform.make(_elm);
    _elm.Engine.Render.Renderable.values = {_op: _op};
    return _elm.Engine.Render.Renderable.values;

@@ -31,7 +31,6 @@ Elm.Engine.Mesh.Triangle.make = function (_elm) {
       ,_2: r})]);
    });
    var triangle = {_: {}
-                  ,guid: 0
                   ,material: $Engine$Material$Material.material
                   ,mesh: A3(triangleMesh,
                   A3($Math$Vector3.vec3,

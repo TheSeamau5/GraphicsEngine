@@ -33,7 +33,6 @@ triangleMesh p q r = [map Attribute (p,q,r)]
 -}
 triangle : Renderable
 triangle = {
-  guid     = 0,
   material = material,
   mesh     = triangleMesh (vec3 -0.5 -0.5 0) (vec3 0.5 -0.5 0) (vec3 0 0.5 0),
   position = vec3 0 0 0,

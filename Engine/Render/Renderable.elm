@@ -12,7 +12,6 @@ avoid circular dependencies.
 import Engine.Transform.Transform (Transform)
 import Engine.Material.Material (Material)
 import Engine.Mesh.Mesh (Mesh)
-import Engine.Object.Object (Object)
 
 {-| Represent a renderable object. A renderable object is an Object with a
 Transform properties (position, rotation, and scale) in order to locate it
@@ -25,7 +24,7 @@ the renderable object responds to light and draws itself. The mesh describes
 the geometry of the renderable object (if it is a cube, a pyramid, etc...).
 
 -}
-type alias Renderable = Object (Transform {
+type alias Renderable = Transform {
   material : Material,
   mesh     : Mesh
-})
+}

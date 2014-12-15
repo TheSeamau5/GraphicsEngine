@@ -9,7 +9,6 @@ import Engine.Mesh.Triangle             as Triangle
 import Engine.Mesh.Rectangle            as Rectangle
 import Engine.Mesh.Cube                 as Cube
 import Engine.Mesh.Pyramid              as Pyramid
-import Engine.Object.Object             as Object
 import Engine.Shader.Attribute          as Attribute
 import Engine.Shader.Uniform            as Uniform
 import Engine.Render.Render             as Render
@@ -53,9 +52,6 @@ cubeMesh = Cube.cubeMesh
 pyramid = Pyramid.pyramid
 pyramidMesh = Pyramid.pyramidMesh
 
--- Re-export Engine.Object.Object and Engine.Object.DefaultObject
-type alias Object a = Object.Object a
-object = Object.object
 
 -- Re-export Engine.Shader.Attribute
 type alias Attribute = Attribute.Attribute

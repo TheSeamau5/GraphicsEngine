@@ -16,7 +16,6 @@ Elm.Engine.Render.Renderable.make = function (_elm) {
    $moduleName = "Engine.Render.Renderable",
    $Engine$Material$Material = Elm.Engine.Material.Material.make(_elm),
    $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
-   $Engine$Object$Object = Elm.Engine.Object.Object.make(_elm),
    $Engine$Transform$Transform = Elm.Engine.Transform.Transform.make(_elm);
    _elm.Engine.Render.Renderable.values = {_op: _op};
    return _elm.Engine.Render.Renderable.values;
