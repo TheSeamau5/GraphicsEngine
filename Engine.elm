@@ -49,6 +49,37 @@ construct arbitrary scenes like.
 
 As you can see, the record syntax allows to change only what needs to be
 changed and removes any unnecessary boilerplate.
+
+# Scene
+@docs Scene, scene
+
+# Camera
+@docs Camera, camera
+
+# Light
+@docs Light, light
+
+# Material
+@docs MaterialProperty, Material, material
+
+# Mesh
+@docs Mesh, triangleMesh, rectangleMesh, pyramidMesh, cubeMesh
+
+# Renderable
+@docs Renderable, renderable, triangle, rectangle, pyramid, cube
+
+# Render Function
+@docs render
+
+# Transform
+@docs Transform, transform
+
+# Viewport
+@docs Viewport, viewport
+
+# Shading
+@docs Attribute, Uniform
+
 -}
 
 -------------- IMPORTED MODULES JUST FOR TYPE ANNOTATIONS -------------------
