@@ -63,10 +63,10 @@ changed and removes any unnecessary boilerplate.
 @docs MaterialProperty, Material, material
 
 # Mesh
-@docs Mesh, triangleMesh, rectangleMesh, pyramidMesh, cubeMesh
+@docs Mesh, triangleMesh, rectangleMesh, pyramidMesh, cubeMesh, sphereMesh
 
 # Renderable
-@docs Renderable, renderable, triangle, rectangle, pyramid, cube
+@docs Renderable, renderable, triangle, rectangle, pyramid, cube, sphere
 
 # Render Function
 @docs render
@@ -98,6 +98,7 @@ import Engine.Mesh.Triangle             as Triangle
 import Engine.Mesh.Rectangle            as Rectangle
 import Engine.Mesh.Cube                 as Cube
 import Engine.Mesh.Pyramid              as Pyramid
+import Engine.Mesh.Sphere               as Sphere
 import Engine.Shader.Attribute          as Attribute
 import Engine.Shader.Uniform            as Uniform
 import Engine.Render.Render             as Render
@@ -383,6 +384,25 @@ returns a pyramid mesh.
 -}
 pyramidMesh : Vec3 -> Float -> Float -> Mesh
 pyramidMesh = Pyramid.pyramidMesh
+
+----------------------------------------------------------------------------
+
+----------------- Re-export Engine.Mesh.Sphere -----------------------------
+
+{-| Default sphere renderable object. Located at the origin with radius of 0.5.
+-}
+
+sphere : Renderable
+sphere = Sphere.sphere
+
+{-| Function that takes a center point/vector, the radius, the number of
+segments around the sphere radially (like longitude), the number of segments up
+and down (like latitude), and returns a mesh that approximates a sphere.
+
+    sphereMesh center radius segmentsR segmentsY
+-}
+sphereMesh : Vec3 -> Float -> Float -> Float -> Mesh
+sphereMesh = Sphere.sphereMesh
 
 ----------------------------------------------------------------------------
 
