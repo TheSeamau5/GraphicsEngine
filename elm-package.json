@@ -17,6 +17,7 @@
         "Engine.Mesh.Rectangle",
         "Engine.Mesh.Pyramid",
         "Engine.Mesh.Cube",
+        "Engine.Mesh.Sphere",
         "Engine.Render.Renderable",
         "Engine.Render.DefaultRenderable",
         "Engine.Render.Render",

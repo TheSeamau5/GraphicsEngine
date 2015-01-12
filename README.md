@@ -169,12 +169,16 @@ type alias Attribute = {
 
 Typically, one would send a color and a normal attribute to the GPU. But, the choice made by the library is that normals can be calculated by passing in a normal matrix and color can be set on the `Material`
 
-The library offers currently 4 basic meshes to construct your objects:
+The library offers some basic meshes to construct your objects. In 2D:
+
+ * `rectangleMesh`
+ * `triangleMesh`
+
+And in 3D:
 
  * `cubeMesh`
  * `pyramidMesh`
- * `rectangleMesh`
- * `triangleMesh`
+ * `sphereMesh`
 
 -----------------------------------
 ##Material##
