@@ -15,9 +15,11 @@ Currently, the fragment shader just sets the fragment color to red.
 -}
 fragmentShader : String
 fragmentShader = """
+varying vec3 vPosition;
 
 void main(){
-  gl_FragColor = vec4(1.0,0.0,0.0,1.0);
+  vec3 outputColor = normalize(vPosition) * sqrt(3.0);
+  gl_FragColor = vec4(outputColor,1.0);
 }
 
 """

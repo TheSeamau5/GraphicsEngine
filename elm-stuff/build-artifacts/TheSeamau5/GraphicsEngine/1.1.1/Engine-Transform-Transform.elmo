@@ -1,0 +1,45 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Transform = Elm.Engine.Transform || {};
+Elm.Engine.Transform.Transform = Elm.Engine.Transform.Transform || {};
+Elm.Engine.Transform.Transform.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Transform = _elm.Engine.Transform || {};
+   _elm.Engine.Transform.Transform = _elm.Engine.Transform.Transform || {};
+   if (_elm.Engine.Transform.Transform.values)
+   return _elm.Engine.Transform.Transform.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Transform.Transform",
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var transform = {_: {}
+                   ,position: A3($Math$Vector3.vec3,
+                   0,
+                   0,
+                   0)
+                   ,rotation: A3($Math$Vector3.vec3,
+                   0,
+                   0,
+                   0)
+                   ,scale: A3($Math$Vector3.vec3,
+                   1,
+                   1,
+                   1)};
+   var Transform = F4(function (a,
+   b,
+   c,
+   d) {
+      return _U.insert("scale",
+      c,
+      _U.insert("rotation",
+      b,
+      _U.insert("position",a,d)));
+   });
+   _elm.Engine.Transform.Transform.values = {_op: _op
+                                            ,Transform: Transform
+                                            ,transform: transform};
+   return _elm.Engine.Transform.Transform.values;
+};

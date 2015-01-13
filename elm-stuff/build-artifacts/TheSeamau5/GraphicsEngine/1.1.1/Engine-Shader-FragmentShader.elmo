@@ -1,0 +1,21 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Shader = Elm.Engine.Shader || {};
+Elm.Engine.Shader.FragmentShader = Elm.Engine.Shader.FragmentShader || {};
+Elm.Engine.Shader.FragmentShader.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Shader = _elm.Engine.Shader || {};
+   _elm.Engine.Shader.FragmentShader = _elm.Engine.Shader.FragmentShader || {};
+   if (_elm.Engine.Shader.FragmentShader.values)
+   return _elm.Engine.Shader.FragmentShader.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Shader.FragmentShader";
+   var fragmentShader = "\nvarying vec3 vPosition;\n\nvoid main(){\n  vec3 outputColor = normalize(vPosition) * sqrt(3.0);\n  gl_FragColor = vec4(outputColor,1.0);\n}\n\n";
+   _elm.Engine.Shader.FragmentShader.values = {_op: _op
+                                              ,fragmentShader: fragmentShader};
+   return _elm.Engine.Shader.FragmentShader.values;
+};

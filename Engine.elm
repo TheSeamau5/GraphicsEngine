@@ -236,7 +236,7 @@ full strength. If this property is used to represent specular highlights,
 then this means that these highlights will appear white and very visible.
 
 -}
-type alias MaterialProperty = Material.MaterialProperty
+--type alias MaterialProperty = Material.MaterialProperty
 
 
 {-| Represent a material. A Material has properties to help it define

@@ -167,3 +167,18 @@ projectionMatrix camera =
                           camera.aspectRatio
                           camera.nearClipping
                           camera.farClipping
+
+{-| Shorthand for modelViewMatrix. Faster to calculate once in CPU.
+-}
+modelViewMatrix : Transform a -> Transform b -> Matrix4.Mat4
+modelViewMatrix object camera =
+  (viewMatrix camera) `Matrix4.mul` (modelMatrix object)
+
+
+modelViewProjectionMatrix : Transform a -> Camera -> Matrix4.Mat4
+modelViewProjectionMatrix object camera =
+  (projectionMatrix camera) `Matrix4.mul` (modelViewMatrix object camera)
+
+normalMatrix : Transform a -> Transform b -> Matrix4.Mat4
+normalMatrix object camera =
+  Matrix4.inverseOrthonormal (Matrix4.transpose (modelViewMatrix object camera))

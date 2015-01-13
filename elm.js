@@ -694,6 +694,7 @@ Elm.Engine.make = function (_elm) {
    $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
    $Engine$Mesh$Pyramid = Elm.Engine.Mesh.Pyramid.make(_elm),
    $Engine$Mesh$Rectangle = Elm.Engine.Mesh.Rectangle.make(_elm),
+   $Engine$Mesh$Sphere = Elm.Engine.Mesh.Sphere.make(_elm),
    $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
    $Engine$Render$DefaultRenderable = Elm.Engine.Render.DefaultRenderable.make(_elm),
    $Engine$Render$Render = Elm.Engine.Render.Render.make(_elm),
@@ -709,6 +710,8 @@ Elm.Engine.make = function (_elm) {
    var transform = $Engine$Transform$Transform.transform;
    var renderable = $Engine$Render$DefaultRenderable.renderable;
    var render = $Engine$Render$Render.render;
+   var sphereMesh = $Engine$Mesh$Sphere.sphereMesh;
+   var sphere = $Engine$Mesh$Sphere.sphere;
    var pyramidMesh = $Engine$Mesh$Pyramid.pyramidMesh;
    var pyramid = $Engine$Mesh$Pyramid.pyramid;
    var cubeMesh = $Engine$Mesh$Cube.cubeMesh;
@@ -734,6 +737,8 @@ Elm.Engine.make = function (_elm) {
                         ,cubeMesh: cubeMesh
                         ,pyramid: pyramid
                         ,pyramidMesh: pyramidMesh
+                        ,sphere: sphere
+                        ,sphereMesh: sphereMesh
                         ,render: render
                         ,renderable: renderable
                         ,transform: transform
@@ -982,6 +987,26 @@ Elm.Engine.Math.Utils.make = function (_elm) {
          scaleMatrix));
       }();
    };
+   var modelViewMatrix = F2(function (object,
+   camera) {
+      return A2($Math$Matrix4.mul,
+      viewMatrix(camera),
+      modelMatrix(object));
+   });
+   var modelViewProjectionMatrix = F2(function (object,
+   camera) {
+      return A2($Math$Matrix4.mul,
+      projectionMatrix(camera),
+      A2(modelViewMatrix,
+      object,
+      camera));
+   });
+   var normalMatrix = F2(function (object,
+   camera) {
+      return $Math$Matrix4.inverseOrthonormal($Math$Matrix4.transpose(A2(modelViewMatrix,
+      object,
+      camera)));
+   });
    var safeNormalize = function (vector) {
       return _U.eq($Math$Vector3.lengthSquared(vector),
       0) ? vector : $Math$Vector3.normalize(vector);
@@ -996,7 +1021,10 @@ Elm.Engine.Math.Utils.make = function (_elm) {
                                    ,getTargetPosition: getTargetPosition
                                    ,modelMatrix: modelMatrix
                                    ,viewMatrix: viewMatrix
-                                   ,projectionMatrix: projectionMatrix};
+                                   ,projectionMatrix: projectionMatrix
+                                   ,modelViewMatrix: modelViewMatrix
+                                   ,modelViewProjectionMatrix: modelViewProjectionMatrix
+                                   ,normalMatrix: normalMatrix};
    return _elm.Engine.Math.Utils.values;
 };
 Elm.Engine = Elm.Engine || {};
@@ -1297,6 +1325,105 @@ Elm.Engine.Mesh.Rectangle.make = function (_elm) {
 };
 Elm.Engine = Elm.Engine || {};
 Elm.Engine.Mesh = Elm.Engine.Mesh || {};
+Elm.Engine.Mesh.Sphere = Elm.Engine.Mesh.Sphere || {};
+Elm.Engine.Mesh.Sphere.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Mesh = _elm.Engine.Mesh || {};
+   _elm.Engine.Mesh.Sphere = _elm.Engine.Mesh.Sphere || {};
+   if (_elm.Engine.Mesh.Sphere.values)
+   return _elm.Engine.Mesh.Sphere.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Mesh.Sphere",
+   $Basics = Elm.Basics.make(_elm),
+   $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
+   $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var sphereMesh = F4(function (center,
+   radius,
+   segmentsR,
+   segmentsY) {
+      return function () {
+         var halfRadius = radius / 2;
+         var getRadius = function (y) {
+            return $Basics.sqrt(A2($Basics.max,
+            0,
+            halfRadius - y * y));
+         };
+         var dy = 1 / segmentsY;
+         var dt = 2 * $Basics.pi / segmentsR;
+         return $List.concatMap(function (i) {
+            return function () {
+               var theta = i * dt;
+               var x0 = $Basics.cos(theta);
+               var x1 = $Basics.cos(theta + dt);
+               var z0 = $Basics.sin(theta);
+               var z1 = $Basics.sin(theta + dt);
+               return $List.concatMap(function (j) {
+                  return function () {
+                     var y0 = j * dy - radius;
+                     var y1 = y0 + dy;
+                     var r1 = getRadius(y1);
+                     var tl = A2($Math$Vector3.add,
+                     center,
+                     A3($Math$Vector3.vec3,
+                     x0 * r1,
+                     y1,
+                     z0 * r1));
+                     var tr = A2($Math$Vector3.add,
+                     center,
+                     A3($Math$Vector3.vec3,
+                     x1 * r1,
+                     y1,
+                     z1 * r1));
+                     var r0 = getRadius(y0);
+                     var bl = A2($Math$Vector3.add,
+                     center,
+                     A3($Math$Vector3.vec3,
+                     x0 * r0,
+                     y0,
+                     z0 * r0));
+                     var br = A2($Math$Vector3.add,
+                     center,
+                     A3($Math$Vector3.vec3,
+                     x1 * r0,
+                     y0,
+                     z1 * r0));
+                     return A2($Basics._op["++"],
+                     A3($Engine$Mesh$Triangle.triangleMesh,
+                     bl,
+                     br,
+                     tr),
+                     A3($Engine$Mesh$Triangle.triangleMesh,
+                     bl,
+                     tr,
+                     tl));
+                  }();
+               })(_L.range(0,segmentsY - 1));
+            }();
+         })(_L.range(0,segmentsR - 1));
+      }();
+   });
+   var sphere = _U.replace([["mesh"
+                            ,A4(sphereMesh,
+                            A3($Math$Vector3.vec3,0,0,0),
+                            0.5,
+                            20,
+                            20)]],
+   $Engine$Mesh$Triangle.triangle);
+   _elm.Engine.Mesh.Sphere.values = {_op: _op
+                                    ,sphereMesh: sphereMesh
+                                    ,sphere: sphere};
+   return _elm.Engine.Mesh.Sphere.values;
+};
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Mesh = Elm.Engine.Mesh || {};
 Elm.Engine.Mesh.Triangle = Elm.Engine.Mesh.Triangle || {};
 Elm.Engine.Mesh.Triangle.make = function (_elm) {
    "use strict";
@@ -1532,27 +1659,6 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
    $Engine$Shader$Library = Elm.Engine.Shader.Library.make(_elm),
    $Engine$Shader$Utils = Elm.Engine.Shader.Utils.make(_elm),
    $List = Elm.List.make(_elm);
-   var normalMatrix = A3($Engine$Shader$Utils.declareInitializedVariable,
-   "mat4",
-   "normalMatrix",
-   "transpose(inverse(modelViewMatrix))");
-   var modelViewProjectionMatrix = A3($Engine$Shader$Utils.declareInitializedVariable,
-   "mat4",
-   "modelViewProjectionMatrix",
-   "projectionMatrix * modelViewMatrix");
-   var modelViewMatrix = A3($Engine$Shader$Utils.declareInitializedVariable,
-   "mat4",
-   "modelViewMatrix",
-   "viewMatrix * modelMatrix");
-   var usefulVariables = A2($Basics._op["++"],
-   modelViewMatrix,
-   A2($Basics._op["++"],
-   $Engine$Shader$Utils.newLine,
-   A2($Basics._op["++"],
-   modelViewProjectionMatrix,
-   A2($Basics._op["++"],
-   $Engine$Shader$Utils.newLine,
-   normalMatrix))));
    var attributeDeclarations = $Engine$Shader$Utils.groupStatements(A2($List.map,
    $Basics.uncurry($Engine$Shader$Utils.declareAttribute),
    _L.fromArray([{ctor: "_Tuple2"
@@ -1569,6 +1675,15 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
                 ,{ctor: "_Tuple2"
                  ,_0: "mat4"
                  ,_1: "projectionMatrix"}
+                ,{ctor: "_Tuple2"
+                 ,_0: "mat4"
+                 ,_1: "modelViewMatrix"}
+                ,{ctor: "_Tuple2"
+                 ,_0: "mat4"
+                 ,_1: "modelViewProjectionMatrix"}
+                ,{ctor: "_Tuple2"
+                 ,_0: "mat4"
+                 ,_1: "normalMatrix"}
                 ,{ctor: "_Tuple2"
                  ,_0: "vec3"
                  ,_1: "lightPosition"}
@@ -1712,13 +1827,7 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
    $Engine$Shader$Utils.newLine,
    A2($Basics._op["++"],
    $Engine$Shader$Utils.newLine,
-   A2($Basics._op["++"],
-   $Engine$Shader$Library.libraryFunctions,
-   A2($Basics._op["++"],
-   $Engine$Shader$Utils.newLine,
-   A2($Basics._op["++"],
-   $Engine$Shader$Utils.newLine,
-   usefulVariables))))))))))))))))))))))));
+   $Engine$Shader$Library.libraryFunctions)))))))))))))))))))));
    var vertexShaderBoilerplate = A2($Basics._op["++"],
    $Engine$Shader$Utils.setFloatPrecision,
    A2($Basics._op["++"],
@@ -1747,10 +1856,6 @@ Elm.Engine.Shader.Boilerplate.make = function (_elm) {
                                            ,setupLight: setupLight
                                            ,uniformDeclarations: uniformDeclarations
                                            ,attributeDeclarations: attributeDeclarations
-                                           ,modelViewMatrix: modelViewMatrix
-                                           ,modelViewProjectionMatrix: modelViewProjectionMatrix
-                                           ,normalMatrix: normalMatrix
-                                           ,usefulVariables: usefulVariables
                                            ,commonShaderBoilerplate: commonShaderBoilerplate
                                            ,vertexShaderBoilerplate: vertexShaderBoilerplate
                                            ,fragmentShaderBoilerplate: fragmentShaderBoilerplate};
@@ -1772,10 +1877,31 @@ Elm.Engine.Shader.FragmentShader.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Engine.Shader.FragmentShader";
-   var fragmentShader = "\n\nvoid main(){\n  gl_FragColor = vec4(1.0,0.0,0.0,1.0);\n}\n\n";
+   var fragmentShader = "\nvarying vec3 vPosition;\n\nvoid main(){\n  vec3 outputColor = normalize(vPosition) * sqrt(3.0);\n  gl_FragColor = vec4(outputColor,1.0);\n}\n\n";
    _elm.Engine.Shader.FragmentShader.values = {_op: _op
                                               ,fragmentShader: fragmentShader};
    return _elm.Engine.Shader.FragmentShader.values;
+};
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Shader = Elm.Engine.Shader || {};
+Elm.Engine.Shader.GouraudShader = Elm.Engine.Shader.GouraudShader || {};
+Elm.Engine.Shader.GouraudShader.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Shader = _elm.Engine.Shader || {};
+   _elm.Engine.Shader.GouraudShader = _elm.Engine.Shader.GouraudShader || {};
+   if (_elm.Engine.Shader.GouraudShader.values)
+   return _elm.Engine.Shader.GouraudShader.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Shader.GouraudShader";
+   var gouraudShader = "\nvarying vec3 vPosition;\nvarying vec3 vNormal;\nvarying vec3 vViewPosition;\n\nvoid main(){\n  vec3 normal = normalize(vNormal);\n  vec3 viewVector = normalize(vViewPosition);\n  vec4 lightDirection = viewMatrix * vec4(light.position, 1.0);\n  vec3 lightVector = normalize(lightDirection.xyz);\n  vec3 pointHalfVector = normalize(lightVector + viewVector);\n  float pointDotHalfNormal = max(dot(normal, pointHalfVector), 0.0);\n\n\n  vec3 lightContribution = light.color * max(min(light.intensity, 1.0), 0.5);\n\n  vec3 emissiveContribution = material.emissive.color * material.emissive.strength;\n  vec3 ambientContribution = material.ambient.color * material.ambient.strength;\n\n  float diffuseFactor = max( dot(normal, lightVector), 0.0) / 2.0;\n  vec3 diffuseContribution = material.diffuse.color * material.diffuse.strength * diffuseFactor;\n  vec3 outputColor = vec3(0.0,0.0,0.0);\n\n  outputColor += 0.25 * ambientContribution;\n\n  outputColor += 0.25 * emissiveContribution;\n\n  outputColor += 0.25 * diffuseContribution;\n\n  float shininess = material.specular.strength * 100.0;\n  float specularFactor = material.specular.strength * pow( pointDotHalfNormal, shininess);\n  specularFactor *= diffuseFactor * (2.0  +  shininess) / 8.0;\n\n  if (diffuseFactor <= 0.0){\n    specularFactor = 0.0;\n  }\n\n  vec3 specularContribution = material.specular.color * specularFactor;\n\n  outputColor += 0.25 * specularContribution;\n\n  //outputColor *= lightContribution;\n\n  gl_FragColor = vec4(outputColor, 1.0);\n\n  /*vec3 materialColor = normalize(\n    emissiveContribution + ambientContribution +\n    diffuseContribution  + specularContribution\n  ) * sqrt(3.0);\n\n  vec3 outputColor = normalize(\n    lightContribution * materialColor\n  ) * sqrt(3.0);\n\n  gl_FragColor = vec4(outputColor, 1.0);*/\n\n}\n\n";
+   _elm.Engine.Shader.GouraudShader.values = {_op: _op
+                                             ,gouraudShader: gouraudShader};
+   return _elm.Engine.Shader.GouraudShader.values;
 };
 Elm.Engine = Elm.Engine || {};
 Elm.Engine.Shader = Elm.Engine.Shader || {};
@@ -1980,6 +2106,15 @@ Elm.Engine.Shader.Uniform.make = function (_elm) {
              ,materialSpecularColor: object.material.specular.color
              ,materialSpecularStrength: object.material.specular.strength
              ,modelMatrix: $Engine$Math$Utils.modelMatrix(object)
+             ,modelViewMatrix: A2($Engine$Math$Utils.modelViewMatrix,
+             object,
+             scene.camera)
+             ,modelViewProjectionMatrix: A2($Engine$Math$Utils.modelViewProjectionMatrix,
+             object,
+             scene.camera)
+             ,normalMatrix: A2($Engine$Math$Utils.normalMatrix,
+             object,
+             scene.camera)
              ,projectionMatrix: $Engine$Math$Utils.projectionMatrix(scene.camera)
              ,viewMatrix: $Engine$Math$Utils.viewMatrix(scene.camera)};
    });
@@ -1998,22 +2133,31 @@ Elm.Engine.Shader.Uniform.make = function (_elm) {
                                        return function (m) {
                                           return function (n) {
                                              return function (o) {
-                                                return {_: {}
-                                                       ,lightColor: f
-                                                       ,lightIntensity: g
-                                                       ,lightPosition: d
-                                                       ,lightRotation: e
-                                                       ,materialAmbientColor: j
-                                                       ,materialAmbientStrength: k
-                                                       ,materialDiffuseColor: l
-                                                       ,materialDiffuseStrength: m
-                                                       ,materialEmissiveColor: h
-                                                       ,materialEmissiveStrength: i
-                                                       ,materialSpecularColor: n
-                                                       ,materialSpecularStrength: o
-                                                       ,modelMatrix: a
-                                                       ,projectionMatrix: c
-                                                       ,viewMatrix: b};
+                                                return function (p) {
+                                                   return function (q) {
+                                                      return function (r) {
+                                                         return {_: {}
+                                                                ,lightColor: i
+                                                                ,lightIntensity: j
+                                                                ,lightPosition: g
+                                                                ,lightRotation: h
+                                                                ,materialAmbientColor: m
+                                                                ,materialAmbientStrength: n
+                                                                ,materialDiffuseColor: o
+                                                                ,materialDiffuseStrength: p
+                                                                ,materialEmissiveColor: k
+                                                                ,materialEmissiveStrength: l
+                                                                ,materialSpecularColor: q
+                                                                ,materialSpecularStrength: r
+                                                                ,modelMatrix: a
+                                                                ,modelViewMatrix: d
+                                                                ,modelViewProjectionMatrix: e
+                                                                ,normalMatrix: f
+                                                                ,projectionMatrix: c
+                                                                ,viewMatrix: b};
+                                                      };
+                                                   };
+                                                };
                                              };
                                           };
                                        };
@@ -2237,7 +2381,7 @@ Elm.Engine.Shader.VertexShader.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Engine.Shader.VertexShader";
-   var vertexShader = "\nvarying vec3 vPosition;\n\nvoid main (){\n  vec4 outputPosition = modelViewProjectionMatrix * vec4(position, 1.0);\n  gl_Position = outputPosition;\n  vPosition = outputPosition.xyz;\n}\n\n";
+   var vertexShader = "\nvarying vec3 vPosition;\nvarying vec3 vNormal;\nvarying vec3 vViewPosition;\n\nvoid main (){\n  vec4 outputPosition = modelViewProjectionMatrix * vec4(position, 1.0);\n  vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);\n  gl_Position = outputPosition;\n  vPosition = outputPosition.xyz;\n  vNormal = normalize(mat3(normalMatrix) * position);\n  vViewPosition = -modelViewPosition.xyz;\n}\n\n";
    _elm.Engine.Shader.VertexShader.values = {_op: _op
                                             ,vertexShader: vertexShader};
    return _elm.Engine.Shader.VertexShader.values;
@@ -3175,9 +3319,62 @@ Elm.Main.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Main",
-   $Engine = Elm.Engine.make(_elm);
-   var main = $Engine.render($Engine.scene);
+   $Engine = Elm.Engine.make(_elm),
+   $Engine$Material$Material = Elm.Engine.Material.Material.make(_elm),
+   $Engine$Shader$GouraudShader = Elm.Engine.Shader.GouraudShader.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var myLight = _U.replace([["position"
+                             ,A3($Math$Vector3.vec3,
+                             -3,
+                             5,
+                             -4)]],
+   $Engine.light);
+   var myCamera = _U.replace([["position"
+                              ,A3($Math$Vector3.vec3,
+                              -1.7,
+                              1.7,
+                              -3)]
+                             ,["rotation"
+                              ,A3($Math$Vector3.vec3,
+                              0.4,
+                              0.5,
+                              0)]],
+   $Engine.camera);
+   var myObject = function () {
+      var gouraudMaterial = _U.replace([["fragmentShader"
+                                        ,$Engine$Shader$GouraudShader.gouraudShader]
+                                       ,["emissive"
+                                        ,A2($Engine$Material$Material.MaterialProperty,
+                                        A3($Math$Vector3.vec3,0,0,1),
+                                        0.7)]
+                                       ,["ambient"
+                                        ,A2($Engine$Material$Material.MaterialProperty,
+                                        A3($Math$Vector3.vec3,1,1,1),
+                                        0.3)]
+                                       ,["diffuse"
+                                        ,A2($Engine$Material$Material.MaterialProperty,
+                                        A3($Math$Vector3.vec3,1,1,1),
+                                        0.5)]
+                                       ,["specular"
+                                        ,A2($Engine$Material$Material.MaterialProperty,
+                                        A3($Math$Vector3.vec3,1,1,1),
+                                        0.8)]],
+      $Engine.material);
+      return _U.replace([["material"
+                         ,gouraudMaterial]],
+      $Engine.sphere);
+   }();
+   var myScene = _U.replace([["objects"
+                             ,_L.fromArray([myObject])]
+                            ,["camera",myCamera]
+                            ,["light",myLight]],
+   $Engine.scene);
+   var main = $Engine.render(myScene);
    _elm.Main.values = {_op: _op
+                      ,myObject: myObject
+                      ,myCamera: myCamera
+                      ,myLight: myLight
+                      ,myScene: myScene
                       ,main: main};
    return _elm.Main.values;
 };
@@ -7598,180 +7795,6 @@ Elm.Native.String.make = function(elm) {
     };
 };
 
-Elm.Native.Text = {};
-Elm.Native.Text.make = function(elm) {
-    elm.Native = elm.Native || {};
-    elm.Native.Text = elm.Native.Text || {};
-    if (elm.Native.Text.values) return elm.Native.Text.values;
-
-    var toCss = Elm.Native.Color.make(elm).toCss;
-    var Element = Elm.Graphics.Element.make(elm);
-    var NativeElement = Elm.Native.Graphics.Element.make(elm);
-    var List = Elm.Native.List.make(elm);
-    var Utils = Elm.Native.Utils.make(elm);
-
-    function makeSpaces(s) {
-        if (s.length == 0) { return s; }
-        var arr = s.split('');
-        if (arr[0] == ' ') { arr[0] = "&nbsp;" }      
-        for (var i = arr.length; --i; ) {
-            if (arr[i][0] == ' ' && arr[i-1] == ' ') {
-                arr[i-1] = arr[i-1] + arr[i];
-                arr[i] = '';
-            }
-        }
-        for (var i = arr.length; i--; ) {
-            if (arr[i].length > 1 && arr[i][0] == ' ') {
-                var spaces = arr[i].split('');
-                for (var j = spaces.length - 2; j >= 0; j -= 2) {
-                    spaces[j] = '&nbsp;';
-                }
-                arr[i] = spaces.join('');
-            }
-        }
-        arr = arr.join('');
-        if (arr[arr.length-1] === " ") {
-            return arr.slice(0,-1) + '&nbsp;';
-        }
-        return arr;
-    }
-
-    function properEscape(str) {
-        if (str.length == 0) return str;
-        str = str //.replace(/&/g,  "&#38;")
-            .replace(/"/g,  '&#34;')
-            .replace(/'/g,  "&#39;")
-            .replace(/</g,  "&#60;")
-            .replace(/>/g,  "&#62;")
-            .replace(/\n/g, "<br/>");
-        var arr = str.split('<br/>');
-        for (var i = arr.length; i--; ) {
-            arr[i] = makeSpaces(arr[i]);
-        }
-        return arr.join('<br/>');
-    }
-
-    function fromString(str) {
-        return Utils.txt(properEscape(str));
-    }
-
-    function append(xs, ys) {
-        return Utils.txt(Utils.makeText(xs) + Utils.makeText(ys));
-    }
-
-    // conversions from Elm values to CSS
-    function toTypefaces(list) {
-        var typefaces = List.toArray(list);
-        for (var i = typefaces.length; i--; ) {
-            var typeface = typefaces[i];
-            if (typeface.indexOf(' ') > -1) {
-                typefaces[i] = "'" + typeface + "'";
-            }
-        }
-        return typefaces.join(',');
-    }
-    function toLine(line) {
-        var ctor = line.ctor;
-        return ctor === 'Under' ? 'underline' :
-               ctor === 'Over'  ? 'overline'  : 'line-through';
-    }
-
-    // setting styles of Text
-    function style(style, text) {
-        var newText = '<span style="color:' + toCss(style.color) + ';'
-        if (style.typeface.ctor !== '[]') {
-            newText += 'font-family:' + toTypefaces(style.typeface) + ';'
-        }
-        if (style.height.ctor !== "Nothing") {
-            newText += 'font-size:' + style.height._0 + 'px;';
-        }
-        if (style.bold) {
-            newText += 'font-weight:bold;';
-        }
-        if (style.italic) {
-            newText += 'font-style:italic;';
-        }
-        if (style.line.ctor !== 'Nothing') {
-            newText += 'text-decoration:' + toLine(style.line._0) + ';';
-        }
-        newText += '">' + Utils.makeText(text) + '</span>'
-        return Utils.txt(newText);
-    }
-    function height(px, text) {
-        return { style: 'font-size:' + px + 'px;', text:text }
-    }
-    function typeface(names, text) {
-        return { style: 'font-family:' + toTypefaces(names) + ';', text:text }
-    }
-    function monospace(text) {
-        return { style: 'font-family:monospace;', text:text }
-    }
-    function italic(text) {
-        return { style: 'font-style:italic;', text:text }
-    }
-    function bold(text) {
-        return { style: 'font-weight:bold;', text:text }
-    }
-    function link(href, text) {
-        return { href: fromString(href), text:text };
-    }
-    function line(line, text) {
-        return { style: 'text-decoration:' + toLine(line) + ';', text:text };
-    }
-
-    function color(color, text) {
-        return { style: 'color:' + toCss(color) + ';', text:text };
-    }
-
-    function block(align) {
-        return function(text) {
-            var raw = {
-                ctor :'RawHtml',
-                html : Utils.makeText(text),
-                align: align,
-                guid : null
-            };
-            var pos = A2(NativeElement.htmlHeight, 0, raw);
-            return A3(Element.newElement, pos._0, pos._1, raw);
-        }
-    }
-
-    function markdown(text, guid) {
-        var raw = {
-            ctor:'RawHtml',
-            html: text,
-            align: null,
-            guid: guid
-        };
-        var pos = A2(NativeElement.htmlHeight, 0, raw);
-        return A3(Element.newElement, pos._0, pos._1, raw);
-    }
-
-    return elm.Native.Text.values = {
-        fromString: fromString,
-        append: F2(append),
-
-        height : F2(height),
-        italic : italic,
-        bold : bold,
-        line : F2(line),
-        monospace : monospace,
-        typeface : F2(typeface),
-        color : F2(color),
-        link : F2(link),
-        style : F2(style),
-
-        leftAligned  : block('left'),
-        rightAligned : block('right'),
-        centered     : block('center'),
-        justified    : block('justify'),
-        markdown     : markdown,
-
-        toTypefaces:toTypefaces,
-        toLine:toLine
-    };
-};
-
 Elm.Native = Elm.Native || {};
 Elm.Native.Utils = {};
 Elm.Native.Utils.make = function(localRuntime) {
@@ -8821,114 +8844,6 @@ Elm.String.make = function (_elm) {
                         ,toList: toList
                         ,fromList: fromList};
    return _elm.String.values;
-};
-Elm.Text = Elm.Text || {};
-Elm.Text.make = function (_elm) {
-   "use strict";
-   _elm.Text = _elm.Text || {};
-   if (_elm.Text.values)
-   return _elm.Text.values;
-   var _op = {},
-   _N = Elm.Native,
-   _U = _N.Utils.make(_elm),
-   _L = _N.List.make(_elm),
-   _P = _N.Ports.make(_elm),
-   $moduleName = "Text",
-   $Basics = Elm.Basics.make(_elm),
-   $Color = Elm.Color.make(_elm),
-   $Graphics$Element = Elm.Graphics.Element.make(_elm),
-   $List = Elm.List.make(_elm),
-   $Maybe = Elm.Maybe.make(_elm),
-   $Native$Text = Elm.Native.Text.make(_elm);
-   var markdown = $Native$Text.markdown;
-   var justified = $Native$Text.justified;
-   var centered = $Native$Text.centered;
-   var rightAligned = $Native$Text.rightAligned;
-   var leftAligned = $Native$Text.leftAligned;
-   var line = $Native$Text.line;
-   var italic = $Native$Text.italic;
-   var bold = $Native$Text.bold;
-   var color = $Native$Text.color;
-   var height = $Native$Text.height;
-   var link = $Native$Text.link;
-   var monospace = $Native$Text.monospace;
-   var typeface = $Native$Text.typeface;
-   var style = $Native$Text.style;
-   var append = $Native$Text.append;
-   var fromString = $Native$Text.fromString;
-   var empty = fromString("");
-   var concat = function (texts) {
-      return A3($List.foldr,
-      append,
-      empty,
-      texts);
-   };
-   var join = F2(function (seperator,
-   texts) {
-      return concat(A2($List.intersperse,
-      seperator,
-      texts));
-   });
-   var plainText = function (str) {
-      return leftAligned(fromString(str));
-   };
-   var asText = function (value) {
-      return leftAligned(monospace(fromString($Basics.toString(value))));
-   };
-   var defaultStyle = {_: {}
-                      ,bold: false
-                      ,color: $Color.black
-                      ,height: $Maybe.Nothing
-                      ,italic: false
-                      ,line: $Maybe.Nothing
-                      ,typeface: _L.fromArray([])};
-   var Style = F6(function (a,
-   b,
-   c,
-   d,
-   e,
-   f) {
-      return {_: {}
-             ,bold: d
-             ,color: c
-             ,height: b
-             ,italic: e
-             ,line: f
-             ,typeface: a};
-   });
-   var Through = {ctor: "Through"};
-   var Over = {ctor: "Over"};
-   var Under = {ctor: "Under"};
-   var Text = {ctor: "Text"};
-   _elm.Text.values = {_op: _op
-                      ,Text: Text
-                      ,Under: Under
-                      ,Over: Over
-                      ,Through: Through
-                      ,Style: Style
-                      ,defaultStyle: defaultStyle
-                      ,fromString: fromString
-                      ,empty: empty
-                      ,append: append
-                      ,concat: concat
-                      ,join: join
-                      ,style: style
-                      ,typeface: typeface
-                      ,monospace: monospace
-                      ,link: link
-                      ,height: height
-                      ,color: color
-                      ,bold: bold
-                      ,italic: italic
-                      ,line: line
-                      ,leftAligned: leftAligned
-                      ,rightAligned: rightAligned
-                      ,centered: centered
-                      ,justified: justified
-                      ,plainText: plainText
-                      ,markdown: markdown
-                      ,asText: asText};
-   return _elm.Text.values;
 };
 Elm.WebGL = Elm.WebGL || {};
 Elm.WebGL.make = function (_elm) {

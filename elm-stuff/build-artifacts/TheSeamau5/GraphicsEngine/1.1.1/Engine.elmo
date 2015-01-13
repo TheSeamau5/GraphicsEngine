@@ -1,0 +1,70 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   if (_elm.Engine.values)
+   return _elm.Engine.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine",
+   $Engine$Camera$Camera = Elm.Engine.Camera.Camera.make(_elm),
+   $Engine$Light$Light = Elm.Engine.Light.Light.make(_elm),
+   $Engine$Material$Material = Elm.Engine.Material.Material.make(_elm),
+   $Engine$Mesh$Cube = Elm.Engine.Mesh.Cube.make(_elm),
+   $Engine$Mesh$Mesh = Elm.Engine.Mesh.Mesh.make(_elm),
+   $Engine$Mesh$Pyramid = Elm.Engine.Mesh.Pyramid.make(_elm),
+   $Engine$Mesh$Rectangle = Elm.Engine.Mesh.Rectangle.make(_elm),
+   $Engine$Mesh$Sphere = Elm.Engine.Mesh.Sphere.make(_elm),
+   $Engine$Mesh$Triangle = Elm.Engine.Mesh.Triangle.make(_elm),
+   $Engine$Render$DefaultRenderable = Elm.Engine.Render.DefaultRenderable.make(_elm),
+   $Engine$Render$Render = Elm.Engine.Render.Render.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
+   $Engine$Scene$Scene = Elm.Engine.Scene.Scene.make(_elm),
+   $Engine$Shader$Attribute = Elm.Engine.Shader.Attribute.make(_elm),
+   $Engine$Shader$Uniform = Elm.Engine.Shader.Uniform.make(_elm),
+   $Engine$Transform$Transform = Elm.Engine.Transform.Transform.make(_elm),
+   $Engine$Viewport$Viewport = Elm.Engine.Viewport.Viewport.make(_elm),
+   $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm);
+   var viewport = $Engine$Viewport$Viewport.viewport;
+   var transform = $Engine$Transform$Transform.transform;
+   var renderable = $Engine$Render$DefaultRenderable.renderable;
+   var render = $Engine$Render$Render.render;
+   var sphereMesh = $Engine$Mesh$Sphere.sphereMesh;
+   var sphere = $Engine$Mesh$Sphere.sphere;
+   var pyramidMesh = $Engine$Mesh$Pyramid.pyramidMesh;
+   var pyramid = $Engine$Mesh$Pyramid.pyramid;
+   var cubeMesh = $Engine$Mesh$Cube.cubeMesh;
+   var cube = $Engine$Mesh$Cube.cube;
+   var rectangleMesh = $Engine$Mesh$Rectangle.rectangleMesh;
+   var rectangle = $Engine$Mesh$Rectangle.rectangle;
+   var triangleMesh = $Engine$Mesh$Triangle.triangleMesh;
+   var triangle = $Engine$Mesh$Triangle.triangle;
+   var material = $Engine$Material$Material.material;
+   var light = $Engine$Light$Light.light;
+   var camera = $Engine$Camera$Camera.camera;
+   var scene = $Engine$Scene$Scene.scene;
+   _elm.Engine.values = {_op: _op
+                        ,scene: scene
+                        ,camera: camera
+                        ,light: light
+                        ,material: material
+                        ,triangle: triangle
+                        ,triangleMesh: triangleMesh
+                        ,rectangle: rectangle
+                        ,rectangleMesh: rectangleMesh
+                        ,cube: cube
+                        ,cubeMesh: cubeMesh
+                        ,pyramid: pyramid
+                        ,pyramidMesh: pyramidMesh
+                        ,sphere: sphere
+                        ,sphereMesh: sphereMesh
+                        ,render: render
+                        ,renderable: renderable
+                        ,transform: transform
+                        ,viewport: viewport};
+   return _elm.Engine.values;
+};

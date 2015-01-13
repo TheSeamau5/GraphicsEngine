@@ -1,0 +1,5 @@
+# Ignore the auto created elm.js file
+.elm.js
+
+# Ignore the run-time created stuff
+.elm-stuff/

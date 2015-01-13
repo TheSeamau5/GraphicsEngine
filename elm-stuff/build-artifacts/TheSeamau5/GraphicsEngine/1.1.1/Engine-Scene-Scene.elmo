@@ -1,0 +1,41 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Scene = Elm.Engine.Scene || {};
+Elm.Engine.Scene.Scene = Elm.Engine.Scene.Scene || {};
+Elm.Engine.Scene.Scene.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Scene = _elm.Engine.Scene || {};
+   _elm.Engine.Scene.Scene = _elm.Engine.Scene.Scene || {};
+   if (_elm.Engine.Scene.Scene.values)
+   return _elm.Engine.Scene.Scene.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Scene.Scene",
+   $Engine$Camera$Camera = Elm.Engine.Camera.Camera.make(_elm),
+   $Engine$Light$Light = Elm.Engine.Light.Light.make(_elm),
+   $Engine$Render$DefaultRenderable = Elm.Engine.Render.DefaultRenderable.make(_elm),
+   $Engine$Render$Renderable = Elm.Engine.Render.Renderable.make(_elm),
+   $Engine$Viewport$Viewport = Elm.Engine.Viewport.Viewport.make(_elm);
+   var scene = {_: {}
+               ,camera: $Engine$Camera$Camera.camera
+               ,light: $Engine$Light$Light.light
+               ,objects: _L.fromArray([$Engine$Render$DefaultRenderable.renderable])
+               ,viewport: $Engine$Viewport$Viewport.viewport};
+   var Scene = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,camera: a
+             ,light: c
+             ,objects: b
+             ,viewport: d};
+   });
+   _elm.Engine.Scene.Scene.values = {_op: _op
+                                    ,Scene: Scene
+                                    ,scene: scene};
+   return _elm.Engine.Scene.Scene.values;
+};

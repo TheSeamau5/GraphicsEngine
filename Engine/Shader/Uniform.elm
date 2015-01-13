@@ -15,7 +15,13 @@ import Math.Vector3 (Vec3)
 import Math.Matrix4 (Mat4)
 import Engine.Render.Renderable (Renderable)
 import Engine.Scene.Scene (Scene)
-import Engine.Math.Utils (modelMatrix, viewMatrix, projectionMatrix)
+import Engine.Math.Utils (
+  modelMatrix,
+  viewMatrix,
+  projectionMatrix,
+  modelViewMatrix,
+  modelViewProjectionMatrix,
+  normalMatrix)
 
 
 -- TODO: Find a different strategy for dealing with Uniforms
@@ -25,13 +31,16 @@ import Engine.Math.Utils (modelMatrix, viewMatrix, projectionMatrix)
 as uniforms.
 -}
 type alias Uniform = {
-  modelMatrix      : Mat4,
-  viewMatrix       : Mat4,
-  projectionMatrix : Mat4,
-  lightPosition    : Vec3,
-  lightRotation    : Vec3,
-  lightColor       : Vec3,
-  lightIntensity   : Float,
+  modelMatrix               : Mat4,
+  viewMatrix                : Mat4,
+  projectionMatrix          : Mat4,
+  modelViewMatrix           : Mat4,
+  modelViewProjectionMatrix : Mat4,
+  normalMatrix              : Mat4,
+  lightPosition             : Vec3,
+  lightRotation             : Vec3,
+  lightColor                : Vec3,
+  lightIntensity            : Float,
   materialEmissiveColor     : Vec3,
   materialEmissiveStrength  : Float,
   materialAmbientColor      : Vec3,
@@ -48,13 +57,16 @@ to be sent to GLSL as uniforms.
 -}
 constructUniform : Scene -> Renderable -> Uniform
 constructUniform scene object = {
-  modelMatrix       = modelMatrix object,
-  viewMatrix        = viewMatrix scene.camera,
-  projectionMatrix  = projectionMatrix scene.camera,
-  lightPosition     = scene.light.position,
-  lightRotation     = scene.light.rotation,
-  lightColor        = scene.light.color,
-  lightIntensity    = scene.light.intensity,
+  modelMatrix               = modelMatrix object,
+  viewMatrix                = viewMatrix scene.camera,
+  projectionMatrix          = projectionMatrix scene.camera,
+  modelViewMatrix           = modelViewMatrix object scene.camera,
+  modelViewProjectionMatrix = modelViewProjectionMatrix object scene.camera,
+  normalMatrix              = normalMatrix object scene.camera,
+  lightPosition             = scene.light.position,
+  lightRotation             = scene.light.rotation,
+  lightColor                = scene.light.color,
+  lightIntensity            = scene.light.intensity,
   materialEmissiveColor     = object.material.emissive.color,
   materialEmissiveStrength  = object.material.emissive.strength,
   materialAmbientColor      = object.material.ambient.color,

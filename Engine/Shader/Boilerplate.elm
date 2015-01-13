@@ -17,8 +17,6 @@ that comes with writing shaders.
 # Attribute Declarations
 @docs attributeDeclarations
 
-# Additional Useful Variables
-@docs usefulVariables
 
 # Boilerplate
 @docs vertexShaderBoilerplate, fragmentShaderBoilerplate
@@ -216,6 +214,9 @@ uniformDeclarations =
     [ ("mat4" , "modelMatrix")              ,
       ("mat4" , "viewMatrix")               ,
       ("mat4" , "projectionMatrix")         ,
+      ("mat4" , "modelViewMatrix")          ,
+      ("mat4" , "modelViewProjectionMatrix"),
+      ("mat4" , "normalMatrix")             ,
       ("vec3" , "lightPosition")            ,
       ("vec3" , "lightRotation")            ,
       ("vec3" , "lightColor")               ,
@@ -253,32 +254,33 @@ attributeDeclarations = groupStatements <| map (uncurry declareAttribute)
     mat4 modelViewMatrix = viewMatrix * modelMatrix;
 
 -}
+{-}
 modelViewMatrix : String
 modelViewMatrix =
   declareInitializedVariable "mat4" "modelViewMatrix"
     "viewMatrix * modelMatrix"
-
+-}
 
 {-| Shorthand for the model view projection matrix. Available in both shaders.
 
     mat4 modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
 
--}
+-}{-}
 modelViewProjectionMatrix : String
 modelViewProjectionMatrix =
   declareInitializedVariable "mat4" "modelViewProjectionMatrix"
     "projectionMatrix * modelViewMatrix"
-
+-}
 
 {-| The normal matrix. Convenient to calculate surface normals.
 
     mat4 normalMatrix = transpose(inverse(modelViewMatrix));
 
 -}
-normalMatrix : String
-normalMatrix =
-  declareInitializedVariable "mat4" "normalMatrix"
-    "transpose(inverse(modelViewMatrix))"
+--normalMatrix : String
+--normalMatrix =
+--  declareInitializedVariable "mat4" "normalMatrix"
+--    "transpose(inverse(modelViewMatrix))"
 
 
 
@@ -291,12 +293,11 @@ Currently, the available useful variables are :
     mat4 normalMatrix;
 
 -}
-usefulVariables : String
+{-usefulVariables : String
 usefulVariables =
   modelViewMatrix           ++ newLine ++
-  modelViewProjectionMatrix ++ newLine ++
-  normalMatrix
-
+  modelViewProjectionMatrix
+-}
 
 {-| Details the common boilerplate shared in both vertex and fragment shaders.
 
@@ -310,8 +311,7 @@ commonShaderBoilerplate =
   setupLight                           ++ newLine ++ newLine ++
   setupMaterial                        ++ newLine ++ newLine ++
   libraryVariables                     ++ newLine ++ newLine ++
-  libraryFunctions                     ++ newLine ++ newLine ++
-  usefulVariables
+  libraryFunctions
 
 
 

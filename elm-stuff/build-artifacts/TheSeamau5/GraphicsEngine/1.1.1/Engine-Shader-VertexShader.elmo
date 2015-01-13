@@ -1,0 +1,21 @@
+Elm.Engine = Elm.Engine || {};
+Elm.Engine.Shader = Elm.Engine.Shader || {};
+Elm.Engine.Shader.VertexShader = Elm.Engine.Shader.VertexShader || {};
+Elm.Engine.Shader.VertexShader.make = function (_elm) {
+   "use strict";
+   _elm.Engine = _elm.Engine || {};
+   _elm.Engine.Shader = _elm.Engine.Shader || {};
+   _elm.Engine.Shader.VertexShader = _elm.Engine.Shader.VertexShader || {};
+   if (_elm.Engine.Shader.VertexShader.values)
+   return _elm.Engine.Shader.VertexShader.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Engine.Shader.VertexShader";
+   var vertexShader = "\nvarying vec3 vPosition;\nvarying vec3 vNormal;\nvarying vec3 vViewPosition;\n\nvoid main (){\n  vec4 outputPosition = modelViewProjectionMatrix * vec4(position, 1.0);\n  vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);\n  gl_Position = outputPosition;\n  vPosition = outputPosition.xyz;\n  vNormal = normalize(mat3(normalMatrix) * position);\n  vViewPosition = -modelViewPosition.xyz;\n}\n\n";
+   _elm.Engine.Shader.VertexShader.values = {_op: _op
+                                            ,vertexShader: vertexShader};
+   return _elm.Engine.Shader.VertexShader.values;
+};
