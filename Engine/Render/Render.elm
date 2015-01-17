@@ -16,7 +16,7 @@ import Engine.Scene.Scene (Scene)
 import Engine.Shader.Uniform (constructUniform)
 import Engine.Shader.Shader (constructVertexShader, constructFragmentShader)
 
-import List (map)
+import Array (map, toList)
 
 {-| Function to render an object onto a scene. This function returns an
 Entity object which is what the webgl function from the WebGL library requires
@@ -40,4 +40,4 @@ Note: The function renders only the objects in the objects list of the scene.
 render : Scene -> Element
 render scene =
   webgl (floor scene.viewport.dimensions.width, floor scene.viewport.dimensions.height) <|
-    map (renderObject scene) scene.objects
+    toList <| map (renderObject scene) scene.objects

@@ -8,6 +8,8 @@ import Signal (..)
 import Keyboard
 import Window
 
+import Array (fromList)
+
 import Graphics.Element (Element)
 
 -- INPUT
@@ -21,7 +23,7 @@ type alias Input = {
 
 
 delta : Signal Time
-delta = inSeconds <~ fps 35
+delta = inSeconds <~ fps 60
 
 input : Signal Input
 input = sampleOn delta <| Input <~ Keyboard.space
@@ -186,7 +188,7 @@ display (w,h) {state, ball, player1, player2} =
         dimensions <- gameDimensions }
 
       gameScene = { scene |
-        objects <- [
+        objects <- fromList [
           background pongGreen gameWidth gameHeight,
           displayObj ball (ballShape 15),
           displayObj player1 (paddleShape 10 40),

@@ -29,6 +29,8 @@ import Engine.Light.Light (Light, light)
 import Engine.Render.DefaultRenderable (renderable)
 import Engine.Viewport.Viewport (Viewport, viewport)
 
+import Array (Array, fromList)
+
 -- TODO: Find a strategy to deal with multiple lights
 
 -- TODO: Consider a strategy for dealing with multiple cameras
@@ -46,7 +48,7 @@ scene will be drawn.
 -}
 type alias Scene = {
   camera    : Camera,
-  objects   : List Renderable,
+  objects   : Array Renderable,
   light     : Light,
   viewport  : Viewport
 }
@@ -56,6 +58,6 @@ type alias Scene = {
 scene : Scene
 scene = {
   camera   = camera,
-  objects  = [renderable],
+  objects  = fromList [renderable],
   light    = light,
   viewport = viewport }
