@@ -14,7 +14,7 @@ This program renders a default Scene that simply displays a red cube.
     scene = {
       camera   = camera,
       light    = light,
-      objects  = [cube],
+      objects  = fromList [cube],
       viewport = viewport
     }
 
@@ -23,7 +23,7 @@ a viewport.
 
 Lets modify the scene to display a pyramid instead
 
-    main = render { scene | objects <- [pyramid]}
+    main = render { scene | objects <- fromList [pyramid]}
 
 As you can see, all it took was changing the value of the objects property.
 
@@ -43,7 +43,7 @@ construct arbitrary scenes like.
 
     myScene = {
       scene | camera  <- myCamera,
-              objects <- [myCube, myPyramid] }
+              objects <- fromList [myCube, myPyramid] }
 
     main = render myScene
 

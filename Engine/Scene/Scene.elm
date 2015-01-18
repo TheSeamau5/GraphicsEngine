@@ -38,7 +38,7 @@ import Array (Array, fromList)
 
 -- TODO: Find a strategy to deal with multiple materials
 
-{-| Represents a scene. A scene contains a list of objects such that
+{-| Represents a scene. A scene contains an array of objects such that
 calling `render` on a scene will render all the objects in a webgl context.
 
 A scene contains a camera to define the viewer's viewing point, a light to
