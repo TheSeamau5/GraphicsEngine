@@ -2,7 +2,9 @@
 .elm.js
 
 # Ignore the run-time created stuff
-*.elm-stuff/
+elm-stuff/
+
+elm.js
 
 *.elmi
 
