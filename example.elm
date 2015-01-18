@@ -3,6 +3,8 @@ import Engine.Material.Material (MaterialProperty)
 import Math.Vector3 (vec3, Vec3)
 import Engine.Shader.GouraudShader (gouraudShader)
 
+import Array (fromList)
+
 
 
 white = vec3 1 1 1
@@ -51,7 +53,7 @@ myViewport =
   in {viewport | dimensions <- myDimensions}
 
 myScene = {
-  scene | objects <- [floor, redBall, greenBox, purplePyramid],
+  scene | objects <- fromList [floor, redBall, greenBox, purplePyramid],
           camera  <- myCamera,
           light   <- myLight,
           viewport <- myViewport}

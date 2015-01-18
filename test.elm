@@ -3,6 +3,8 @@ import Engine.Material.Material (MaterialProperty)
 import Math.Vector3 (vec3)
 import Engine.Shader.GouraudShader (gouraudShader)
 
+import Array (fromList)
+
 myObject =
   let gouraudMaterial = {
         material | fragmentShader <- gouraudShader,
@@ -21,7 +23,7 @@ myLight = {
   light | position <- vec3 -3 5 -4 }
 
 myScene = {
-  scene | objects <- [myObject],
+  scene | objects <- fromList [myObject],
           camera <- myCamera,
           light <- myLight }
 
