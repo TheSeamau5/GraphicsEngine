@@ -96,7 +96,7 @@ changed and removes any unnecessary boilerplate.
 -------------- IMPORTED MODULES JUST FOR TYPE ANNOTATIONS -------------------
 
 import Math.Vector3 exposing (Vec3)
-import Graphics.Element exposing (Element)
+import Element exposing (Element)
 
 ----------------- IMPORTED MODULES TO BE RE-EXPORTED ------------------------
 

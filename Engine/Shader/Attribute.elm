@@ -1,4 +1,4 @@
-module Engine.Shader.Attribute where
+module Engine.Shader.Attribute exposing (..)
 
 {-| This module contains the definition of the Attribute type.
 A vertex shader takes a set of attributes as input for each vertex.
@@ -16,7 +16,7 @@ passed as a uniform).
 
 -}
 
-import Math.Vector3 (Vec3)
+import Math.Vector3 exposing (Vec3)
 
 -- TODO: Reconsider the properties of the Attribute type
 --      -- The only mandatory property here is position

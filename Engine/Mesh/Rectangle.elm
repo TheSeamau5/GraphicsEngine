@@ -10,10 +10,10 @@ renderable object.
 @docs rectangle
 -}
 
-import Math.Vector3 (Vec3, vec3)
-import Engine.Mesh.Mesh (Mesh)
-import Engine.Mesh.Triangle (triangle, triangleMesh)
-import Engine.Render.Renderable (Renderable)
+import Math.Vector3 exposing (Vec3, vec3)
+import Engine.Mesh.Mesh exposing (Mesh)
+import Engine.Mesh.Triangle exposing (triangle, triangleMesh)
+import Engine.Render.Renderable exposing (Renderable)
 
 {-| Function that takes 4 points and construct a rectangle mesh.
 

@@ -9,14 +9,14 @@ a WebGL canvas context.
 -}
 
 import WebGL exposing (Entity, entity, webgl)
-import Graphics.Element exposing (Element)
+import Element exposing (Element)
 
 import Engine.Render.Renderable exposing (Renderable)
 import Engine.Scene.Scene exposing (Scene)
 import Engine.Shader.Uniform exposing (constructUniform)
 import Engine.Shader.Shader exposing (constructVertexShader, constructFragmentShader)
 
-import Array (map, toList)
+import Array exposing (map, toList)
 
 {-| Function to render an object onto a scene. This function returns an
 Entity object which is what the webgl function from the WebGL library requires
