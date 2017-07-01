@@ -1,4 +1,4 @@
-module Engine.Mesh.Mesh where
+module Engine.Mesh.Mesh exposing (Mesh)
 
 {-| This module contains the definition of the mesh type
 
@@ -7,8 +7,8 @@ module Engine.Mesh.Mesh where
 
 -}
 
-import WebGL (Triangle)
-import Engine.Shader.Attribute (Attribute)
+import WebGL exposing (Triangle)
+import Engine.Shader.Attribute exposing (Attribute)
 
 {-| Mesh type. A mesh is simply a list of triangles where each vertex
 has some property (in this case, just the position property). This type is

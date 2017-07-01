@@ -1,4 +1,4 @@
-module Engine.Material.Material where
+module Engine.Material.Material exposing (Material, material, MaterialProperty)
 
 {-| This module defined the Material type and the default material object.
 A Material is a record type made to define how an object reacts to light
@@ -15,9 +15,9 @@ in a scene and draws itself.
 
 -}
 
-import Math.Vector3 (Vec3, vec3)
-import Engine.Shader.VertexShader (vertexShader)
-import Engine.Shader.FragmentShader (fragmentShader)
+import Math.Vector3 exposing (Vec3, vec3)
+import Engine.Shader.VertexShader exposing (vertexShader)
+import Engine.Shader.FragmentShader exposing (fragmentShader)
 
 {-| Represent a property of a material. Contains a color and a strength.
 By convention, full strength is set at 1 an no strength is 0,

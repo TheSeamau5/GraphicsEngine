@@ -1,4 +1,4 @@
-module Engine.Shader.FragmentShader where
+module Engine.Shader.FragmentShader exposing (fragmentShader)
 
 {-| This module contains the definition of the default fragment shader.
 

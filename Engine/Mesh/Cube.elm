@@ -1,4 +1,4 @@
-module Engine.Mesh.Cube where
+module Engine.Mesh.Cube exposing (cubeMesh, cube)
 
 {-| This module contains the definition of a cube mesh and of a cube
 renderable object.
@@ -11,10 +11,10 @@ renderable object.
 
 -}
 
-import Math.Vector3 (Vec3, add, vec3)
-import Engine.Mesh.Mesh (Mesh)
-import Engine.Mesh.Rectangle (rectangle, rectangleMesh)
-import Engine.Render.Renderable (Renderable)
+import Math.Vector3 exposing (Vec3, add, vec3)
+import Engine.Mesh.Mesh exposing (Mesh)
+import Engine.Mesh.Rectangle exposing (rectangle, rectangleMesh)
+import Engine.Render.Renderable exposing (Renderable)
 
 
 {-| Function that takes a center point/vector and a size and returns a

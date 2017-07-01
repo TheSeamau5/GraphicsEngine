@@ -1,4 +1,9 @@
-module Engine.Math.Utils where
+module Engine.Math.Utils exposing
+  ( safeNormalize, safeMakeRotate
+  , getSideVector, getUpVector, getForwardVector, getTargetPosition
+  , modelMatrix, viewMatrix, projectionMatrix
+  , matrixIdentity
+  )
 
 {-| This module is just a simple collection of mathematical operations
 used repeatedly in several areas in the Graphics Engine codebase.
@@ -17,11 +22,11 @@ used repeatedly in several areas in the Graphics Engine codebase.
 
 -}
 
-import Math.Vector3 as Vector3
-import Math.Matrix4 as Matrix4
-import Engine.Transform.Transform (Transform)
-import Engine.Render.Renderable (Renderable)
-import Engine.Camera.Camera (Camera)
+import Math.Vector3 as Vector3 exposing (..)
+import Math.Matrix4 as Matrix4 exposing (..)
+import Engine.Transform.Transform exposing (Transform)
+import Engine.Render.Renderable exposing (Renderable)
+import Engine.Camera.Camera exposing (Camera)
 
 -- Generic Math functions
 

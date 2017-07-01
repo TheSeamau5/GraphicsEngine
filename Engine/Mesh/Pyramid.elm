@@ -1,4 +1,4 @@
-module Engine.Mesh.Pyramid where
+module Engine.Mesh.Pyramid exposing (pyramidMesh, pyramid)
 
 {-| This module contains the definition of a pyramid mesh and of a pyramid
 renderable object.
@@ -11,11 +11,11 @@ renderable object.
 
 -}
 
-import Math.Vector3 (Vec3, add, vec3)
-import Engine.Mesh.Mesh (Mesh)
-import Engine.Mesh.Rectangle (rectangleMesh)
-import Engine.Mesh.Triangle  (triangle, triangleMesh)
-import Engine.Render.Renderable (Renderable)
+import Math.Vector3 exposing (Vec3, add, vec3)
+import Engine.Mesh.Mesh exposing (Mesh)
+import Engine.Mesh.Rectangle exposing (rectangleMesh)
+import Engine.Mesh.Triangle exposing  (triangle, triangleMesh)
+import Engine.Render.Renderable exposing (Renderable)
 
 
 {-| Function that takes a center point/vector, a height and a width and

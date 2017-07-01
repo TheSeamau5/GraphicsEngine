@@ -1,4 +1,15 @@
-module Engine where
+module Engine exposing
+    ( Scene, scene
+    , Camera, camera
+    , Light, light
+    , MaterialProperty, Material, material
+    , Mesh, triangleMesh, rectangleMesh, pyramidMesh, cubeMesh, sphereMesh
+    , Renderable, renderable, triangle, rectangle, pyramid, cube, sphere
+    , render
+    , Transform, transform
+    , Viewport, viewport
+    , Attribute, Uniform
+    )
 
 {-| The Graphics Engine Library contains several functions and types to
 make constructing 3D Scenes more fun and easy to use.
@@ -84,8 +95,8 @@ changed and removes any unnecessary boilerplate.
 
 -------------- IMPORTED MODULES JUST FOR TYPE ANNOTATIONS -------------------
 
-import Math.Vector3 (Vec3)
-import Graphics.Element (Element)
+import Math.Vector3 exposing (Vec3)
+import Graphics.Element exposing (Element)
 
 ----------------- IMPORTED MODULES TO BE RE-EXPORTED ------------------------
 

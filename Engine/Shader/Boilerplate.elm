@@ -1,4 +1,14 @@
-module Engine.Shader.Boilerplate where
+module Engine.Shader.Boilerplate exposing
+  ( materialPropertyStructTypeDefinition
+  , materialStructTypeDefinition
+  , lightStructTypeDefinition
+  , setupMaterial
+  , setupLight
+  , uniformDeclarations
+  , attributeDeclarations
+  , vertexShaderBoilerplate
+  , fragmentShaderBoilerplate
+  )
 
 {-| This module exists to automatically handle some of the boilerplate
 that comes with writing shaders.
@@ -23,7 +33,7 @@ that comes with writing shaders.
 
 -}
 
-import Engine.Shader.Utils (
+import Engine.Shader.Utils exposing (
   declareUniform,
   declareAttribute,
   groupStatements,
@@ -32,8 +42,8 @@ import Engine.Shader.Utils (
   declareStructType,
   declareInitializedVariable,
   callFunctionExpression)
-import Engine.Shader.Library (libraryVariables, libraryFunctions)
-import List (intersperse, map)
+import Engine.Shader.Library exposing (libraryVariables, libraryFunctions)
+import List exposing (intersperse, map)
 
 
 

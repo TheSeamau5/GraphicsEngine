@@ -1,4 +1,4 @@
-module Engine.Mesh.Rectangle where
+module Engine.Mesh.Rectangle exposing (rectangeMesh, rectangle)
 
 {-| This module contains the definition of a rectangle mesh and of a rectangle
 renderable object.

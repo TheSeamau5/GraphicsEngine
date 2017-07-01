@@ -1,4 +1,4 @@
-module Engine.Light.Light where
+module Engine.Light.Light exposing (Light, light)
 
 {-| This module defines the Light type and the default light object.
 A Light is a record type made to illuminate scenes and objects in these
@@ -12,8 +12,8 @@ scenes.
 
 -}
 
-import Math.Vector3 (Vec3, vec3)
-import Engine.Transform.Transform (Transform, transform)
+import Math.Vector3 exposing (Vec3, vec3)
+import Engine.Transform.Transform exposing (Transform, transform)
 
 -- TODO: FIX VISIBILITY TOGGLE
 {-| Represent a light in a scene. As a transform, a light has a position,

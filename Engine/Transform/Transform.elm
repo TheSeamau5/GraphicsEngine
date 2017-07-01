@@ -1,4 +1,4 @@
-module Engine.Transform.Transform where
+module Engine.Transform.Transform exposing (Transform, transform)
 
 {-| This module contains the definition for the Transform type and
 the default transform object.
@@ -11,7 +11,7 @@ the default transform object.
 
 -}
 
-import Math.Vector3 (Vec3, vec3)
+import Math.Vector3 exposing (Vec3, vec3)
 
 {-| A transform is an object with a position, a rotation, and a scale.
 This is mean to be able to represent linear transformations in space. As

@@ -1,4 +1,4 @@
-module Engine.Mesh.Sphere where
+module Engine.Mesh.Sphere exposing (sphereMesh, sphere)
 
 {-| This module contains the definition of a sphere mesh and of a sphere
 renderable object.
@@ -13,11 +13,11 @@ renderable object.
 
 import List
 
-import Math.Vector3 (Vec3, add, vec3)
-import Engine.Mesh.Mesh (Mesh)
-import Engine.Mesh.Rectangle (rectangleMesh)
-import Engine.Mesh.Triangle (triangleMesh, triangle)
-import Engine.Render.Renderable (Renderable)
+import Math.Vector3 exposing (Vec3, add, vec3)
+import Engine.Mesh.Mesh exposing (Mesh)
+import Engine.Mesh.Rectangle exposing (rectangleMesh)
+import Engine.Mesh.Triangle exposing (triangleMesh, triangle)
+import Engine.Render.Renderable exposing (Renderable)
 
 
 {-| Function that takes a center point/vector, the radius, the number of

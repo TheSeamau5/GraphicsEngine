@@ -1,4 +1,4 @@
-module Engine.Shader.Utils where
+module Engine.Shader.Utils exposing (..)
 
 {-| This module contains useful values and functions for constructing
 shaders. This includes common shorthands for statements and symbols as well
@@ -19,8 +19,8 @@ as methods to construct attributes, uniforms, structs, or functions.
 
 -}
 
-import String (join)
-import List (map, intersperse)
+import String exposing (join)
+import List exposing (map, intersperse)
 
 {-| The new line string : "\n"
 -}

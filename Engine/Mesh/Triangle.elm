@@ -1,4 +1,4 @@
-module Engine.Mesh.Triangle where
+module Engine.Mesh.Triangle exposing (..)
 
 {-| This module contains the definition of a triangle mesh and of a triangle
 renderable object. The triangle is the main building block of all geometry in
@@ -13,12 +13,12 @@ custom geometry.
 
 -}
 
-import WebGL (Triangle, map)
-import Math.Vector3 (Vec3, vec3, add, normalize, cross, sub)
-import Engine.Mesh.Mesh (Mesh)
-import Engine.Shader.Attribute (Attribute)
-import Engine.Material.Material (material)
-import Engine.Render.Renderable (Renderable)
+import WebGL exposing (Triangle, map)
+import Math.Vector3 exposing (Vec3, vec3, add, normalize, cross, sub)
+import Engine.Mesh.Mesh exposing (Mesh)
+import Engine.Shader.Attribute exposing (Attribute)
+import Engine.Material.Material exposing (material)
+import Engine.Render.Renderable exposing (Renderable)
 
 
 {-| Function to construct a triangle mesh from three points.

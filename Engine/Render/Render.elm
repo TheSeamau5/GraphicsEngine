@@ -1,4 +1,4 @@
-module Engine.Render.Render where
+module Engine.Render.Render exposing (renderObject, render)
 
 {-| This module contains functions to render objects and scenes onto
 a WebGL canvas context.
@@ -8,13 +8,13 @@ a WebGL canvas context.
 
 -}
 
-import WebGL (Entity, entity, webgl)
-import Graphics.Element (Element)
+import WebGL exposing (Entity, entity, webgl)
+import Graphics.Element exposing (Element)
 
-import Engine.Render.Renderable (Renderable)
-import Engine.Scene.Scene (Scene)
-import Engine.Shader.Uniform (constructUniform)
-import Engine.Shader.Shader (constructVertexShader, constructFragmentShader)
+import Engine.Render.Renderable exposing (Renderable)
+import Engine.Scene.Scene exposing (Scene)
+import Engine.Shader.Uniform exposing (constructUniform)
+import Engine.Shader.Shader exposing (constructVertexShader, constructFragmentShader)
 
 import Array (map, toList)
 
