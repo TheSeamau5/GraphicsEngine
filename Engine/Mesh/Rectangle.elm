@@ -10,8 +10,8 @@ renderable object.
 @docs rectangle
 -}
 
+import WebGL exposing (Mesh)
 import Math.Vector3 exposing (Vec3, vec3)
-import Engine.Mesh.Mesh exposing (Mesh)
 import Engine.Mesh.Triangle exposing (triangle, triangleMesh)
 import Engine.Render.Renderable exposing (Renderable)
 

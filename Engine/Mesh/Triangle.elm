@@ -13,9 +13,8 @@ custom geometry.
 
 -}
 
-import WebGL exposing (Triangle, map)
+import WebGL exposing (Mesh, triangles)
 import Math.Vector3 exposing (Vec3, vec3, add, normalize, cross, sub)
-import Engine.Mesh.Mesh exposing (Mesh)
 import Engine.Shader.Attribute exposing (Attribute)
 import Engine.Material.Material exposing (material)
 import Engine.Render.Renderable exposing (Renderable)
@@ -30,9 +29,10 @@ triangleMesh p q r = [map Attribute (p,q,r)]
 {-| Default triangle renderable object
 -}
 triangle : Renderable
-triangle = {
-  material = material,
-  mesh     = triangleMesh (vec3 -0.5 -0.5 0) (vec3 0.5 -0.5 0) (vec3 0 0.5 0),
-  position = vec3 0 0 0,
-  rotation = vec3 0 0 0,
-  scale    = vec3 1 1 1}
+triangle =
+  { material = material
+  , mesh     = triangleMesh (vec3 -0.5 -0.5 0) (vec3 0.5 -0.5 0) (vec3 0 0.5 0)
+  , position = vec3 0 0 0
+  , rotation = vec3 0 0 0
+  , scale    = vec3 1 1 1
+  }

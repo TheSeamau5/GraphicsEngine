@@ -73,8 +73,8 @@ changed and removes any unnecessary boilerplate.
 # Material
 @docs MaterialProperty, Material, material
 
-# Mesh
-@docs Mesh, triangleMesh, rectangleMesh, pyramidMesh, cubeMesh, sphereMesh
+# Meshes
+@docs triangleMesh, rectangleMesh, pyramidMesh, cubeMesh, sphereMesh
 
 # Renderable
 @docs Renderable, renderable, triangle, rectangle, pyramid, cube, sphere
@@ -104,7 +104,6 @@ import Engine.Scene.Scene               as Scene
 import Engine.Camera.Camera             as Camera
 import Engine.Light.Light               as Light
 import Engine.Material.Material         as Material
-import Engine.Mesh.Mesh                 as Mesh
 import Engine.Mesh.Triangle             as Triangle
 import Engine.Mesh.Rectangle            as Rectangle
 import Engine.Mesh.Cube                 as Cube
@@ -303,28 +302,6 @@ default material.
 -}
 material : Material
 material = Material.material
-
-----------------------------------------------------------------------------
-
------------------ Re-export Engine.Mesh.Mesh -------------------------------
-
-{-| Mesh type. A mesh is simply a list of triangles where each vertex
-has some property (in this case, just the position property). This type is
-used to construct arbitrary geometry that can be sent to the GPU to be
-rendered to the screen.
-
-For reference, Triangle just a 3-tuple:
-
-    type alias Triangle a = (a, a, a)
-
-and Attribute is just a record type with a position field:
-
-    type alias Attribute = {
-      position : Vec3
-    }
-
--}
-type alias Mesh = Mesh.Mesh
 
 ----------------------------------------------------------------------------
 

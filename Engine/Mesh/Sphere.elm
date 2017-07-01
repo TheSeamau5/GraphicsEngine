@@ -13,8 +13,8 @@ renderable object.
 
 import List
 
+import WebGL exposing (Mesh)
 import Math.Vector3 exposing (Vec3, add, vec3)
-import Engine.Mesh.Mesh exposing (Mesh)
 import Engine.Mesh.Rectangle exposing (rectangleMesh)
 import Engine.Mesh.Triangle exposing (triangleMesh, triangle)
 import Engine.Render.Renderable exposing (Renderable)
