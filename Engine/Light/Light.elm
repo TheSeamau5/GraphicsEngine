@@ -62,9 +62,10 @@ Example : Constructing a green light
 -}
 light : Light
 light =
-  Transform (vec3 1 1 3)
-            (transform.rotation)
-            (transform.scale)
-            { intensity  = 1,
-              color      = vec3 1 1 1,
-              visibility = True }
+  { position   = (vec3 1 1 3)
+  , rotation   = transform.rotation
+  , scale      = transform.scale
+  , intensity  = 1
+  , color      = vec3 1 1 1
+  , visibility = True
+  }

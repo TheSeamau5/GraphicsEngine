@@ -65,10 +65,10 @@ Example : Constructing a standard widescreen cinema camera
 -}
 camera : Camera
 camera =
-  Transform (vec3 0 0 -10)
-            transform.rotation
-            transform.scale
-            { aspectRatio  = 1,
-              fieldOfView  = 45,
-              nearClipping = 1,
-              farClipping  = 80000 }
+  { position     = (vec3 0 0 -10)
+  , rotation     = transform.rotation
+  , scale        = transform.scale
+  , aspectRatio  = 1
+  , fieldOfView  = 45
+  , nearClipping = 1
+  , farClipping  = 80000 }
