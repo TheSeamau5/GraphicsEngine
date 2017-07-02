@@ -22,8 +22,13 @@ import Engine.Render.Renderable exposing (Renderable)
 
 {-| Function to construct a triangle mesh from three points.
 -}
-triangleMesh : Vec3 -> Vec3 -> Vec3 -> Mesh
-triangleMesh p q r = [map Attribute (p,q,r)]
+triangleMesh : Vec3 -> Vec3 -> Vec3 -> Mesh Attribute
+triangleMesh p q r =
+  triangles
+    [ ( Attribute p
+      , Attribute q
+      , Attribute r
+    ) ]
 
 
 {-| Default triangle renderable object
