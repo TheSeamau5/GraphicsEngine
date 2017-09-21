@@ -26,19 +26,19 @@ and down (like latitude), and returns a mesh that approximates a sphere.
 
       sphere center segmentsR segmentsY
 -}
-sphereMesh : Vec3 -> Float -> Float -> Float -> Mesh
+sphereMesh : Vec3 -> Float -> Int -> Int -> Mesh
 sphereMesh center radius segmentsR segmentsY =
-  let dt = 2 * pi / segmentsR
-      dy = 1 / segmentsY
+  let dt = 2 * pi / (toFloat segmentsR)
+      dy = 1 / (toFloat segmentsY)
       halfRadius = radius / 2
       getRadius y = sqrt (max 0 (halfRadius - y*y))
-  in [0..segmentsR-1] |> List.concatMap (\i ->
+  in (List.range 0 (segmentsR-1)) |> List.map toFloat |> List.concatMap (\i ->
     let theta = i * dt
         x0 = cos theta
         x1 = cos (theta + dt)
         z0 = sin theta
         z1 = sin (theta + dt)
-    in [0..segmentsY-1] |> List.concatMap (\j ->
+    in (List.range 0 (segmentsY-1)) |> List.map toFloat |> List.concatMap (\j ->
       let y0 = j*dy - radius
           y1 = y0+dy
           r0 = getRadius y0
