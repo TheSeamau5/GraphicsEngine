@@ -8,8 +8,8 @@ a WebGL canvas context.
 
 -}
 
-import WebGL exposing (Entity, entity, webgl)
-import Element exposing (Element)
+import WebGL exposing (Entity, entity, toHtml)
+import Html exposing (..)
 
 import Engine.Render.Renderable exposing (Renderable)
 import Engine.Scene.Scene exposing (Scene)
@@ -37,7 +37,7 @@ in a Scene and returns the WebGL canvas context.
 
 Note: The function renders only the objects in the objects list of the scene.
 -}
-render : Scene -> Element
-render scene =
-  webgl (floor scene.viewport.dimensions.width, floor scene.viewport.dimensions.height) <|
-    toList <| map (renderObject scene) scene.objects
+render : Scene -> Html msg
+render scene = Array.map (renderObject scene) scene.objects 
+  |> toList
+  |> toHtml []
