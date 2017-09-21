@@ -2,7 +2,7 @@ module Engine.Math.Utils exposing
   ( safeNormalize, safeMakeRotate
   , getSideVector, getUpVector, getForwardVector, getTargetPosition
   , modelMatrix, viewMatrix, projectionMatrix
-  , matrixIdentity
+  , matrixIdentity, modelViewMatrix, modelViewProjectionMatrix, normalMatrix
   )
 
 {-| This module is just a simple collection of mathematical operations
@@ -18,7 +18,7 @@ used repeatedly in several areas in the Graphics Engine codebase.
 @docs modelMatrix, viewMatrix, projectionMatrix
 
 # Renaming Functions to avoid Namespace clashes
-@docs matrixIdentity
+@docs matrixIdentity, modelViewMatrix, modelViewProjectionMatrix, normalMatrix
 
 -}
 
@@ -180,10 +180,14 @@ modelViewMatrix object camera =
   (viewMatrix camera) `Matrix4.mul` (modelMatrix object)
 
 
+{-| Shorthand for modelViewProjectionMatrix. Faster to calculate once in CPU.
+-}
 modelViewProjectionMatrix : Transform a -> Camera -> Matrix4.Mat4
 modelViewProjectionMatrix object camera =
   (projectionMatrix camera) `Matrix4.mul` (modelViewMatrix object camera)
 
+{-| Shorthand for normalMatrix. Faster to calculate once in CPU.
+-}
 normalMatrix : Transform a -> Transform b -> Matrix4.Mat4
 normalMatrix object camera =
   Matrix4.inverseOrthonormal (Matrix4.transpose (modelViewMatrix object camera))
