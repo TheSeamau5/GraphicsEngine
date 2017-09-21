@@ -27,11 +27,11 @@ pyramidMesh : Vec3 -> Float -> Float -> Mesh
 pyramidMesh center height width =
   let halfHeight = height / 2
       halfWidth = width / 2
-      top = center `add` (vec3 0 halfHeight 0)
-      bfl = center `add` (vec3 -halfWidth -halfHeight -halfWidth)
-      bfr = center `add` (vec3 halfWidth -halfHeight -halfWidth)
-      bbl = center `add` (vec3 -halfWidth -halfHeight halfWidth)
-      bbr = center `add` (vec3 halfWidth -halfHeight halfWidth)
+      top = add center (vec3 0 halfHeight 0)
+      bfl = add center (vec3 -halfWidth -halfHeight -halfWidth)
+      bfr = add center (vec3 halfWidth -halfHeight -halfWidth)
+      bbl = add center (vec3 -halfWidth -halfHeight halfWidth)
+      bbr = add center (vec3 halfWidth -halfHeight halfWidth)
   in (rectangleMesh bbr bbl bfl bfr) ++
      (triangleMesh bfl bfr top) ++
      (triangleMesh bfr bbr top) ++

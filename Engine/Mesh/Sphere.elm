@@ -43,10 +43,10 @@ sphereMesh center radius segmentsR segmentsY =
           y1 = y0+dy
           r0 = getRadius y0
           r1 = getRadius y1
-          bl = center `add` (vec3 (x0*r0) y0 (z0*r0))
-          br = center `add` (vec3 (x1*r0) y0 (z1*r0))
-          tl = center `add` (vec3 (x0*r1) y1 (z0*r1))
-          tr = center `add` (vec3 (x1*r1) y1 (z1*r1))
+          bl = add center (vec3 (x0*r0) y0 (z0*r0))
+          br = add center (vec3 (x1*r0) y0 (z1*r0))
+          tl = add center (vec3 (x0*r1) y1 (z0*r1))
+          tr = add center (vec3 (x1*r1) y1 (z1*r1))
       in triangleMesh bl br tr ++ triangleMesh bl tr tl))
 
 

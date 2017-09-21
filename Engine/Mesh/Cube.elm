@@ -25,14 +25,14 @@ cube mesh.
 cubeMesh : Vec3 -> Float -> Mesh
 cubeMesh center size =
   let hs = size / 2
-      ftl = center `add` vec3 -hs hs -hs
-      ftr = center `add` vec3 hs hs -hs
-      fbr = center `add` vec3 hs -hs -hs
-      fbl = center `add` vec3 -hs -hs -hs
-      btl = center `add` vec3 -hs hs hs
-      btr = center `add` vec3 hs hs hs
-      bbr = center `add` vec3 hs -hs hs
-      bbl = center `add` vec3 -hs -hs hs
+      ftl = add center (vec3 -hs hs -hs)
+      ftr = add center (vec3 hs hs -hs)
+      fbr = add center (vec3 hs -hs -hs)
+      fbl = add center (vec3 -hs -hs -hs)
+      btl = add center (vec3 -hs hs hs)
+      btr = add center (vec3 hs hs hs)
+      bbr = add center (vec3 hs -hs hs)
+      bbl = add center (vec3 -hs -hs hs)
   in (rectangleMesh ftl ftr btr btl) ++
      (rectangleMesh ftl fbl fbr ftr) ++
      (rectangleMesh fbl fbr bbr bbl) ++
