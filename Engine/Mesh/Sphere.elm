@@ -54,4 +54,4 @@ sphereMesh center radius segmentsR segmentsY =
 -}
 sphere : Renderable
 sphere = {
-  triangle | mesh <- sphereMesh (vec3 0 0 0) 0.5 20 20 }
+  triangle | mesh = sphereMesh (vec3 0 0 0) 0.5 20 20 }

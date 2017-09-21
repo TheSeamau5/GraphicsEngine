@@ -44,4 +44,4 @@ cubeMesh center size =
 -}
 cube : Renderable
 cube = {
-  rectangle | mesh <- cubeMesh (vec3 0 0 0) 1 }
+  rectangle | mesh = cubeMesh (vec3 0 0 0) 1 }

@@ -43,4 +43,4 @@ pyramidMesh center height width =
 -}
 pyramid : Renderable
 pyramid = {
-  triangle | mesh <- pyramidMesh (vec3 0 0 0) 1 1 }
+  triangle | mesh = pyramidMesh (vec3 0 0 0) 1 1 }

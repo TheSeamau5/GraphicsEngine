@@ -31,5 +31,4 @@ rectangleMesh p q r s =
 {-| Default rectangle renderable object
 -}
 rectangle : Renderable
-rectangle = {
-  triangle | mesh <- rectangleMesh (vec3 -0.5 -0.5 0) (vec3 0.5 -0.5 0) (vec3 0.5 0.5 0) (vec3 -0.5 0.5 0) }
+rectangle = { triangle | mesh = rectangleMesh (vec3 -0.5 -0.5 0) (vec3 0.5 -0.5 0) (vec3 0.5 0.5 0) (vec3 -0.5 0.5 0) }
