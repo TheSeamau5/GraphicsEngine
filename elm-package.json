@@ -12,7 +12,6 @@
         "Engine.Light.Light",
         "Engine.Material.Material",
         "Engine.Math.Utils",
-        "Engine.Mesh.Mesh",
         "Engine.Mesh.Triangle",
         "Engine.Mesh.Rectangle",
         "Engine.Mesh.Pyramid",
