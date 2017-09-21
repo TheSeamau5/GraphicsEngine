@@ -11,10 +11,11 @@ renderable object.
 
 -}
 
-import WebGL exposing (Mesh)
+import WebGL exposing (Mesh, triangles)
 import Math.Vector3 exposing (Vec3, add, vec3)
-import Engine.Mesh.Rectangle exposing (rectangle, rectangleMesh)
+import Engine.Mesh.Rectangle exposing (rectangle, rectangleAttributes)
 import Engine.Render.Renderable exposing (Renderable)
+import Engine.Shader.Attribute exposing (Attribute)
 
 
 {-| Function that takes a center point/vector and a size and returns a
@@ -22,7 +23,7 @@ cube mesh.
 
     cube center size
 -}
-cubeMesh : Vec3 -> Float -> Mesh
+cubeMesh : Vec3 -> Float -> Mesh Attribute
 cubeMesh center size =
   let hs = size / 2
       ftl = add center (vec3 -hs hs -hs)
@@ -33,12 +34,12 @@ cubeMesh center size =
       btr = add center (vec3 hs hs hs)
       bbr = add center (vec3 hs -hs hs)
       bbl = add center (vec3 -hs -hs hs)
-  in (rectangleMesh ftl ftr btr btl) ++
-     (rectangleMesh ftl fbl fbr ftr) ++
-     (rectangleMesh fbl fbr bbr bbl) ++
-     (rectangleMesh btr bbr bbl btl) ++
-     (rectangleMesh ftl fbl bbl btl) ++
-     (rectangleMesh ftr fbr bbr btr)
+  in triangles ((rectangleAttributes ftl ftr btr btl) ++
+     (rectangleAttributes ftl fbl fbr ftr) ++
+     (rectangleAttributes fbl fbr bbr bbl) ++
+     (rectangleAttributes btr bbr bbl btl) ++
+     (rectangleAttributes ftl fbl bbl btl) ++
+     (rectangleAttributes ftr fbr bbr btr))
 
 {-| Default cube renderable object
 -}

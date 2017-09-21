@@ -6,10 +6,10 @@ modern computer graphics. Use these functions if you want to create your own
 custom geometry.
 
 # Triangle Mesh
-@docs triangleMesh
+@docs triangleMesh, triangleAttribute
 
 # Triangle (Renderable)
-@docs triangle
+@docs triangle 
 
 -}
 
@@ -24,7 +24,13 @@ import Engine.Render.Renderable exposing (Renderable)
 -}
 triangleMesh : Vec3 -> Vec3 -> Vec3 -> Mesh Attribute
 triangleMesh p q r =
-  triangles
+  triangles (triangleAttribute p q r)
+
+
+{-| Function to construct a triangle attribute list from three points.
+-}
+triangleAttribute : Vec3 -> Vec3 -> Vec3 -> List (Attribute,Attribute,Attribute)
+triangleAttribute p q r =
     [ ( Attribute p
       , Attribute q
       , Attribute r

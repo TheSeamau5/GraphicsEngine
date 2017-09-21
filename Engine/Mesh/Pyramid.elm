@@ -11,11 +11,12 @@ renderable object.
 
 -}
 
-import WebGL exposing (Mesh)
+import WebGL exposing (Mesh, triangles)
 import Math.Vector3 exposing (Vec3, add, vec3)
-import Engine.Mesh.Rectangle exposing (rectangleMesh)
-import Engine.Mesh.Triangle exposing  (triangle, triangleMesh)
+import Engine.Mesh.Rectangle exposing (rectangleAttributes)
+import Engine.Mesh.Triangle exposing  (triangle, triangleAttribute)
 import Engine.Render.Renderable exposing (Renderable)
+import Engine.Shader.Attribute exposing (Attribute)
 
 
 {-| Function that takes a center point/vector, a height and a width and
@@ -23,7 +24,7 @@ returns a pyramid mesh.
 
       pyramidMesh center height width
 -}
-pyramidMesh : Vec3 -> Float -> Float -> Mesh
+pyramidMesh : Vec3 -> Float -> Float -> Mesh Attribute
 pyramidMesh center height width =
   let halfHeight = height / 2
       halfWidth = width / 2
@@ -32,11 +33,11 @@ pyramidMesh center height width =
       bfr = add center (vec3 halfWidth -halfHeight -halfWidth)
       bbl = add center (vec3 -halfWidth -halfHeight halfWidth)
       bbr = add center (vec3 halfWidth -halfHeight halfWidth)
-  in (rectangleMesh bbr bbl bfl bfr) ++
-     (triangleMesh bfl bfr top) ++
-     (triangleMesh bfr bbr top) ++
-     (triangleMesh bbr bbl top) ++
-     (triangleMesh bbl bfl top)
+  in triangles ((rectangleAttributes bbr bbl bfl bfr) ++
+     (triangleAttribute bfl bfr top) ++
+     (triangleAttribute bfr bbr top) ++
+     (triangleAttribute bbr bbl top) ++
+     (triangleAttribute bbl bfl top))
 
 
 {-| Default pyramid renderable object

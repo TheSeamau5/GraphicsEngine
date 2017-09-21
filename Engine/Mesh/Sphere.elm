@@ -13,11 +13,12 @@ renderable object.
 
 import List
 
-import WebGL exposing (Mesh)
+import WebGL exposing (Mesh, triangles)
 import Math.Vector3 exposing (Vec3, add, vec3)
 import Engine.Mesh.Rectangle exposing (rectangleMesh)
-import Engine.Mesh.Triangle exposing (triangleMesh, triangle)
+import Engine.Mesh.Triangle exposing (triangleAttribute, triangle)
 import Engine.Render.Renderable exposing (Renderable)
+import Engine.Shader.Attribute exposing (Attribute)
 
 
 {-| Function that takes a center point/vector, the radius, the number of
@@ -26,13 +27,13 @@ and down (like latitude), and returns a mesh that approximates a sphere.
 
       sphere center segmentsR segmentsY
 -}
-sphereMesh : Vec3 -> Float -> Int -> Int -> Mesh
+sphereMesh : Vec3 -> Float -> Int -> Int -> Mesh Attribute
 sphereMesh center radius segmentsR segmentsY =
   let dt = 2 * pi / (toFloat segmentsR)
       dy = 1 / (toFloat segmentsY)
       halfRadius = radius / 2
       getRadius y = sqrt (max 0 (halfRadius - y*y))
-  in (List.range 0 (segmentsR-1)) |> List.map toFloat |> List.concatMap (\i ->
+  in triangles ((List.range 0 (segmentsR-1)) |> List.map toFloat |> List.concatMap (\i ->
     let theta = i * dt
         x0 = cos theta
         x1 = cos (theta + dt)
@@ -47,7 +48,7 @@ sphereMesh center radius segmentsR segmentsY =
           br = add center (vec3 (x1*r0) y0 (z1*r0))
           tl = add center (vec3 (x0*r1) y1 (z0*r1))
           tr = add center (vec3 (x1*r1) y1 (z1*r1))
-      in triangleMesh bl br tr ++ triangleMesh bl tr tl))
+      in triangleAttribute bl br tr ++ triangleAttribute bl tr tl)))
 
 
 {-| Default sphere renderable object. Located at the origin with radius of 0.5.
