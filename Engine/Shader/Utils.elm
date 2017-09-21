@@ -10,7 +10,7 @@ as methods to construct attributes, uniforms, structs, or functions.
       commentStart, commentEnd, setFloatPrecision
 
 # Useful Functions
-@docs groupStrings, groupStatements, groupProperties
+@docs groupStrings, groupStatements, groupProperties, comment
 
 # Functions to construct GLSL statements
 @docs declareVariable, declareInitializedVariable, declareConstVariable,
