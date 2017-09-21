@@ -74,7 +74,7 @@ changed and removes any unnecessary boilerplate.
 @docs MaterialProperty, Material, material
 
 # Meshes
-@docs triangleMesh, rectangleMesh, pyramidMesh, cubeMesh, sphereMesh
+@docs Mesh, triangleMesh, rectangleMesh, pyramidMesh, cubeMesh, sphereMesh
 
 # Renderable
 @docs Renderable, renderable, triangle, rectangle, pyramid, cube, sphere
@@ -96,7 +96,8 @@ changed and removes any unnecessary boilerplate.
 -------------- IMPORTED MODULES JUST FOR TYPE ANNOTATIONS -------------------
 
 import Math.Vector3 exposing (Vec3)
-import Element exposing (Element)
+import Html exposing (..)
+import WebGL exposing (Mesh)
 
 ----------------- IMPORTED MODULES TO BE RE-EXPORTED ------------------------
 
@@ -246,7 +247,7 @@ full strength. If this property is used to represent specular highlights,
 then this means that these highlights will appear white and very visible.
 
 -}
---type alias MaterialProperty = Material.MaterialProperty
+type alias MaterialProperty = Material.MaterialProperty
 
 
 {-| Represent a material. A Material has properties to help it define
@@ -303,6 +304,11 @@ default material.
 material : Material
 material = Material.material
 
+{-| Represent Mesh
+-}
+type alias Mesh a = WebGL.Mesh a
+
+
 ----------------------------------------------------------------------------
 
 ----------------- Re-export Engine.Mesh.Triangle ---------------------------
@@ -314,7 +320,7 @@ triangle = Triangle.triangle
 
 {-| Function to construct a triangle mesh from three points.
 -}
-triangleMesh : Vec3 -> Vec3 -> Vec3 -> Mesh
+triangleMesh : Vec3 -> Vec3 -> Vec3 -> Mesh Attribute
 triangleMesh = Triangle.triangleMesh
 
 ----------------------------------------------------------------------------
@@ -335,7 +341,7 @@ it does not explicitly check if all 4 points are co-planar.
 Furthermore, the function does not enforce a rectangle's property that
 opposite sides be of equal length and that adjacent sides be perpendicular.
 -}
-rectangleMesh : Vec3 -> Vec3 -> Vec3 -> Vec3 -> Mesh
+rectangleMesh : Vec3 -> Vec3 -> Vec3 -> Vec3 -> Mesh Attribute
 rectangleMesh = Rectangle.rectangleMesh
 
 ----------------------------------------------------------------------------
@@ -353,7 +359,7 @@ cube mesh.
 
     cube center size
 -}
-cubeMesh : Vec3 -> Float -> Mesh
+cubeMesh : Vec3 -> Float -> Mesh Attribute
 cubeMesh = Cube.cubeMesh
 
 ----------------------------------------------------------------------------
@@ -370,7 +376,7 @@ returns a pyramid mesh.
 
     pyramidMesh center height width
 -}
-pyramidMesh : Vec3 -> Float -> Float -> Mesh
+pyramidMesh : Vec3 -> Float -> Float -> Mesh Attribute
 pyramidMesh = Pyramid.pyramidMesh
 
 ----------------------------------------------------------------------------
@@ -389,7 +395,7 @@ and down (like latitude), and returns a mesh that approximates a sphere.
 
     sphereMesh center radius segmentsR segmentsY
 -}
-sphereMesh : Vec3 -> Float -> Float -> Float -> Mesh
+sphereMesh : Vec3 -> Float -> Int -> Int -> Mesh Attribute
 sphereMesh = Sphere.sphereMesh
 
 ----------------------------------------------------------------------------
@@ -421,7 +427,7 @@ in a Scene and returns the WebGL canvas context.
 
 Note: The function renders only the objects in the objects list of the scene.
 -}
-render : Scene -> Element
+render : Scene -> Html msg
 render = Render.render
 
 ----------------------------------------------------------------------------
