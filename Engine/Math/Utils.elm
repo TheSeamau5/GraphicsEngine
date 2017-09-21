@@ -1,4 +1,9 @@
-module Engine.Math.Utils where
+module Engine.Math.Utils exposing
+  ( safeNormalize, safeMakeRotate
+  , getSideVector, getUpVector, getForwardVector, getTargetPosition
+  , modelMatrix, viewMatrix, projectionMatrix
+  , matrixIdentity, modelViewMatrix, modelViewProjectionMatrix, normalMatrix
+  )
 
 {-| This module is just a simple collection of mathematical operations
 used repeatedly in several areas in the Graphics Engine codebase.
@@ -13,15 +18,15 @@ used repeatedly in several areas in the Graphics Engine codebase.
 @docs modelMatrix, viewMatrix, projectionMatrix
 
 # Renaming Functions to avoid Namespace clashes
-@docs matrixIdentity
+@docs matrixIdentity, modelViewMatrix, modelViewProjectionMatrix, normalMatrix
 
 -}
 
-import Math.Vector3 as Vector3
-import Math.Matrix4 as Matrix4
-import Engine.Transform.Transform (Transform)
-import Engine.Render.Renderable (Renderable)
-import Engine.Camera.Camera (Camera)
+import Math.Vector3 as Vector3 exposing (..)
+import Math.Matrix4 as Matrix4 exposing (..)
+import Engine.Transform.Transform exposing (Transform)
+import Engine.Render.Renderable exposing (Renderable)
+import Engine.Camera.Camera exposing (Camera)
 
 -- Generic Math functions
 
@@ -130,7 +135,7 @@ points at). This is mainly used to figure out what a camera points at.
 -}
 getTargetPosition : Transform a -> Vector3.Vec3
 getTargetPosition transform =
-  transform.position `Vector3.add` (getForwardVector transform)
+  Vector3.add transform.position (getForwardVector transform)
 
 
 
@@ -145,7 +150,7 @@ modelMatrix transform =
   let translationMatrix = Matrix4.makeTranslate transform.position
       rotationMatrix    = safeMakeRotate transform.rotation
       scaleMatrix       = Matrix4.makeScale transform.scale
-  in translationMatrix `Matrix4.mul` (rotationMatrix `Matrix4.mul` scaleMatrix)
+  in Matrix4.mul translationMatrix (Matrix4.mul rotationMatrix scaleMatrix)
 
 {-| The view matrix. Encodes the Look At matrix of a transform.
 This allows to calculate the Look At matrix of a camera to then multiply
@@ -172,13 +177,16 @@ projectionMatrix camera =
 -}
 modelViewMatrix : Transform a -> Transform b -> Matrix4.Mat4
 modelViewMatrix object camera =
-  (viewMatrix camera) `Matrix4.mul` (modelMatrix object)
+  Matrix4.mul (viewMatrix camera) (modelMatrix object)
 
-
+{-| Shorthand for modelViewProjectionMatrix. Faster to calculate once in CPU.
+-}
 modelViewProjectionMatrix : Transform a -> Camera -> Matrix4.Mat4
 modelViewProjectionMatrix object camera =
-  (projectionMatrix camera) `Matrix4.mul` (modelViewMatrix object camera)
+  Matrix4.mul (projectionMatrix camera) (modelViewMatrix object camera)
 
+{-| Shorthand for normalMatrix. Faster to calculate once in CPU.
+-}
 normalMatrix : Transform a -> Transform b -> Matrix4.Mat4
 normalMatrix object camera =
   Matrix4.inverseOrthonormal (Matrix4.transpose (modelViewMatrix object camera))

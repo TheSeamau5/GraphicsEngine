@@ -1,10 +1,11 @@
-import Engine (..)
-import Engine.Material.Material (MaterialProperty)
-import Math.Vector3 (vec3, Vec3)
-import Engine.Shader.GouraudShader (gouraudShader)
+module Example exposing (main)
 
-import Array (fromList)
+import Engine exposing (..)
+import Engine.Material.Material exposing (MaterialProperty)
+import Math.Vector3 exposing (vec3, Vec3)
+import Engine.Shader.GouraudShader exposing (gouraudShader)
 
+import Array exposing (fromList)
 
 
 white = vec3 1 1 1

@@ -1,4 +1,4 @@
-module Engine.Mesh.Sphere where
+module Engine.Mesh.Sphere exposing (sphereMesh, sphere)
 
 {-| This module contains the definition of a sphere mesh and of a sphere
 renderable object.
@@ -13,11 +13,12 @@ renderable object.
 
 import List
 
-import Math.Vector3 (Vec3, add, vec3)
-import Engine.Mesh.Mesh (Mesh)
-import Engine.Mesh.Rectangle (rectangleMesh)
-import Engine.Mesh.Triangle (triangleMesh, triangle)
-import Engine.Render.Renderable (Renderable)
+import WebGL exposing (Mesh, triangles)
+import Math.Vector3 exposing (Vec3, add, vec3)
+import Engine.Mesh.Rectangle exposing (rectangleMesh)
+import Engine.Mesh.Triangle exposing (triangleAttribute, triangle)
+import Engine.Render.Renderable exposing (Renderable)
+import Engine.Shader.Attribute exposing (Attribute)
 
 
 {-| Function that takes a center point/vector, the radius, the number of
@@ -26,32 +27,32 @@ and down (like latitude), and returns a mesh that approximates a sphere.
 
       sphere center segmentsR segmentsY
 -}
-sphereMesh : Vec3 -> Float -> Float -> Float -> Mesh
+sphereMesh : Vec3 -> Float -> Int -> Int -> Mesh Attribute
 sphereMesh center radius segmentsR segmentsY =
-  let dt = 2 * pi / segmentsR
-      dy = 1 / segmentsY
+  let dt = 2 * pi / (toFloat segmentsR)
+      dy = 1 / (toFloat segmentsY)
       halfRadius = radius / 2
       getRadius y = sqrt (max 0 (halfRadius - y*y))
-  in [0..segmentsR-1] |> List.concatMap (\i ->
+  in triangles ((List.range 0 (segmentsR-1)) |> List.map toFloat |> List.concatMap (\i ->
     let theta = i * dt
         x0 = cos theta
         x1 = cos (theta + dt)
         z0 = sin theta
         z1 = sin (theta + dt)
-    in [0..segmentsY-1] |> List.concatMap (\j ->
+    in (List.range 0 (segmentsY-1)) |> List.map toFloat |> List.concatMap (\j ->
       let y0 = j*dy - radius
           y1 = y0+dy
           r0 = getRadius y0
           r1 = getRadius y1
-          bl = center `add` (vec3 (x0*r0) y0 (z0*r0))
-          br = center `add` (vec3 (x1*r0) y0 (z1*r0))
-          tl = center `add` (vec3 (x0*r1) y1 (z0*r1))
-          tr = center `add` (vec3 (x1*r1) y1 (z1*r1))
-      in triangleMesh bl br tr ++ triangleMesh bl tr tl))
+          bl = add center (vec3 (x0*r0) y0 (z0*r0))
+          br = add center (vec3 (x1*r0) y0 (z1*r0))
+          tl = add center (vec3 (x0*r1) y1 (z0*r1))
+          tr = add center (vec3 (x1*r1) y1 (z1*r1))
+      in triangleAttribute bl br tr ++ triangleAttribute bl tr tl)))
 
 
 {-| Default sphere renderable object. Located at the origin with radius of 0.5.
 -}
 sphere : Renderable
 sphere = {
-  triangle | mesh <- sphereMesh (vec3 0 0 0) 0.5 20 20 }
+  triangle | mesh = sphereMesh (vec3 0 0 0) 0.5 20 20 }

@@ -1,4 +1,15 @@
-module Engine where
+module Engine exposing
+    ( Scene, scene
+    , Camera, camera
+    , Light, light
+    , MaterialProperty, Material, material
+    , Mesh, triangleMesh, rectangleMesh, pyramidMesh, cubeMesh, sphereMesh
+    , Renderable, renderable, triangle, rectangle, pyramid, cube, sphere
+    , render
+    , Transform, transform
+    , Viewport, viewport
+    , Attribute, Uniform
+    )
 
 {-| The Graphics Engine Library contains several functions and types to
 make constructing 3D Scenes more fun and easy to use.
@@ -62,7 +73,7 @@ changed and removes any unnecessary boilerplate.
 # Material
 @docs MaterialProperty, Material, material
 
-# Mesh
+# Meshes
 @docs Mesh, triangleMesh, rectangleMesh, pyramidMesh, cubeMesh, sphereMesh
 
 # Renderable
@@ -84,8 +95,9 @@ changed and removes any unnecessary boilerplate.
 
 -------------- IMPORTED MODULES JUST FOR TYPE ANNOTATIONS -------------------
 
-import Math.Vector3 (Vec3)
-import Graphics.Element (Element)
+import Math.Vector3 exposing (Vec3)
+import Html exposing (..)
+import WebGL exposing (Mesh)
 
 ----------------- IMPORTED MODULES TO BE RE-EXPORTED ------------------------
 
@@ -93,7 +105,6 @@ import Engine.Scene.Scene               as Scene
 import Engine.Camera.Camera             as Camera
 import Engine.Light.Light               as Light
 import Engine.Material.Material         as Material
-import Engine.Mesh.Mesh                 as Mesh
 import Engine.Mesh.Triangle             as Triangle
 import Engine.Mesh.Rectangle            as Rectangle
 import Engine.Mesh.Cube                 as Cube
@@ -236,7 +247,7 @@ full strength. If this property is used to represent specular highlights,
 then this means that these highlights will appear white and very visible.
 
 -}
---type alias MaterialProperty = Material.MaterialProperty
+type alias MaterialProperty = Material.MaterialProperty
 
 
 {-| Represent a material. A Material has properties to help it define
@@ -293,27 +304,10 @@ default material.
 material : Material
 material = Material.material
 
-----------------------------------------------------------------------------
-
------------------ Re-export Engine.Mesh.Mesh -------------------------------
-
-{-| Mesh type. A mesh is simply a list of triangles where each vertex
-has some property (in this case, just the position property). This type is
-used to construct arbitrary geometry that can be sent to the GPU to be
-rendered to the screen.
-
-For reference, Triangle just a 3-tuple:
-
-    type alias Triangle a = (a, a, a)
-
-and Attribute is just a record type with a position field:
-
-    type alias Attribute = {
-      position : Vec3
-    }
-
+{-| Represent Mesh
 -}
-type alias Mesh = Mesh.Mesh
+type alias Mesh a = WebGL.Mesh a
+
 
 ----------------------------------------------------------------------------
 
@@ -326,7 +320,7 @@ triangle = Triangle.triangle
 
 {-| Function to construct a triangle mesh from three points.
 -}
-triangleMesh : Vec3 -> Vec3 -> Vec3 -> Mesh
+triangleMesh : Vec3 -> Vec3 -> Vec3 -> Mesh Attribute
 triangleMesh = Triangle.triangleMesh
 
 ----------------------------------------------------------------------------
@@ -347,7 +341,7 @@ it does not explicitly check if all 4 points are co-planar.
 Furthermore, the function does not enforce a rectangle's property that
 opposite sides be of equal length and that adjacent sides be perpendicular.
 -}
-rectangleMesh : Vec3 -> Vec3 -> Vec3 -> Vec3 -> Mesh
+rectangleMesh : Vec3 -> Vec3 -> Vec3 -> Vec3 -> Mesh Attribute
 rectangleMesh = Rectangle.rectangleMesh
 
 ----------------------------------------------------------------------------
@@ -365,7 +359,7 @@ cube mesh.
 
     cube center size
 -}
-cubeMesh : Vec3 -> Float -> Mesh
+cubeMesh : Vec3 -> Float -> Mesh Attribute
 cubeMesh = Cube.cubeMesh
 
 ----------------------------------------------------------------------------
@@ -382,7 +376,7 @@ returns a pyramid mesh.
 
     pyramidMesh center height width
 -}
-pyramidMesh : Vec3 -> Float -> Float -> Mesh
+pyramidMesh : Vec3 -> Float -> Float -> Mesh Attribute
 pyramidMesh = Pyramid.pyramidMesh
 
 ----------------------------------------------------------------------------
@@ -401,7 +395,7 @@ and down (like latitude), and returns a mesh that approximates a sphere.
 
     sphereMesh center radius segmentsR segmentsY
 -}
-sphereMesh : Vec3 -> Float -> Float -> Float -> Mesh
+sphereMesh : Vec3 -> Float -> Int -> Int -> Mesh Attribute
 sphereMesh = Sphere.sphereMesh
 
 ----------------------------------------------------------------------------
@@ -433,7 +427,7 @@ in a Scene and returns the WebGL canvas context.
 
 Note: The function renders only the objects in the objects list of the scene.
 -}
-render : Scene -> Element
+render : Scene -> Html msg
 render = Render.render
 
 ----------------------------------------------------------------------------

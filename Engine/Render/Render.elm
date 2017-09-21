@@ -1,4 +1,4 @@
-module Engine.Render.Render where
+module Engine.Render.Render exposing (renderObject, render)
 
 {-| This module contains functions to render objects and scenes onto
 a WebGL canvas context.
@@ -8,15 +8,15 @@ a WebGL canvas context.
 
 -}
 
-import WebGL (Entity, entity, webgl)
-import Graphics.Element (Element)
+import WebGL exposing (Entity, entity, toHtml)
+import Html exposing (..)
 
-import Engine.Render.Renderable (Renderable)
-import Engine.Scene.Scene (Scene)
-import Engine.Shader.Uniform (constructUniform)
-import Engine.Shader.Shader (constructVertexShader, constructFragmentShader)
+import Engine.Render.Renderable exposing (Renderable)
+import Engine.Scene.Scene exposing (Scene)
+import Engine.Shader.Uniform exposing (constructUniform)
+import Engine.Shader.Shader exposing (constructVertexShader, constructFragmentShader)
 
-import Array (map, toList)
+import Array exposing (map, toList)
 
 {-| Function to render an object onto a scene. This function returns an
 Entity object which is what the webgl function from the WebGL library requires
@@ -37,7 +37,7 @@ in a Scene and returns the WebGL canvas context.
 
 Note: The function renders only the objects in the objects list of the scene.
 -}
-render : Scene -> Element
-render scene =
-  webgl (floor scene.viewport.dimensions.width, floor scene.viewport.dimensions.height) <|
-    toList <| map (renderObject scene) scene.objects
+render : Scene -> Html msg
+render scene = Array.map (renderObject scene) scene.objects 
+  |> toList
+  |> toHtml []

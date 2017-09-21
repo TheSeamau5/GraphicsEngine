@@ -1,4 +1,14 @@
-module Engine.Shader.Boilerplate where
+module Engine.Shader.Boilerplate exposing
+  ( materialPropertyStructTypeDefinition
+  , materialStructTypeDefinition
+  , lightStructTypeDefinition
+  , setupMaterial
+  , setupLight
+  , uniformDeclarations
+  , attributeDeclarations
+  , vertexShaderBoilerplate
+  , fragmentShaderBoilerplate
+  )
 
 {-| This module exists to automatically handle some of the boilerplate
 that comes with writing shaders.
@@ -23,7 +33,7 @@ that comes with writing shaders.
 
 -}
 
-import Engine.Shader.Utils (
+import Engine.Shader.Utils exposing (
   declareUniform,
   declareAttribute,
   groupStatements,
@@ -32,8 +42,8 @@ import Engine.Shader.Utils (
   declareStructType,
   declareInitializedVariable,
   callFunctionExpression)
-import Engine.Shader.Library (libraryVariables, libraryFunctions)
-import List (intersperse, map)
+import Engine.Shader.Library exposing (libraryVariables, libraryFunctions)
+import List exposing (intersperse, map)
 
 
 
@@ -247,57 +257,6 @@ attributeDeclarations : String
 attributeDeclarations = groupStatements <| map (uncurry declareAttribute)
   [ ("vec3", "position")]
 
-
-
-{-| Shorthand for the model view matrix. Available in both shaders.
-
-    mat4 modelViewMatrix = viewMatrix * modelMatrix;
-
--}
-{-}
-modelViewMatrix : String
-modelViewMatrix =
-  declareInitializedVariable "mat4" "modelViewMatrix"
-    "viewMatrix * modelMatrix"
--}
-
-{-| Shorthand for the model view projection matrix. Available in both shaders.
-
-    mat4 modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
-
--}{-}
-modelViewProjectionMatrix : String
-modelViewProjectionMatrix =
-  declareInitializedVariable "mat4" "modelViewProjectionMatrix"
-    "projectionMatrix * modelViewMatrix"
--}
-
-{-| The normal matrix. Convenient to calculate surface normals.
-
-    mat4 normalMatrix = transpose(inverse(modelViewMatrix));
-
--}
---normalMatrix : String
---normalMatrix =
---  declareInitializedVariable "mat4" "normalMatrix"
---    "transpose(inverse(modelViewMatrix))"
-
-
-
-{-| Set of useful variables for programming convenience.
-
-Currently, the available useful variables are :
-
-    mat4 modelViewMatrix;
-    mat4 modelViewProjectionMatrix;
-    mat4 normalMatrix;
-
--}
-{-usefulVariables : String
-usefulVariables =
-  modelViewMatrix           ++ newLine ++
-  modelViewProjectionMatrix
--}
 
 {-| Details the common boilerplate shared in both vertex and fragment shaders.
 

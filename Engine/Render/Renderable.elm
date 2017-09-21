@@ -1,4 +1,4 @@
-module Engine.Render.Renderable where
+module Engine.Render.Renderable exposing (Renderable)
 
 {-| This module contains the definition of the Renderable type. This is
 separated from the definition of the default renderable object in order to
@@ -9,9 +9,11 @@ avoid circular dependencies.
 
 -}
 
-import Engine.Transform.Transform (Transform)
-import Engine.Material.Material (Material)
-import Engine.Mesh.Mesh (Mesh)
+import WebGL exposing (Mesh)
+
+import Engine.Transform.Transform exposing (Transform)
+import Engine.Material.Material exposing (Material)
+import Engine.Shader.Attribute exposing (Attribute)
 
 {-| Represent a renderable object. A renderable object is an Object with a
 Transform properties (position, rotation, and scale) in order to locate it
@@ -26,5 +28,5 @@ the geometry of the renderable object (if it is a cube, a pyramid, etc...).
 -}
 type alias Renderable = Transform {
   material : Material,
-  mesh     : Mesh
+  mesh     : Mesh Attribute
 }

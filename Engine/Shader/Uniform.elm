@@ -1,4 +1,4 @@
-module Engine.Shader.Uniform where
+module Engine.Shader.Uniform exposing (Uniform, constructUniform)
 
 {-| This module contains the definition of the Uniform type and
 a function to construct a uniform from a scene and a renderable object
@@ -11,11 +11,11 @@ a function to construct a uniform from a scene and a renderable object
 
 -}
 
-import Math.Vector3 (Vec3)
-import Math.Matrix4 (Mat4)
-import Engine.Render.Renderable (Renderable)
-import Engine.Scene.Scene (Scene)
-import Engine.Math.Utils (
+import Math.Vector3 exposing (Vec3)
+import Math.Matrix4 exposing (Mat4)
+import Engine.Render.Renderable exposing (Renderable)
+import Engine.Scene.Scene exposing (Scene)
+import Engine.Math.Utils exposing (
   modelMatrix,
   viewMatrix,
   projectionMatrix,

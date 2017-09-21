@@ -1,4 +1,4 @@
-module Engine.Camera.Camera where
+module Engine.Camera.Camera exposing (Camera, camera)
 
 {-| This module defines the Camera type and the default camera object.
 A Camera is a record type made to be the viewing point of a scene and thus
@@ -13,8 +13,8 @@ a perspective camera.
 
 -}
 
-import Math.Vector3 (vec3)
-import Engine.Transform.Transform (Transform, transform)
+import Math.Vector3 exposing (vec3)
+import Engine.Transform.Transform exposing (Transform, transform)
 
 {-| Represent a perspective camera. As a transform, a camera has a
 position, a rotation, and a scale. A camera also has an aspect ratio,
@@ -60,15 +60,15 @@ clipping plane at 80000.
 
 Example : Constructing a standard widescreen cinema camera
 
-    widescreenCamera = { camera | aspectRatio <- 2.39 } 
+    widescreenCamera = { camera | aspectRatio <- 2.39 }
 
 -}
 camera : Camera
 camera =
-  Transform (vec3 0 0 -10)
-            transform.rotation
-            transform.scale
-            { aspectRatio  = 1,
-              fieldOfView  = 45,
-              nearClipping = 1,
-              farClipping  = 80000 }
+  { position     = (vec3 0 0 -10)
+  , rotation     = transform.rotation
+  , scale        = transform.scale
+  , aspectRatio  = 1
+  , fieldOfView  = 45
+  , nearClipping = 1
+  , farClipping  = 80000 }

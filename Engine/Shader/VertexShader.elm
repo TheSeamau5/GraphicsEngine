@@ -1,4 +1,4 @@
-module Engine.Shader.VertexShader where
+module Engine.Shader.VertexShader exposing (vertexShader)
 
 {-| This module contains the definition of the default vertex shader.
 

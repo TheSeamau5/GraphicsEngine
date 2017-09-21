@@ -1,4 +1,4 @@
-module Engine.Shader.GouraudShader where
+module Engine.Shader.GouraudShader exposing (gouraudShader)
 
 gouraudShader : String
 gouraudShader = """

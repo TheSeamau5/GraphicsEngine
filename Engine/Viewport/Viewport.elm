@@ -1,4 +1,4 @@
-module Engine.Viewport.Viewport where
+module Engine.Viewport.Viewport exposing (Viewport, viewport)
 
 {-| This module contains the definition for the Viewport type and the
 default viewport object

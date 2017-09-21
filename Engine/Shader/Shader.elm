@@ -1,4 +1,8 @@
-module Engine.Shader.Shader where
+module Engine.Shader.Shader exposing
+  ( constructVertexShader
+  , constructFragmentShader
+  , showVertexShader
+  , showFragmentShader)
 
 {-| This module constains functions to construct shaders as well as
 functions to return shaders as strings (mostly for debugging purposes)
@@ -10,11 +14,11 @@ functions to return shaders as strings (mostly for debugging purposes)
 @docs showVertexShader, showFragmentShader
 -}
 
-import WebGL (Shader, unsafeShader)
-import Engine.Shader.Boilerplate (vertexShaderBoilerplate, fragmentShaderBoilerplate)
-import Engine.Shader.Utils (newLine)
-import Engine.Shader.Attribute (Attribute)
-import Engine.Shader.Uniform (Uniform)
+import WebGL exposing (Shader, unsafeShader)
+import Engine.Shader.Boilerplate exposing (vertexShaderBoilerplate, fragmentShaderBoilerplate)
+import Engine.Shader.Utils exposing (newLine)
+import Engine.Shader.Attribute exposing (Attribute)
+import Engine.Shader.Uniform exposing (Uniform)
 
 {-| Function to construct a vertex shader as a String. Useful for debugging
 purposes.

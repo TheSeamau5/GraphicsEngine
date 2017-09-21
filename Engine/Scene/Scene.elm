@@ -1,4 +1,4 @@
-module Engine.Scene.Scene where
+module Engine.Scene.Scene exposing (Scene, scene)
 
 {-| This module defines the Scene type and the default Scene object.
 A Scene contains a camera (the viewer's window to the scene), a list of
@@ -23,13 +23,13 @@ multiple scenes. It is still an open question on which approach is better.
 @docs scene
 -}
 
-import Engine.Camera.Camera (Camera, camera)
-import Engine.Render.Renderable (Renderable)
-import Engine.Light.Light (Light, light)
-import Engine.Render.DefaultRenderable (renderable)
-import Engine.Viewport.Viewport (Viewport, viewport)
+import Engine.Camera.Camera exposing (Camera, camera)
+import Engine.Render.Renderable exposing (Renderable)
+import Engine.Light.Light exposing (Light, light)
+import Engine.Render.DefaultRenderable exposing (renderable)
+import Engine.Viewport.Viewport exposing (Viewport, viewport)
 
-import Array (Array, fromList)
+import Array exposing (Array, fromList)
 
 -- TODO: Find a strategy to deal with multiple lights
 

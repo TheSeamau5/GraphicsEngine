@@ -1,4 +1,4 @@
-module Engine.Mesh.Cube where
+module Engine.Mesh.Cube exposing (cubeMesh, cube)
 
 {-| This module contains the definition of a cube mesh and of a cube
 renderable object.
@@ -11,10 +11,11 @@ renderable object.
 
 -}
 
-import Math.Vector3 (Vec3, add, vec3)
-import Engine.Mesh.Mesh (Mesh)
-import Engine.Mesh.Rectangle (rectangle, rectangleMesh)
-import Engine.Render.Renderable (Renderable)
+import WebGL exposing (Mesh, triangles)
+import Math.Vector3 exposing (Vec3, add, vec3)
+import Engine.Mesh.Rectangle exposing (rectangle, rectangleAttributes)
+import Engine.Render.Renderable exposing (Renderable)
+import Engine.Shader.Attribute exposing (Attribute)
 
 
 {-| Function that takes a center point/vector and a size and returns a
@@ -22,26 +23,26 @@ cube mesh.
 
     cube center size
 -}
-cubeMesh : Vec3 -> Float -> Mesh
+cubeMesh : Vec3 -> Float -> Mesh Attribute
 cubeMesh center size =
   let hs = size / 2
-      ftl = center `add` vec3 -hs hs -hs
-      ftr = center `add` vec3 hs hs -hs
-      fbr = center `add` vec3 hs -hs -hs
-      fbl = center `add` vec3 -hs -hs -hs
-      btl = center `add` vec3 -hs hs hs
-      btr = center `add` vec3 hs hs hs
-      bbr = center `add` vec3 hs -hs hs
-      bbl = center `add` vec3 -hs -hs hs
-  in (rectangleMesh ftl ftr btr btl) ++
-     (rectangleMesh ftl fbl fbr ftr) ++
-     (rectangleMesh fbl fbr bbr bbl) ++
-     (rectangleMesh btr bbr bbl btl) ++
-     (rectangleMesh ftl fbl bbl btl) ++
-     (rectangleMesh ftr fbr bbr btr)
+      ftl = add center (vec3 -hs hs -hs)
+      ftr = add center (vec3 hs hs -hs)
+      fbr = add center (vec3 hs -hs -hs)
+      fbl = add center (vec3 -hs -hs -hs)
+      btl = add center (vec3 -hs hs hs)
+      btr = add center (vec3 hs hs hs)
+      bbr = add center (vec3 hs -hs hs)
+      bbl = add center (vec3 -hs -hs hs)
+  in triangles ((rectangleAttributes ftl ftr btr btl) ++
+     (rectangleAttributes ftl fbl fbr ftr) ++
+     (rectangleAttributes fbl fbr bbr bbl) ++
+     (rectangleAttributes btr bbr bbl btl) ++
+     (rectangleAttributes ftl fbl bbl btl) ++
+     (rectangleAttributes ftr fbr bbr btr))
 
 {-| Default cube renderable object
 -}
 cube : Renderable
 cube = {
-  rectangle | mesh <- cubeMesh (vec3 0 0 0) 1 }
+  rectangle | mesh = cubeMesh (vec3 0 0 0) 1 }

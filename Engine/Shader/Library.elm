@@ -1,15 +1,23 @@
-module Engine.Shader.Library where
+module Engine.Shader.Library exposing
+  ( transposeFunction
+  , determinantFunction
+  , traceFunction
+  , inverseFunction
+  , libraryVariables
+  , libraryFunctions
+  )
 
 {-| This module contains a set of strings that represent GLSL functions
 that constitute a GLSL library to add common operations missing from
 WebGL's version of GLSL.
 
 # Matrix Functions
-@docs transposeFunction, determinantFunction, traceFunction, inverseFunction
+@docs transposeFunction, determinantFunction, traceFunction, inverseFunction, libraryVariables,
+ libraryFunctions
 
 -}
 
-import Engine.Shader.Utils (newLine)
+import Engine.Shader.Utils exposing (newLine)
 
 {-| GLSL Function that computes the transpose of a 2-dimensional matrix.
 
